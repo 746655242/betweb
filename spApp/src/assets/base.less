@@ -1,0 +1,437 @@
+
+@import '../theme.less';
+
+@import './css/vue2-animate.min.css';
+
+@font-face {
+    font-family: 'iconfont';  /* project id 451956 */
+    src: url('//at.alicdn.com/t/font_451956_sg6guw33gge.eot');
+    src: url('//at.alicdn.com/t/font_451956_sg6guw33gge.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_451956_sg6guw33gge.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_451956_sg6guw33gge.woff') format('woff'),
+    url('//at.alicdn.com/t/font_451956_sg6guw33gge.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_451956_sg6guw33gge.svg#iconfont') format('svg');
+  }
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+[hidden],
+template {
+    display: none;
+}
+
+a {
+    background: transparent;
+}
+
+a:active,
+a:hover {
+    outline: 0;
+}
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+b,
+strong {
+    font-weight: bold;
+}
+
+dfn {
+    font-style: italic;
+}
+
+h1 {
+    font-size: 2em;
+    margin: .67em 0;
+}
+
+mark {
+    color: #000;
+    background: #ff0;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+img {
+    border: 0;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+figure {
+    margin: .16em 40px;
+}
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+}
+
+pre {
+    overflow: auto;
+}
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font: inherit;
+    margin: 0;
+    color: inherit;
+}
+
+button {
+    overflow: visible;
+}
+
+button,
+select {
+    text-transform: none;
+}
+
+button,
+html input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+    cursor: pointer;
+    -webkit-appearance: button;
+    border: 0;
+    outline: none;
+}
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+input {
+    line-height: normal;
+    outline: none;
+    border: none;
+}
+input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    height: auto;
+}
+
+input[type='search'] {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    -webkit-appearance: textfield;
+}
+
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+fieldset {
+    margin: 0 2px;
+    border: 1px solid #c0c0c0;
+}
+
+legend {
+    padding: 0;
+    border: 0;
+}
+
+textarea {
+    overflow: auto;
+}
+
+optgroup {
+    font-weight: bold;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td,
+th {
+    padding: 0;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #000;
+    background-color: #efeff4;
+    -webkit-overflow-scrolling: touch;
+    margin: 0;
+    font-size: .16rem
+}
+
+a {
+    text-decoration: none;
+    color: #007aff;
+}
+
+a:active {
+    color: #0062cc;
+}
+
+li{
+    list-style: none;
+}
+
+i{
+    font-style: normal;
+}
+
+
+cite,em,i{ 
+    list-style: none;
+    font-style: normal;
+}
+#app{
+    height:100%;
+}
+.wrap{
+    padding-top:.5rem;
+    padding-bottom:.5rem;
+    position: relative;
+    height: 100%;
+    overflow: auto;
+}
+
+/* 头部样式 */
+header{     
+    width:100%;
+    height:.5rem;
+    line-height:.5rem;
+    background: #ef1823;
+    text-align: center;     
+    position:fixed;
+    top: 0;
+    left: 0;
+    z-index:99;
+    color:#fff;
+    span{
+        font-size:.17rem;     
+    }
+    .icon-fanhui{
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0 .1rem;
+        font-size: .28rem;
+    }  
+    .headerRight{
+        position: absolute;
+        top: 0;  
+        right: 0;       
+        padding: 0 .15rem;
+        color: #fff;
+    }        
+}
+
+/* 弹出层遮罩 */
+.mask{     
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+}
+.main{
+    position: absolute;
+    top:.44rem;
+    bottom:.5rem;
+    left:0;
+    right:0;
+    over-flow:auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 粉丝列表 */
+
+.myFansCont{
+    position: absolute;
+    top: .44rem;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    padding-bottom: .44rem;
+    .fansList{
+        li{
+            width: 100%;
+            height: .75rem;
+            background: #fff;
+            padding: .075rem .15rem;
+            overflow: hidden;
+            margin-bottom: .01rem;
+            .fansPhoto{
+                float: left;
+                width: .6rem;
+                height: .6rem;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                border-radius: 50%;
+                overflow: hidden;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .fansInfo{
+                float: left;
+                margin:.085rem 0 .085rem .075rem;
+                .fansName{
+                    font-size: .14rem;
+                    color: #333;
+                    line-height: .23rem;
+                }
+                .attentionDate{
+                    font-size: .11rem;
+                    color: #999;
+                    line-height: .2rem;
+                    span{
+                        margin-right: .04rem;
+                    }
+                }
+            }
+            .attentionBtn,.cancelTheAttentionBtn{
+                float: right;
+                height: .23rem;
+                line-height: .23rem;
+                text-align: center;
+                border: .01rem solid @red;
+                -webkit-border-radius: .03rem;
+                -moz-border-radius: .03rem;
+                border-radius: .03rem;
+                background: #fff;
+                font-size: .11rem;
+                color: @red;
+                margin-top: .175rem;
+                padding: 0 .13rem;
+            }
+            .cancelTheAttentionBtn{
+                padding: 0 .025rem;
+            }
+        }
+    }
+}
+.myFansCont::-webkit-scrollbar{
+    display: none;
+}
+
+
+.layerout{
+  position: absolute;
+	top:0;
+	bottom:0;
+	left: 0;
+	right: 0;
+	background: #fff;
+    z-index: 1000;
+    padding-top:.45rem;
+}
+.ellipsis {
+    -webkit-line-clamp: 1;
+    -moz-line-clamp: 1;
+    overflow: hidden;
+    display: block;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

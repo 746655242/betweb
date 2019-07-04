@@ -1,0 +1,10 @@
+ mysqlbinlog --database=3777_center  --set-charset=utf8  --start-datetime="2019-06-26 06:10:00"  /opt/data/APP01bin.000001 /opt/data/APP01bin.000002 >test.sql  
+
+
+
+mysqlbinlog --database=3777_center_new  /data/mysqldb/mysql-bak/mysql3306-bin.000069 --start-datetime='2019-06-26 22:10:00' --stop-datetime='2019-06-26 22:20:00' -r time69.sql 
+
+
+ mysql -uroot -p 3777_center_new < time2.sql
+
+!QAZ1qaz@WSX2wsx
