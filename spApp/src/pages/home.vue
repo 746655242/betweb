@@ -3,7 +3,7 @@
 		<tab :line-width=2 active-color='#ef1823' v-model="index" defaultColor="#7b7979" >
 			<tab-item class="vux-center"  v-for="(item, index) in list" :key="index">{{item.nav}}</tab-item>
 		</tab>
- 
+
 		<div class="home-box" ref="swiperbox" @touchstart='touchstart' @touchmove='touchmove' @touchend='touchend'>
 			<div class="swiper-center" ref="swipermain">
 				<div class="swiper-item"   :key="0">
@@ -83,15 +83,17 @@ export default {
 	methods: {
 		/* 加载默认 */
 		init(){
-			let dom=this.$refs.swiperbox
-			let w=dom.clientWidth
-			this.w=w
-			let item=dom.querySelectorAll('.swiper-item')
-			this.max=item.length-1
-			for(var i=0;i<item.length;i++){
-				let e=item[i];
-				let transform='translate3d('+w*i+'px, 0, 0)';
-				this.csst(e,transform)
+			let dom=this.$refs.swiperbox;
+			if(dom){
+				let w=dom.clientWidth;
+				this.w=w
+				let item=dom.querySelectorAll('.swiper-item')
+				this.max=item.length-1
+				for(var i=0;i<item.length;i++){
+					let e=item[i];
+					let transform='translate3d('+w*i+'px, 0, 0)';
+					this.csst(e,transform)
+				}
 			}
 		},
 		LstPageMenu:function(data){

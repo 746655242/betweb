@@ -92,7 +92,7 @@
 
 
 					this.axios.post('/api/user/login',qs.stringify(params)).then(res => {  
-							let data=res.data;
+						let data=res.data;
 
 						if(data.errorCode==1){
 							me.setuser({info:data.result.userinfo})

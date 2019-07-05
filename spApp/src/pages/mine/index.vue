@@ -136,28 +136,29 @@
 
 	import picUp from '@/components/picUp'
 
-	import {mapGetters} from 'vuex'
+	import {mapGetters,mapMutations} from 'vuex'
     export default {
         data(){
             return {
             	photoImg:'',
             	userName:'',
             	userId:'',
-				
-				FansFromMeObj:{},
-				FocusFromMeObj:{},
-				FollowFromMeObj:{},
+			
+			
 				isnick:false,
 			
             }
         },
         created(){
-        	//this.fetchData();
+        	this.fetchData();
         },
 		computed:{
 			...mapGetters({
 				user:'getuser'
-			})
+			}),
+			...mapMutations({
+				setuser:'setuser'
+			}),
 		},
 		components:{
 			
@@ -169,25 +170,24 @@
 				let me= this;
 				let user=this.user.info
 
-				if(user&&user.MemberToken){
-					/* 获取当前页面数据 */
-					this.base.getData(this,this.host+'/api/GetExportMyAccount',{},function(data){	
-						console.log(data)
-						data=data.ActionCode
-						/* 用户名  ID */
-						let MyPhoto= data.MyAccountInfoData.MyPhoto
-						if(MyPhoto){me.photoImg = MyPhoto.UrlLink}
-						me.userName = data.MyAccountInfoData.AccountAliaseName
-						me.userId = user.AppUserId
+				if(user&&user.token){
+					 this.axios.post('/api/user/getuser').then(res => {  
+                        let data=res.data;
+						if(data.errorCode==1){
+							me.setuser({info:data.result.userinfo})
+							me.$emit('storedata')
+							
+						}else{
+							// me.$vux.alert.show({content: data.message})
+							// me.disabled = false;
+					 		// me.show_loading = false;
+						}
 
-						/* 粉丝 */
-						me.FansFromMeObj= data.MyAccountInfoData.FansFromMeObj
-						me.FocusFromMeObj= data.MyAccountInfoData.FocusFromMeObj
-						me.FollowFromMeObj= data.MyAccountInfoData.FollowFromMeObj
-
-								
+                    }).catch(function(err){
+                        console.log(err)
+                        
 					})
-					
+
         		}else{
 					//this.$router.push('/login')
 				}

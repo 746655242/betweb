@@ -126,7 +126,7 @@ function createMode (matches, cgCount, cgMode){
             for(let p=0, pen=partial.length; p<pen; p++){
                 let grp = mix(partial[p], partial[p].length);
                 total = total.concat(grp);
-                console.log(p,grp);
+                
             }
 
            
@@ -153,6 +153,68 @@ function CS(total, num, i=0, concat) {
 
     return ret;
 }
+
+
+
+function createMode2 (matches, cgCount, cgMode){
+    // export default function createMode (matches, cgCount, cgMode){
+        let cgroup = PASS_MODE_MAP[cgCount-3];
+        let range = [];
+    
+        for(let i=0,len=cgroup.length; i<len; i++){
+            if(cgroup[i][0] === cgMode){
+                range = cgroup[i].slice(1);
+                break;
+            }
+        }
+        
+        let ret = CS(matches, cgCount);//按照串关场数进行组合
+    
+    
+       
+        let total = [];//串关结果
+        let [max, min] = range;
+    
+        //遍历组合，生成串关方式
+        for(let j=0, jen=ret.length; j<jen; j++){
+            //遍历串关方式对应的分组区间
+            for(let k=min; k<=max; k++){
+                let kg = CS2(ret[j]);
+                
+                for(let jj=0,ken=kg.length;jj<ken;jj++){
+    
+                    let partial = CS(kg[jj],k);
+                    total = total.concat(partial);
+    
+                }
+    
+            }
+        }
+    
+        return total;
+    }
+    
+//计算total场比赛不去重
+function CS2(total) {
+    let len = total.length,
+        ret = [];
+    let sarr=[[]];
+
+    for(let len=total.length,i=0; i<len; i++){
+        let tarr=[];//暂时存
+        for(var j=0;j<sarr.length;j++){
+            for(let k=0;k<total[i].length;k++){
+                tarr.push(sarr[j].concat(total[i][k]));
+              
+            }
+        }
+        sarr=tarr;
+    }
+    return sarr;
+}
+
+
+
 
 //遍历每组比赛，取每场比赛的一个选项进行组合
 function mix(list, limit, idx=0, concat) {
@@ -203,7 +265,7 @@ function createList(matches, cgCount, cgMode){
     if(cgMode==1){
         return createOne(matches, cgCount);
     }else{
-        return createMode(matches, cgCount,cgMode);
+        return createMode2(matches, cgCount,cgMode);
     }
 
 }

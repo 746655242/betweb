@@ -369,13 +369,12 @@ export default {
             return res;
         },
 
-        
+
 
         //计算最高中奖金
         jsTotalBonus(arr,bet,c){
 
-            console.log(2222,arr,bet,c);
-
+         
             let total=0;//最高奖金
             let ls=[];
         

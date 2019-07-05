@@ -21,8 +21,8 @@ Vue.config.productionTip = false
 
 //node获取数据baseurl
 //axios.defaults.baseURL = 'http://112.74.53.170'
-//axios.defaults.baseURL = 'http://don.com'
-axios.defaults.baseURL = ''
+axios.defaults.baseURL = 'http://don.com'
+//axios.defaults.baseURL = ''
 
 
 Vue.prototype.base = base;
