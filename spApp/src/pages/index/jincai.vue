@@ -111,7 +111,7 @@
                 <div class="com">
                     <span class="btn" @click="tabnub">{{betfield}}串{{cuang}}<i>{{betlistArr.length}}</i></span>
                     <span class="btn input-btn"><input type="text"  v-model="cancel"></span>倍
-                    <span class="gobtn" @click="order">下注</span>
+                    <span class="gobtn" @click="orderNew">下注</span>
                 </div>
             </div>
         </div>
@@ -227,7 +227,7 @@
 <script>
 
 import { Swiper, SwiperItem, XImg } from 'vux'
-import { createMode,createOne,PASS_MODE_MAP2,createList } from '../../store/game'
+import { createMode, createOne, PASS_MODE_MAP, PASS_MODE_MAP2, createList } from '../../store/game'
 import qs from 'qs'
 
 export default {
@@ -236,21 +236,24 @@ export default {
 		return {
             isbetNum:false,//是否切换 
             betNum:0,
+            passModeMap:PASS_MODE_MAP,
             gglist:PASS_MODE_MAP2,
             totalGame:8,//最多8场
             cancel:1, //倍数
             field:2, //总比赛场数
             cuang:1,//串
-
             betfield:2,//投注场
-            betmoney:2, //投注金额 
 
+            betmoney:2, //投注金额
             bettotalmoney:2, //投注总金额 
             totalBonus:0,//总奖金
             
             allbetlist:null,
             allid:null,
             allodds:null,
+
+            orderData: "", // 下单数据
+
             //比赛数据
             oddsData:[],
             oddsDataobj:{},
@@ -319,7 +322,7 @@ export default {
                     this.loadoddsDataobj(data.data);
                 }
             }).catch(function(err){
-                console.log(err)
+                window.console.log(err)
              
             }) 
         },
@@ -357,12 +360,29 @@ export default {
             this.allid=null;
         },
 
+        clearBetData(){
+            this.cancel = 1; // 倍数
+            this.field = 2; // 总比赛场数
+            this.cuang = 1; //串
+            this.betfield = 2; //投注场
+            this.betmoney = 2; // 投注金额
+            this.bettotalmoney = 2; // 投注总金额 
+            this.totalBonus = 0; //总奖金
+            
+            this.allbetlist = null;
+            this.allid = null;
+            this.allodds = null;
+            this.orderData =  ""; //  下单数据
+
+            this.betlistArr = []; //选择投注
+            this.oldbetlist = {}; //旧数据
+            this.betlist = {}; //选中json投注
+        },
+
         //增加和删除
         addbet(item,id){
-
             let orderid=item.orderid;
             let odds=item.OddsList[id];
-             
             //最多选8场
             if( this.field >= this.totalGame){
                 alert('最多选'+this.totalGame+'场');
@@ -371,7 +391,6 @@ export default {
 
             //删除和添加 
             if(this.betlist[orderid]){
-
                 if(this.betlist[orderid][id]){
                     delete this.betlist[orderid][id];
                     Object.keys(this.betlist[orderid]).length>0?'':delete this.betlist[orderid];
@@ -389,33 +408,56 @@ export default {
             this.betlistArr=[];
             let total=0;
 
+            let orderDataTmp = "";
             for(let i in this.betlist){
-
                 let keys=[];
                 let onetoal=2*this.cancel;
                 //生成投注明线
+                let orderDataIdxTmp = "";
                 for(let k in this.betlist[i]){
                     let name= this.oddsDataobj[i].date+'|'+i+'|'+k+'|'+this.betlist[i][k]+'|'+this.oddsDataobj[i].Boundary;
                     onetoal=onetoal*this.betlist[i][k];
-                    keys.push(name); 
+                    keys.push(name);
+
+                    if(orderDataIdxTmp != ""){
+                        orderDataIdxTmp += ",";
+                    }
+                    orderDataIdxTmp += i + "_" + k + "_" + this.betlist[i][k];
                 }
+                if(orderDataTmp != ""){
+                    orderDataTmp += ";"
+                }
+                orderDataTmp += orderDataIdxTmp;
+
                 total+=onetoal;
                 this.betlistArr.push(keys);
             }
-
-
-            this.totalBonus=total.toFixed(2);//总奖金
+            this.orderData = orderDataTmp;
+            // this.totalBonus=total.toFixed(2);//总奖金
             this.field=this.betlistArr.length;
             this.betfield=this.betlistArr.length;
+            
+            if(this.betlistArr.length <= 2){
+                this.cuang = 1;
+            }else{
+                let cgroup = this.passModeMap[this.betlistArr.length-3];
+                let exist = false;
+                for(let i=0, len=cgroup.length; i<len; i++){
+                    if(cgroup[i][0] === this.cuang){
+                        exist = true;
+                        break;
+                    }
+                }
+                if(exist == false){
+                    this.cuang = 1;
+                }
+            }
 
             //this.allbetlist=createOne(this.betlistArr,this.betfield);
-            this.rejs();
+            this.rejsNew();
         },
-        
 
-
-    /* 
-    
+    /*   
     -1 [
     3+3,     16 - 13   16 '15', '14'   '13', '11', '10'
     3+1,     16 - 11
@@ -429,8 +471,6 @@ export default {
     0+0,  14 -10  
     0+1   14 -11
     ]
-
-
 */
         //标盘和平盘比较去重
         jscompare(arr){
@@ -480,15 +520,13 @@ export default {
                 }
             })
 
-           // console.log(model,model[key]);
+           // window.console.log(model,model[key]);
 
             let res=[];
             lsobj[model[key][0]]?res.push(lsobj[model[key][0]]):'';
             lsobj[model[key][1]]?res.push(lsobj[model[key][1]]):'';
             return res;
         },
-
-        
 
         //计算最高中奖金
         jsTotalBonus(arr,bet,c){
@@ -545,29 +583,51 @@ export default {
             return  total.toFixed(2);
         },
 
-
-
-
-
         //重新计算
         rejs(){
-           
             let betmoney=0;//总投额
-            console.log(this.betlistArr);
-            
+            window.console.log(this.betlistArr);
             let allbetlist=createList(this.betlistArr,this.betfield,this.cuang);
             //最高奖金
             this.totalBonus=this.jsTotalBonus(this.betlistArr,this.betfield,this.cuang);
-
             for(let i in allbetlist){
                 let bet=2*this.cancel;
                 betmoney+=bet;
             }
             this.allbetlist=allbetlist;
             this.bettotalmoney=betmoney;
+            window.console.log(this.allbetlist);
+             //window.console.log(betmoney,this.totalBonus);    
+        },
 
-            console.log(this.allbetlist);
-             //console.log(betmoney,this.totalBonus);    
+        //重新计算
+        rejsNew(){
+            this.totalBonus = 0;
+            this.bettotalmoney = 0;
+            if(this.betfield <= 1){
+                return false;
+            }
+
+            let reqData={};
+            reqData['gameid'] = 1;
+            reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            reqData['order_data'] = this.orderData;
+            reqData['multiple'] = this.cancel;
+            window.console.log("========reqData========");
+            window.console.log(reqData);
+            this.axios.post('/api/ball/GetBall/getBonusRange', qs.stringify(reqData)).then(res => {
+                let data = res.data;
+                window.console.log("========data========");
+                window.console.log(data);
+                if(data.errorCode==0){
+                    this.totalBonus = data.result.bonus_max;
+                    this.bettotalmoney = data.result.total_money;
+                }else{
+                    alert(data.message);
+                }
+            }).catch(function(err){
+                window.console.log(err);
+            });
         },
 
         tabnub(){
@@ -577,15 +637,14 @@ export default {
 
         //改变玩法
         changebetfield(index,cuang){
-            this.betfield=index;
-            this.cuang=cuang;
-            this.rejs(); 
+            this.betfield = index;
+            this.cuang = cuang;
+            this.rejsNew(); 
         },
 
 
         //下单
         order(){
-
             let data={};
             data['orderData']=this.allbetlist;
             data['gameid']=1;
@@ -594,9 +653,7 @@ export default {
 
             this.axios.post('/api/ball/GetBall/bet',qs.stringify(data)).then(res => {  
                 let data=res.data;
-
                 if(data.errorCode==0){
-                   
                     alert(data.message);
                 }else if(data.errorCode==1){
                     this.$refs.loginLayer.show(true);
@@ -604,20 +661,41 @@ export default {
                     alert(data.message);
                 }
             }).catch(function(err){
-                console.log(err)
-             
-            }) 
+                window.console.log(err);
+            });
+        },
 
-
+        //下单
+        orderNew(){
+            let reqData={};
+            reqData['gameid'] = 1;
+            reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            reqData['order_data'] = this.orderData;
+            reqData['multiple'] = this.cancel;
+            window.console.log("========reqData========");
+            window.console.log(reqData);
+            this.axios.post('/api/ball/GetBall/betNew', qs.stringify(reqData)).then(res => {  
+                let data = res.data;
+                window.console.log("========data========");
+                window.console.log(data);
+                if(data.errorCode==0){
+                    this.clearBetData();
+                    alert(data.message);
+                }else if(data.errorCode==1){
+                    this.$refs.loginLayer.show(true);
+                }else{
+                    alert(data.message);
+                }
+            }).catch(function(err){
+                window.console.log(err);
+            });
         }
-
-
 	},
 
     watch: { //数据监听
         cancel(e){
             //this.cancel= e==0?1:e
-            this.rejs();
+            this.rejsNew();
         }
 	},
 	components: { //模板
@@ -629,15 +707,15 @@ export default {
 		
 	},
 	beforeRouteEnter(to, from, next) { //渲染页面前执行
-//			console.log('进入' + to.name + '组件前');
+//			window.console.log('进入' + to.name + '组件前');
 		next();
 	},
 	beforeRouteUpdate(to, from, next) { //页面切换如：在/foo/1和/foo/2之间跳转
-//			console.log('组件切换数据');
+//			window.console.log('组件切换数据');
 		next();
 	},
 	beforeRouteLeave(to, from, next) { //离开时执行
-//			console.log('离开组件');
+//			window.console.log('离开组件');
 		next();
 	}
 

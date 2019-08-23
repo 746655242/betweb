@@ -290,5 +290,6 @@ export {
     createMode,
     createOne,
     createList,
+    PASS_MODE_MAP,
     PASS_MODE_MAP2
 };
