@@ -292,14 +292,14 @@ export default {
                         ltype: 'SportteryTotalGoals'
                     },
                     '4': {
-                        cn: ['胜/胜', '胜/平', '胜/负', '平/负', '平/平', '平/负', '负/胜', '负/平', '负/负'],
+                        cn: ['胜/胜', '胜/平', '胜/负', '平/胜', '平/平', '平/负', '负/胜', '负/平', '负/负'],
                         wager: ['3-3', '3-1', '3-0', '1-3', '1-1', '1-0', '0-3', '0-1', '0-0'],
                         mix: ['20', '21', '22', '23', '24', '25', '26', '27', '28'],
                         ltype: 'SportteryHalfFull'
                     }
             },
             
-		}
+	}
     },
     computed:{
 
@@ -323,16 +323,15 @@ export default {
                 }
             }).catch(function(err){
                 window.console.log(err)
-             
             }) 
         },
 
         loadoddsDataobj(data){
 
             data.forEach((val,index)=>{
-                    for(let i in val.list){
-                        this.oddsDataobj[i]=val.list[i];
-                    }
+                for(let i in val.list){
+                    this.oddsDataobj[i]=val.list[i];
+                }
             });
         },
         
@@ -368,7 +367,7 @@ export default {
             this.betmoney = 2; // 投注金额
             this.bettotalmoney = 2; // 投注总金额 
             this.totalBonus = 0; //总奖金
-            
+
             this.allbetlist = null;
             this.allid = null;
             this.allodds = null;
@@ -457,7 +456,7 @@ export default {
             this.rejsNew();
         },
 
-    /*   
+/* 
     -1 [
     3+3,     16 - 13   16 '15', '14'   '13', '11', '10'
     3+1,     16 - 11
@@ -476,7 +475,6 @@ export default {
         jscompare(arr){
             let rang=arr[0].split('|')[4];
             
-
             let model= rang*1<0?
             [ 
                 [16,13],   
@@ -660,7 +658,9 @@ export default {
                 }else{
                     alert(data.message);
                 }
+                this.tabnub();
             }).catch(function(err){
+                this.tabnub();
                 window.console.log(err);
             });
         },
@@ -686,7 +686,13 @@ export default {
                 }else{
                     alert(data.message);
                 }
+                if(this.isbetNum){
+                    this.tabnub();
+                }
             }).catch(function(err){
+                if(this.isbetNum){
+                    this.tabnub();
+                }
                 window.console.log(err);
             });
         }
