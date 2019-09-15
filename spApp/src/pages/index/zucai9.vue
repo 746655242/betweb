@@ -2,7 +2,7 @@
 	<div class="wrap" id="wrap">	
         <header class="title">      
 			<span onclick="history.go(-1)" class="iconfont icon-fanhui">&#xe614;</span>
-			<span>任选九场</span>
+			<span>胜负彩任选九场</span>
         </header>
 
         <div class="listbox">
@@ -90,27 +90,30 @@ export default {
 	name: 'index',
 	data(){ //页面数据
 		return {
+            gameid: 4,
             isbetNum:false,//是否切换 
             betNum:0,
             gglist:PASS_MODE_MAP2,
-            totalGame:9,//最多8场
+            totalGame: 9, //最少9场
             cancel:1, //倍数
-            field:2, //总比赛场数
-            cuang:1,//串
+            field:14, //总比赛场数
+            cuang:1, //串
+            betfield:2, //投注场
 
-            betfield:9,//投注场
             betmoney:2, //投注金额 
-
             bettotalmoney:2, //投注总金额 
-            totalBonus:0,//总奖金
+            totalBonus:0, //总奖金
             
             allbetlist:null,
             allid:null,
             allodds:null,
+
+            orderData: "", // 下单数据
+
             //比赛数据
             oddsData:[],
             oddsDataobj:{},
-            
+
             betlistArr:[],//选择投注
 
             oldbetlist:{},//旧数据
@@ -166,7 +169,6 @@ export default {
 
 	},
 	methods:{
-
         //加载数据
 		fetchData(){
             this.axios.post('/api/ball/GetBall/odds?code=odds14').then(res => {  
@@ -213,22 +215,32 @@ export default {
             this.allodds=null;
             this.allid=null;
         },
+        clearBetData(){
+            this.cancel = 1; // 倍数
+            this.field = 14; // 总比赛场数
+            this.cuang = 1; //串
+            this.betfield = 2; //投注场
+            this.betmoney = 2; // 投注金额
+            this.bettotalmoney = 2; // 投注总金额
+            this.totalBonus = 0; //总奖金
+
+            this.allbetlist = null;
+            this.allid = null;
+            this.allodds = null;
+            this.orderData =  ""; //  下单数据
+
+            this.betlistArr = []; //选择投注
+            this.oldbetlist = {}; //旧数据
+            this.betlist = {}; //选中json投注
+        },
 
         //增加和删除
         addbet(item,id){
-
-           
             let orderid=item.orderid;
             let odds=item.OddsList[id];
-            //最多选8场
-            // if( this.field >= this.totalGame){
-            //     alert('最多选'+this.totalGame+'场');
-            //     return ;
-            // }
 
             //删除和添加 
             if(this.betlist[orderid]){
-                
                 if(this.betlist[orderid][id]){
                     delete this.betlist[orderid][id];
                     Object.keys(this.betlist[orderid]).length>0?'':delete this.betlist[orderid];
@@ -243,190 +255,70 @@ export default {
             //即时更新
             this.betlist=JSON.parse(JSON.stringify(this.betlist));
 
-            
-
             this.betlistArr=[];
             let total=0;
-
+            let orderDataTmp = "";
             for(let i in this.betlist){
-
                 let keys=[];
                 let onetoal=2*this.cancel;
                 //生成投注明线
+                let orderDataIdxTmp = "";
                 for(let k in this.betlist[i]){
                     let name=i+'|'+k;
                     onetoal=onetoal*this.betlist[i][k];
-                    keys.push(name); 
+                    keys.push(name);
+
+                    if(orderDataIdxTmp != ""){
+                        orderDataIdxTmp += ",";
+                    }
+                    orderDataIdxTmp += i + "_" + k + "_" + this.betlist[i][k];
                 }
+                if(orderDataTmp != ""){
+                    orderDataTmp += ";"
+                }
+                orderDataTmp += orderDataIdxTmp;
+
                 total+=onetoal;
                 this.betlistArr.push(keys);
             }
+            this.orderData = orderDataTmp;
+            this.betfield=this.betlistArr.length;
 
-
-            this.totalBonus=total.toFixed(2);//总奖金
-            this.field=this.betlistArr.length;
-          //  this.betfield=;
-
-            //this.allbetlist=createOne(this.betlistArr,this.betfield);
             this.rejs();
         },
-        
-
-
-    /* 
-    
-    -1 [
-    3+3,     16 - 13   16 '15', '14'   '13', '11', '10'
-    3+1,     16 - 11
-    1+0,     15 - 10
-    0+0      14 - 10 
-    ]
-
-    +1 [
-    3+3,  16 -13
-    1+3,  15 -13
-    0+0,  14 -10  
-    0+1   14 -11
-    ]
-
-
-*/
-        //标盘和平盘比较去重
-        jscompare(arr){
-            let rang=arr[0].split('|')[4];
-        
-            let model= rang*1<0?
-            [ 
-                [16,13],   
-                [16,11],
-                [15,10],
-                [14,10],
-            ]: [ 
-                [16,13],   
-                [15,13],
-                [14,10],
-                [14,11],
-            ];
-            let arrs=[];//取值数组
-            let lsobjval={}; //转数组
-            let lsobj={};   //转对象
-
-           
-            //转化相应数组
-            arr.forEach(function(value,index){
-                    let id= value.split('|')[2];
-                    lsobjval[id]=value.split('|');
-                    lsobj[id]=value;
-            })
-
-            //求和 
-            model.forEach(function(value,index){
-                let one = lsobjval[value[0]] ?lsobjval[value[0]][3]*1 :0;
-                let two = lsobjval[value[1]] ?lsobjval[value[1]][3]*1 :0;
-                let s=one+two;
-                arrs.push(s);
-            });
-            
-           
-            //取最大值
-            let  maxval=0;
-            let  key =0;
-            arrs.forEach(function(val,i){
-                if(val>maxval){
-                    maxval=val;
-                    key = i;
-                }
-            })
-
-           // console.log(model,model[key]);
-
-            let res=[];
-            lsobj[model[key][0]]?res.push(lsobj[model[key][0]]):'';
-            lsobj[model[key][1]]?res.push(lsobj[model[key][1]]):'';
-            return res;
-        },
-
-        
-
-        //计算最高中奖金
-        jsTotalBonus(arr,bet,c){
-
-            let total=0;//最高奖金
-            let ls=[];
-           
-            //去重
-            for(let i in arr){
-                let s=[0,0,0,0,0];
-                let odds=[0,0,0,0,0];
-
-                let before=this.jscompare(arr[i]);
-
-                for(let k in arr[i]){
-                    //5组单独去重
-                    let line=arr[i][k].split('|');
-
-                    for(let index in this.optionConfig){
-                        if(index>1){
-                            //标盘
-                            if(this.optionConfig[index].mix.indexOf(line[2])>=0){
-                                if(line[3]>odds[index]){
-                                    s[index]=arr[i][k];
-                                    odds[index]=line[3];
-                                }
-                            }
-                        }
-
-
-                    }
-                }
-
-                let st=before;
-                for(let key in s){
-                    if(s[key]!=0){
-                        st.push(s[key]);
-                    }
-                }
-                ls.push(st);
-            }
-           
-            let allbetlist=createList(ls,bet,c);
-            for(let i in allbetlist){
-                let onetoal=2*this.cancel;
-                for(let k in allbetlist[i]){
-                    let odds= allbetlist[i][k].split('|')[3];
-                    onetoal=onetoal*odds;
-                }
-                total+=onetoal;
-            }
-          
-            return  total.toFixed(2);
-        },
-
 
         //重新计算
         rejs(){
-           
-            let betmoney=0;//总投额
-            
-            
-            let allbetlist=createList(this.betlistArr,this.betfield,this.cuang);
-            //最高奖金
-            this.totalBonus=this.jsTotalBonus(this.betlistArr,this.betfield,this.cuang);
-
-            for(let i in allbetlist){
-                let bet=2*this.cancel;
-                betmoney+=bet;
+            this.bettotalmoney = 0;
+            if(this.betfield < 9){
+                return false;
             }
-            this.allbetlist=allbetlist;
-            this.bettotalmoney=betmoney;
 
-              
+            let reqData={};
+            reqData['gameid'] = this.gameid;
+            reqData['issue'] = this.issue;
+            reqData['pass_type'] = "9_1";
+            reqData['order_data'] = this.orderData;
+            reqData['multiple'] = this.cancel;
+            window.console.log("========reqData========");
+            window.console.log(reqData);
+            this.axios.post('/api/ball/GetBall/getBonusRange', qs.stringify(reqData)).then(res => {
+                let data = res.data;
+                window.console.log("========data========");
+                window.console.log(data);
+                if(data.errorCode==0){
+                    this.bettotalmoney = data.result.total_money;
+                }else{
+                    alert(data.message);
+                }
+            }).catch(function(err){
+                window.console.log(err);
+            });
         },
 
         tabnub(){
             this.isbetNum=!this.isbetNum;
         },
-        
 
         //改变玩法
         changebetfield(index,cuang){
@@ -435,37 +327,37 @@ export default {
             this.rejs(); 
         },
 
-
         //下单
         order(){
-
-            let data={};
-            data['issue']=this.issue;
-            data['orderData']=this.allbetlist;
-            data['gameid']=4;
-            data['totalAmount']=this.bettotalmoney;
-            data['betmoney']=this.betmoney*this.cancel;
-
-            
-            this.axios.post('/api/ball/GetBall/bet14',qs.stringify(data)).then(res => {  
-                let data=res.data;
-
+            let reqData={};
+            reqData['gameid'] = this.gameid;
+            reqData['issue'] = this.issue;
+            reqData['order_data'] = this.orderData;
+            reqData['multiple'] = this.cancel;
+            window.console.log("========reqData========");
+            window.console.log(reqData);
+            this.axios.post('/api/ball/GetBall/bet14', qs.stringify(reqData)).then(res => {  
+                let data = res.data;
+                window.console.log("========data========");
+                window.console.log(data);
                 if(data.errorCode==0){
+                    this.clearBetData();
                     alert(data.message);
                 }else if(data.errorCode==1){
                     this.$refs.loginLayer.show(true);
                 }else{
                     alert(data.message);
                 }
+                if(this.isbetNum){
+                    this.tabnub();
+                }
             }).catch(function(err){
-                console.log(err)
-             
-            }) 
-
-
+                if(this.isbetNum){
+                    this.tabnub();
+                }
+                window.console.log(err);
+            });
         }
-
-
 	},
 
     watch: { //数据监听

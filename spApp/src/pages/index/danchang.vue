@@ -94,9 +94,6 @@
                 </div>
             </div>
         </div>
-
-
-
         <loginLayer  ref="loginLayer"></loginLayer>
 	</div>
 </template>
@@ -244,7 +241,7 @@ export default {
             this.cuang = 1; //串
             this.betfield = 2; //投注场
             this.betmoney = 2; // 投注金额
-            this.bettotalmoney = 2; // 投注总金额 
+            this.bettotalmoney = 2; // 投注总金额
             this.totalBonus = 0; //总奖金
 
             this.allbetlist = null;
@@ -293,9 +290,11 @@ export default {
                 //生成投注明线
                 let orderDataIdxTmp = "";
                 for(let k in this.betlist[i]){
+                    // 旧代码 待删除
                     let name= this.oddsDataobj[i].date+'|'+i+'|'+k+'|'+this.betlist[i][k]+'|'+this.oddsDataobj[i].Boundary;
                     onetoal=onetoal*this.betlist[i][k];
                     keys.push(name);
+                    // 旧代码 待删除 end
 
                     if(orderDataIdxTmp != ""){
                         orderDataIdxTmp += ",";

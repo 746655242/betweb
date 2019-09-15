@@ -87,10 +87,22 @@ export default {
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
 							href:'/home/danchang',
 							IconShowName:'北京单场',
-						}
-
-					
-						
+						},
+						// {
+						// 	IconPicInfo:require('@/assets/img/icon-zq.png'),
+						// 	href:'/home/danchangbf',
+						// 	IconShowName:'北京单场比分',
+						// },
+						// {
+						// 	IconPicInfo:require('@/assets/img/icon-zq.png'),
+						// 	href:'/home/danchangzjq',
+						// 	IconShowName:'北京单场总进球',
+						// },
+						// {
+						// 	IconPicInfo:require('@/assets/img/icon-zq.png'),
+						// 	href:'/home/danchangbqc',
+						// 	IconShowName:'北京单场半全场',
+						// }
 					]
 				}	
 
