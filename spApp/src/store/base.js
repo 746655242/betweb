@@ -39,6 +39,21 @@ let base = {
             IconPic:require('@/assets/img/icon-zq.png'),
             href:'/home/danchang',
             IconName:'北京单场'
+        },
+        6:{
+            IconPic:require('@/assets/img/icon-zq.png'),
+            href:'/home/danchangBf',
+            IconName:'北京单场比分'
+        },
+        7:{
+            IconPic:require('@/assets/img/icon-zq.png'),
+            href:'/home/danchangBq',
+            IconName:'北京单场半全场'
+        },
+        8:{
+            IconPic:require('@/assets/img/icon-zq.png'),
+            href:'/home/danchangZjq',
+            IconName:'北京单场总进球'
         }
     },
 

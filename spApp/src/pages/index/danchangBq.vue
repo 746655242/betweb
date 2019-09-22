@@ -2,7 +2,7 @@
 	<div class="wrap" id="wrap">	
         <header class="title">      
 			<span onclick="history.go(-1)" class="iconfont icon-fanhui">&#xe614;</span>
-			<span>竞彩足球</span>
+			<span>北京单场半全场</span>
         </header>
     
         <div class="listbox">
@@ -17,7 +17,7 @@
 
                     <div class="bs-item" v-for="(ite,ind) in item.list" :key="ind">
                             <div class="bs-name">
-                                <div class="xuhao">{{ite.id}}</div>
+                                <div class="xuhao">第{{ite.id}}场</div>
                                 <div class="liansai" v-bind:style="{'background':ite.color}">{{ite.liansai}}</div>
                                 <div class="time">{{ite.timetxt}}</div>
                             </div>
@@ -30,40 +30,19 @@
                                 <div class="listbet">
                                     <table>
                                         <tr>
-                                            <td class="betbtn-rang">0</td>
-
-                                            <td class="bet-btn" 
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['16']}" 
-                                                @click="addbet(ite,16)"
-                                            ><span>胜</span><span class="odds">{{ite.OddsList['16']}}</span></td>
-                                            <td class="bet-btn"
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['15']}"
-                                                @click="addbet(ite,15)"
-                                                 ><span>平</span><span class="odds">{{ite.OddsList['15']}}</span></td>
-                                            <td class="bet-btn" 
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['14']}"  
-                                                 @click="addbet(ite,14)"
-                                                ><span>负</span><span class="odds">{{ite.OddsList['14']}}</span></td>
-
-                                            <td rowspan="2" @click="showAll(item,ite,ind)" class="more-btn"><span >全部<br>玩法</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="betbtn-rang btn-red1" v-if="ite.Boundary<0">{{ite.Boundary}}</td>
-                                            <td class="betbtn-rang btn-green" v-else >{{ite.Boundary}}</td>
-
-                                            <td class="bet-btn" 
-                                            
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['13']}"
-                                                @click="addbet(ite,13)"    
-                                            ><span>胜</span><span class="odds">{{ite.OddsList['13']}}</span></td>
-                                            <td class="bet-btn" 
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['11']}"
-                                                @click="addbet(ite,11)"
-                                                ><span>平</span><span class="odds">{{ite.OddsList['11']}}</span></td>
-                                            <td class="bet-btn" 
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['10']}"
-                                                @click="addbet(ite,10)"
-                                                 ><span>负</span><span class="odds">{{ite.OddsList['10']}}</span></td>
+                                            <div class="add-more-layer line">
+                                                <div class="com comleft">
+                                                    <div class="table">
+                                                        <div  v-for="(item2,index2) in optionConfig[4].cn" :key="index2" class="betBtn w5" 
+                                                            v-bind:class="{'beton':betlist[ind]&&betlist[ind][optionConfig[4].mix[index2]]}"
+                                                            @click="addbet(ite, optionConfig[4].mix[index2])"
+                                                        >
+                                                            <span class="zhu">{{item2}}</span><br>
+                                                            <span class="chi">{{ite['OddsList'][optionConfig[4].mix[index2]]}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </tr>
                                     </table>
                                 </div>
@@ -79,7 +58,7 @@
 
         <div class="bet-bar">
             
-            <div class="top"  v-if="betlistArr.length<2">
+            <div class="top"  v-if="betlistArr.length<1">
                 至少选择一场比赛(竞猜全场90分钟的比赛结果)<br>
                 <span>竞猜数据仅供参考，请以实票数据为准</span>
             </div>
@@ -90,13 +69,12 @@
                     <div class="til">过关方式 <i @click="tabnub" class="iconfont">&#xe60b;</i></div>
                     <ul>
                         <li v-for="(item,key) in  betlistArr.length" :key="key"
-                        v-if="item>1"
+                        v-if="item>0"
                             @click="changebetfield(item,1)"
                         >
                         <span v-bind:class="{'on':betfield==item&&cuang==1}">{{item}}串1</span></li>
                     </ul>
 
-                   
                     <p v-if="field>=3">更多过关</p>
                     <ul>
                         <li v-for="(item,index) in gglist" 
@@ -115,111 +93,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- 展示全部 -->
-        <div  v-if="allodds" class="add-more-layer">
-            <header class="title">      
-                <span @click="closeAll(true)" class="iconfont icon-fanhui">&#xe614;</span>
-                <span><i>{{allodds['zhu']['pm']}}</i>{{allodds['zhu']['name']}} VS {{allodds['ke']['name']}}<i>{{allodds['zhu']['pm']}}</i></span>
-            </header>
-
-            <div class="line" >
-
-                <div class="title">胜平负/让球胜平负</div>
-                <div class="com comleft">   
-
-                        <div class="left">
-                            <div class='pingone betbtn-rang' style="background:#999;line-height:.5rem"><div>0</div></div>
-                            <div class='pingone' style="background:#f7acaa;line-height:.5rem" v-if="allodds['Boundary']<0"><div>{{allodds['Boundary']}}</div></div>
-                            <div class='pingone' style="background:#68D268;line-height:.5rem" v-else><div>{{allodds['Boundary']}}</div></div>
-                        </div>
-
-                        <div class="table">
-                            <div  v-for="(item,index) in optionConfig[0].cn" :key="index" class="betBtn w3"
-                                  v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[0].mix[index]]}"
-                                  @click="addbet(allodds,optionConfig[0].mix[index])"
-                                    >
-                                <span class="zhu">{{item}}</span><br>
-                                <span class="chi">{{allodds['OddsList'][optionConfig[0].mix[index]]}}</span>
-                            </div>
-
-
-                            <div  v-for="(item,index) in optionConfig[1].cn" :key="index" class="betBtn w3" 
-                                  v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[1].mix[index]]}"
-                                 @click="addbet(allodds,optionConfig[1].mix[index])"
-                                   >
-                                <span class="zhu">{{item}}</span><br>
-                                <span class="chi">{{allodds['OddsList'][optionConfig[1].mix[index]]}}</span>
-                            </div>
-                        </div>
-
-                </div>
-            </div>
-
-
-             <div class="line">
-                <div class="title">比分</div>
-                <div class="com comleft">
-
-                        <div class="left">
-                            <div class='zhuone' style="background:#cc0002" ><div>主<br>胜<br>比<br>分</div></div>
-                            <div class='pingone' style="background:#333"><div>平<br>局</div></div>
-                            <div class='zhuone' style="background:#019afe"><div>主<br>负<br>比<br>分</div></div>
-                        </div>
-
-                        <div class="table">
-                            <div  v-for="(item,index) in optionConfig[2].cn" :key="index" class="betBtn w5" 
-                                v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[2].mix[index]]}"
-                                @click="addbet(allodds,optionConfig[2].mix[index])"
-                            >
-                                <span class="zhu">{{item}}</span><br>
-                                <span class="chi">{{allodds['OddsList'][optionConfig[2].mix[index]]}}</span>
-                            </div>
-                        </div>
-
-
-
-                
-                </div>
-            </div>
-
-             <div class="line">
-                <div class="title">总进球数</div>
-                <div class="com table">
-                    <div  v-for="(item,index) in optionConfig[3].cn" :key="index" class="betBtn"
-                    v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[3].mix[index]]}"
-                    @click="addbet(allodds,optionConfig[3].mix[index])"
-                     >
-                        <span class="zhu">{{item}}</span><br>
-                        <span class="chi">{{allodds['OddsList'][optionConfig[3].mix[index]]}}</span>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="line">
-                <div class="title">半全场</div>
-                <div class="com table">
-
-                     <div  v-for="(item,index) in optionConfig[4].cn" :key="index" class="betBtn w3"
-                     
-                     v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[4].mix[index]]}"
-                     @click="addbet(allodds,optionConfig[4].mix[index])"
-                      >
-                        <span class="zhu">{{item}}</span><br>
-                        <span class="chi">{{allodds['OddsList'][optionConfig[4].mix[index]]}}</span>
-                    </div>
-
-                </div>
-            </div>
-            <div class="btnbox">
-                <span class="btn" @click="closeAll(true)">取消</span>
-                <span class="btn confirm" @click="closeAll">确定</span>
-            </div>
-
-        </div>
-
         <loginLayer  ref="loginLayer"></loginLayer>
 	</div>
 </template>
@@ -227,7 +100,7 @@
 <script>
 
 import { Swiper, SwiperItem, XImg } from 'vux'
-import { createMode, createOne, PASS_MODE_MAP, PASS_MODE_MAP2, createList } from '../../store/game'
+import { createMode, createOne, PASS_MODE_TYPE_BD, PASS_MODE_TYPE2_BD, createList } from '../../store/game'
 import qs from 'qs'
 
 export default {
@@ -236,15 +109,15 @@ export default {
 		return {
             isbetNum:false,//是否切换 
             betNum:0,
-            passModeMap:PASS_MODE_MAP,
-            gglist:PASS_MODE_MAP2,
-            totalGame:8,//最多8场
+            passModeBdMap:PASS_MODE_TYPE_BD,
+            gglist:PASS_MODE_TYPE2_BD,
+            totalGame: 15,//最多15场
             cancel:1, //倍数
             field:2, //总比赛场数
             cuang:1,//串
             betfield:2,//投注场
 
-            betmoney:2, //投注金额
+            betmoney:2, //投注金额 
             bettotalmoney:2, //投注总金额 
             totalBonus:0,//总奖金
             
@@ -298,14 +171,15 @@ export default {
                         ltype: 'SportteryHalfFull'
                     }
             },
-            
-	}
+            lotterNo:0,
+        }
     },
     computed:{
 
       
     },
-	created: function() { //初始化
+    created: function() { //初始化
+        window.console.log("===========created===========");
 		this.fetchData();
 	},
 	mounted:function() {
@@ -315,8 +189,10 @@ export default {
 
         //加载数据
 		fetchData(){
-            this.axios.post('/api/ball/GetBall/odds?code=jcodds').then(res => {  
+            this.axios.post('/api/ball/GetBall/odds?code=oddsdanchangBq').then(res => {
+                window.console.log("===========xxxxxx===========");
                 let data=res.data.result;
+                window.console.log(data);
                 if(data.code==0){
                     this.oddsData=data.data;
                     this.loadoddsDataobj(data.data);
@@ -327,6 +203,8 @@ export default {
         },
 
         loadoddsDataobj(data){
+
+            this.lotterNo=data[0].lotterNo;
 
             data.forEach((val,index)=>{
                 for(let i in val.list){
@@ -365,7 +243,7 @@ export default {
             this.cuang = 1; //串
             this.betfield = 2; //投注场
             this.betmoney = 2; // 投注金额
-            this.bettotalmoney = 2; // 投注总金额 
+            this.bettotalmoney = 2; // 投注总金额
             this.totalBonus = 0; //总奖金
 
             this.allbetlist = null;
@@ -414,9 +292,11 @@ export default {
                 //生成投注明线
                 let orderDataIdxTmp = "";
                 for(let k in this.betlist[i]){
+                    // 旧代码 待删除
                     let name= this.oddsDataobj[i].date+'|'+i+'|'+k+'|'+this.betlist[i][k]+'|'+this.oddsDataobj[i].Boundary;
                     onetoal=onetoal*this.betlist[i][k];
                     keys.push(name);
+                    // 旧代码 待删除 end
 
                     if(orderDataIdxTmp != ""){
                         orderDataIdxTmp += ",";
@@ -436,10 +316,10 @@ export default {
             this.field=this.betlistArr.length;
             this.betfield=this.betlistArr.length;
             
-            if(this.betlistArr.length <= 2){
+            if(this.betlistArr.length <= 1 || this.betlistArr.length >= 7){
                 this.cuang = 1;
             }else{
-                let cgroup = this.passModeMap[this.betlistArr.length-3];
+                let cgroup = this.passModeBdMap[this.betlistArr.length-2];
                 let exist = false;
                 for(let i=0, len=cgroup.length; i<len; i++){
                     if(cgroup[i][0] === this.cuang){
@@ -528,33 +408,22 @@ export default {
 
         //计算最高中奖金
         jsTotalBonus(arr,bet,c){
-
             let total=0;//最高奖金
             let ls=[];
-           
+        
             //去重
             for(let i in arr){
-                let s=[0,0,0,0,0];
-                let odds=[0,0,0,0,0];
+                let s=[0];
+                let odds=0;   
 
                 let before=this.jscompare(arr[i]);
 
                 for(let k in arr[i]){
                     //5组单独去重
                     let line=arr[i][k].split('|');
-
-                    for(let index in this.optionConfig){
-                        if(index>1){
-                            //标盘
-                            if(this.optionConfig[index].mix.indexOf(line[2])>=0){
-                                if(line[3]>odds[index]){
-                                    s[index]=arr[i][k];
-                                    odds[index]=line[3];
-                                }
-                            }
-                        }
-
-
+                    if(line[3]>odds){
+                        s[0]=arr[i][k];
+                        odds=line[3];
                     }
                 }
 
@@ -566,7 +435,6 @@ export default {
                 }
                 ls.push(st);
             }
-
            
             let allbetlist=createList(ls,bet,c);
             for(let i in allbetlist){
@@ -577,7 +445,7 @@ export default {
                 }
                 total+=onetoal;
             }
-          
+            
             return  total.toFixed(2);
         },
 
@@ -585,12 +453,12 @@ export default {
         reBonus(){
             this.totalBonus = 0;
             this.bettotalmoney = 0;
-            if(this.betfield <= 1){
+            if(this.betfield < 1){
                 return false;
             }
 
             let reqData={};
-            reqData['gameid'] = 1;
+            reqData['gameid'] = 5;
             reqData['pass_type'] = this.betfield + "_" + this.cuang;
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
@@ -626,13 +494,14 @@ export default {
         //下单
         order(){
             let reqData={};
-            reqData['gameid'] = 1;
+            reqData['gameid'] = 5;
+            reqData['bet_type'] = 6;
             reqData['pass_type'] = this.betfield + "_" + this.cuang;
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
             window.console.log(reqData);
-            this.axios.post('/api/ball/GetBall/betNew', qs.stringify(reqData)).then(res => {  
+            this.axios.post('/api/ball/GetBall/betBd', qs.stringify(reqData)).then(res => {  
                 let data = res.data;
                 window.console.log("========data========");
                 window.console.log(data);
@@ -715,7 +584,7 @@ export default {
                 border-bottom:1px solid #d1d1d1;
                 .bs-name{
                     position: absolute;
-                    top:.5rem;
+                    top:.3rem;
                     left:.1rem;
                     width: .6rem;
                     line-height: .16rem;
@@ -917,113 +786,73 @@ export default {
     span{color:#fff !important;}
 }
 
-.add-more-layer{
-    position: fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    right:0;
-    background: #f4f4f4;
-    z-index: 100;
-    overflow: auto;
-    padding:.45rem 0  .5rem 0;
-    .header{
-        i{ font-size:.1rem;}
-    }
-    .btnbox{
-        position: fixed;
-        background: #fff;
-        border-top:1px solid #dfdfdf;
-        position: fixed;
-        bottom:0;
-        left:0;
-        width: 100%;
-        text-align: center;
-         padding:.1rem 0 ;
-        .btn{
-            line-height: .3rem;
-            display:inline-block;
-            padding: .02rem .4rem;
-            margin: 0 .2rem;
-            border:1px solid #e6e6e6;
-            border-radius: .05rem;
-            background: #eeeeee;
-        }
-        .confirm{
-            background: #019bff;
-            color:#fff;
-            border:1px solid #019bff;
-        }
-    }
-    .line{
-        background: #fff;
-        margin-bottom:.1rem;
+.line{
+    background: #fff;
+    margin-bottom:.1rem;
+    border-bottom:1px solid #d1d1d1;
+    .title{
+        padding:.1rem;
+        color:#666;
+        font-size:.12rem;
         border-bottom:1px solid #d1d1d1;
-        .title{
-            padding:.1rem;
-            color:#666;
-            font-size:.12rem;
-            border-bottom:1px solid #d1d1d1;
-        }
-        
-        .comleft{
-            padding-left:.3rem !important; 
-        }
-        .com{
-            padding: .1rem;
-            position: relative;
-
-            .left{
-                position: absolute;
-                left:.1rem;
-                top:.2rem;
-                width: .22rem;
-                bottom:.1rem;
-                color:#fff;
-                text-align: center;
-                .zhuone{
-                    width: 100%;
-                    height: 1.44rem;
-                    padding-top:.3rem;
-                }
-                .pingone{height: .48rem;}
-            }
-            table{
-                width: 100%;
-                td{
-                    text-align: center;
-                    border:.01rem solid #ef1823;
-                    line-height: .18rem;
-                    padding:.05rem 0;
-                    .zhu{
-                        min-width:.5rem;
-                        line-height:.22rem;
-                        display:inline-block;
-                    }
-                    .chi{
-                        font-size:.1rem;
-                        color:#999;
-                    }
-                }
-                .one{
-                    border: none;
-                    width:.2rem;
-                    background: #cdcdcd;
-                    div{
+    }
     
-                        color:#fff;
-                        width: 100%;
-                        height: 100%;
-                        display: block;
-                    }
-                    
+    .comleft{
+        padding-left:.3rem !important; 
+    }
+    .com{
+        padding: .1rem;
+        position: relative;
+
+        .left{
+            position: absolute;
+            left:.1rem;
+            top:.2rem;
+            width: .22rem;
+            bottom:.1rem;
+            color:#fff;
+            text-align: center;
+            .zhuone{
+                width: 100%;
+                height: 1.44rem;
+                padding-top:.3rem;
+            }
+            .pingone{height: .48rem;}
+        }
+        table{
+            width: 100%;
+            td{
+                text-align: center;
+                border:.01rem solid #ef1823;
+                line-height: .18rem;
+                padding:.05rem 0;
+                .zhu{
+                    min-width:.5rem;
+                    line-height:.22rem;
+                    display:inline-block;
                 }
+                .chi{
+                    font-size:.1rem;
+                    color:#999;
+                }
+            }
+            .one{
+                border: none;
+                width:.2rem;
+                background: #cdcdcd;
+                div{
+
+                    color:#fff;
+                    width: 100%;
+                    height: 100%;
+                    display: block;
+                }
+                
             }
         }
     }
-    
-
 }
+
 
 
 .table{

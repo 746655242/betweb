@@ -90,7 +90,7 @@
                 <div class="com">
                     <span class="btn" @click="tabnub">{{betfield}}串{{cuang}}<i>{{betlistArr.length}}</i></span>
                     <span class="btn input-btn"><input type="text"  v-model="cancel"></span>倍
-                    <span class="gobtn" @click="orderNew">下注</span>
+                    <span class="gobtn" @click="order">下注</span>
                 </div>
             </div>
         </div>
@@ -331,7 +331,7 @@ export default {
             }
 
             //this.allbetlist=createOne(this.betlistArr,this.betfield);
-            this.rejsNew();
+            this.reBonus();
         },
 
 /* 
@@ -448,25 +448,7 @@ export default {
         },
 
         //重新计算
-        rejs(){
-            let betmoney=0;//总投额
-            window.console.log(this.betlistArr);
-            let allbetlist=createList(this.betlistArr,this.betfield,this.cuang);
-            //最高奖金
-            this.totalBonus=this.jsTotalBonus(this.betlistArr,this.betfield,this.cuang);
-
-            for(let i in allbetlist){
-                let bet=2*this.cancel;
-                betmoney+=bet;
-            }
-            this.allbetlist=allbetlist;
-            this.bettotalmoney=betmoney;
-            window.console.log(this.allbetlist);
-             //window.console.log(betmoney,this.totalBonus);    
-        },
-
-        //重新计算
-        rejsNew(){
+        reBonus(){
             this.totalBonus = 0;
             this.bettotalmoney = 0;
             if(this.betfield < 1){
@@ -504,39 +486,11 @@ export default {
         changebetfield(index,cuang){
             this.betfield = index;
             this.cuang = cuang;
-            this.rejsNew(); 
+            this.reBonus(); 
         },
-
 
         //下单
         order(){
-            let data={};
-            data['orderData']=this.allbetlist;
-            data['issue']=this.lotterNo;
-            data['gameid']=5;
-            data['totalAmount']=this.bettotalmoney;
-            data['betmoney']=this.betmoney*this.cancel;
-
-            this.axios.post('/api/ball/GetBall/bet',qs.stringify(data)).then(res => {  
-                let data=res.data;
-
-                if(data.errorCode==0){
-                    alert(data.message);
-                }else if(data.errorCode==1){
-                    //alert(data.message);
-                    this.$refs.loginLayer.show(true);
-                }else{
-                     alert(data.message);
-                }
-                this.tabnub();
-            }).catch(function(err){
-                this.tabnub();
-                window.console.log(err);
-            });
-        },
-
-        //下单
-        orderNew(){
             let reqData={};
             reqData['gameid'] = 5;
             reqData['pass_type'] = this.betfield + "_" + this.cuang;
@@ -544,7 +498,7 @@ export default {
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
             window.console.log(reqData);
-            this.axios.post('/api/ball/GetBall/betNew', qs.stringify(reqData)).then(res => {  
+            this.axios.post('/api/ball/GetBall/betBd', qs.stringify(reqData)).then(res => {  
                 let data = res.data;
                 window.console.log("========data========");
                 window.console.log(data);
@@ -571,7 +525,7 @@ export default {
     watch: { //数据监听
         cancel(e){
             //this.cancel= e==0?1:e
-            this.rejsNew();
+            this.reBonus();
         }
 	},
 	components: { //模板

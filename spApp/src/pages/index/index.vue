@@ -78,7 +78,7 @@ export default {
 							href:'/home/zucai',
 							IconShowName:'足球14场',
 						},
-							{
+						{
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
 							href:'/home/zucai9',
 							IconShowName:'任选9场',
@@ -88,21 +88,21 @@ export default {
 							href:'/home/danchang',
 							IconShowName:'北京单场',
 						},
-						// {
-						// 	IconPicInfo:require('@/assets/img/icon-zq.png'),
-						// 	href:'/home/danchangbf',
-						// 	IconShowName:'北京单场比分',
-						// },
-						// {
-						// 	IconPicInfo:require('@/assets/img/icon-zq.png'),
-						// 	href:'/home/danchangzjq',
-						// 	IconShowName:'北京单场总进球',
-						// },
-						// {
-						// 	IconPicInfo:require('@/assets/img/icon-zq.png'),
-						// 	href:'/home/danchangbqc',
-						// 	IconShowName:'北京单场半全场',
-						// }
+						{
+							IconPicInfo:require('@/assets/img/icon-zq.png'),
+							href:'/home/danchangBf',
+							IconShowName:'北京单场比分',
+						},
+						{
+							IconPicInfo:require('@/assets/img/icon-zq.png'),
+							href:'/home/danchangBq',
+							IconShowName:'北京单场半全场',
+						},
+						{
+							IconPicInfo:require('@/assets/img/icon-zq.png'),
+							href:'/home/danchangZjq',
+							IconShowName:'北京单场总进球',
+						}
 					]
 				}	
 

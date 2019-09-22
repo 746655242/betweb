@@ -73,8 +73,7 @@ let routes=[
             }
         }, 
 
-
-         /* 9投注 */
+         /* 单场 */
          {
             path: '/home/danchang',
             name: 'danchang',
@@ -82,10 +81,30 @@ let routes=[
                 require(['@/pages/index/danchang'], resolve)
             }
         }, 
-
-
-
-
+        /* 单场比分 */
+        {
+            path: '/home/danchangBf',
+            name: 'danchang',
+            component: function(resolve) {
+                require(['@/pages/index/danchangBf'], resolve)
+            }
+        },
+        /* 单场半全场 */
+        {
+            path: '/home/danchangBq',
+            name: 'danchang',
+            component: function(resolve) {
+                require(['@/pages/index/danchangBq'], resolve)
+            }
+        },
+        /* 单场总进球 */
+        {
+            path: '/home/danchangZjq',
+            name: 'danchang',
+            component: function(resolve) {
+                require(['@/pages/index/danchangZjq'], resolve)
+            }
+        },
 
         /* 投注记录 */
         {
