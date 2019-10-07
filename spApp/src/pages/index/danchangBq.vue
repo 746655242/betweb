@@ -1,100 +1,190 @@
 <template>
-	<div class="wrap" id="wrap">	
-        <header class="title">      
-			<span onclick="history.go(-1)" class="iconfont icon-fanhui">&#xe614;</span>
-			<span>北京单场半全场</span>
+<div>
+<link href="./static/css/jingcai.css" rel="stylesheet">
+<link href="./static/css/danchang.css" rel="stylesheet">
+	<div id="body" class="danchang_spf">
+        <header class="head headfixed">
+            <div class="back"><a class="backlink" onclick="history.go(-1)"></a></div>
+            <div class="headertit topcenter column" @click="betChange">
+                <a class="boxflex flexcenter tabbtn"><span class="fontwhite font16">单场半全场</span><em
+                    class="icon_arrowgraydown"></em></a>
+            </div>
+            <div class="headBtnbox topcenter">
+                <a><em class="headicon icon_screen"></em></a>
+                <a><em class="headicon icon_list"></em></a>
+            </div>
+            <!-- 玩法切换 -->
+            <div class="layerbox layerbox_header" v-show="isbetChange">
+                <ul class="qibtnlist clearfix">
+                <li class="boxflex">
+                    <router-link :to="danchangTypeUrl[0].href">
+                    <p class="qibtn">{{danchangTypeUrl[0].name}}</p>
+                    </router-link>
+                </li>
+                <li class="boxflex">
+                    <router-link :to="danchangTypeUrl[1].href">
+                    <p class="qibtn">{{danchangTypeUrl[1].name}}</p>
+                    </router-link>
+                </li>
+                <li class="boxflex">
+                    <router-link :to="danchangTypeUrl[2].href">
+                    <p class="qibtn qibtn_sed">{{danchangTypeUrl[2].name}}</p>
+                    </router-link>
+                </li>
+                <li class="boxflex">
+                    <router-link :to="danchangTypeUrl[3].href">
+                    <p class="qibtn">{{danchangTypeUrl[3].name}}</p>
+                    </router-link>
+                </li>
+                </ul>
+            </div>
         </header>
-    
-        <div class="listbox">
-    
-            <div class="item" v-for="(item,index) in oddsData" :key="index" >
-                <div class="daybar" @click="dshow(index,item)">
-                        <p v-html="item.title"></p>
-                        <i class="iconfont more ">&#xe600;</i>
+
+        <div class="loadtips" style="z-index: 1; display: none;">
+            <p>下拉刷新比赛清空已选投注</p>
+            <em class="iconbg icon_remind"></em>
+        </div>
+
+
+        <div class="app">
+            <div class="scrollbox">
+                <section id="scrollBody" class="bgf2" drapload-key="ascroll" drapload-initialize="false" drapload-down="" drapload-up="doRefresh()" style="">
+
+                <div class="dropload-up">
+                    <div class="dropload-refresh">↓下拉刷新</div>
                 </div>
-
-                <div class="listItembox" v-show='!item.show'>
-
-                    <div class="bs-item" v-for="(ite,ind) in item.list" :key="ind">
-                            <div class="bs-name">
-                                <div class="xuhao">第{{ite.id}}场</div>
-                                <div class="liansai" v-bind:style="{'background':ite.color}">{{ite.liansai}}</div>
-                                <div class="time">{{ite.timetxt}}</div>
-                            </div>
-                            <div class="bs-com">
-                                <div class="duizheng">
-                                    <span class="fl"><cite>{{ite.zhu.pm}}</cite><em>{{ite.zhu.name}}</em></span>
-                                    <span class="fl">VS</span>
-                                    <span class="fl"><em>{{ite.ke.name}}</em><cite>{{ite.ke.pm}}</cite></span>
-                                </div>
-                                <div class="listbet">
-                                    <table>
-                                        <tr>
-                                            <div class="add-more-layer line">
-                                                <div class="com comleft">
-                                                    <div class="table">
-                                                        <div  v-for="(item2,index2) in optionConfig[4].cn" :key="index2" class="betBtn w5" 
-                                                            v-bind:class="{'beton':betlist[ind]&&betlist[ind][optionConfig[4].mix[index2]]}"
-                                                            @click="addbet(ite, optionConfig[4].mix[index2])"
-                                                        >
-                                                            <span class="zhu">{{item2}}</span><br>
-                                                            <span class="chi">{{ite['OddsList'][optionConfig[4].mix[index2]]}}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
+                <div class="padmainbtm">
+                    <div class="paijingtop topcenter" style="display:none">
+                        <div class="boxflex">
+                            <a class="topcenter" onclick="history.go(-1)"><em class="iconbg2 iconbg2_horn"></em><p class="boxflex gray3"></p></a>
+                        </div>
+                        <a class="flexcenter delbox"><em class="iconbg icondelmin"></em></a>
                     </div>
 
-                </div>
-            </div>
+                    <div v-for="(item,index) in oddsData" :key="index">
+                        <div class="topcenter matchtit" @click="dshow(index,item)">
+                            <p class="boxflex gray8b" v-html="item.title"></p>
+                            <em id="downupBtn" class="icon_arrowgraydown"></em>
+                        </div>
+                        <!-- matchtit over -->
+                        <div class="matchlist" v-show='!item.show'>
+                            <div class="border_b topcenter matchitem" v-for="(ite,ind) in item.list" :key="ind">
+                                <div class="matchitem_tit">
+                                    <p class="gray8b font10">{{ite.id}}</p>
+                                    <p class="saishi" v-bind:style="{'background':ite.color}"><span class="font10">{{ite.liansai}}</span></p>
+                                    <p class="font10">{{ite.timetxt}}</p>
+                                    <!-- <div class="fontblue font10">分析</div> -->
+                                </div>
+                                <div class="boxflex matchitem_cont">
+                                    <div class="topcenter team">
+                                    <p class="boxflex textr">
+                                        <cite class="team_host">
+                                            [<span>{{ite.zhu.pm}}</span>]
+                                            <span style="display: none;"></span>
+                                        </cite>
+                                        <span>{{ite.zhu.name}}</span>
+                                    </p>
+                                    <p class="teambf"><span>VS</span></p>
+                                    <p class="boxflex textl">
+                                        <span>{{ite.ke.name}}</span>
+                                        <cite class="team_guest">
+                                            <span style="display: none;"></span>
+                                            [<span>>{{ite.ke.pm}}</span>]
+                                        </cite>
+                                    </p>
+                                    </div>
+                                    <div class="dc_bifenbtn">
+                                    <span class="gray8b">点击展开投注</span>
+                                    <p class="dc_banqbtn_sedbox" style="display: none;">
 
+                                    </p>
+                                    <em class="icon_reddot">0</em>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- matchlist over -->
+                    </div>
+
+                    <!-- 无赛程 -->
+                    <div class="nulllotteryno" style="display:none;">
+                    <p class="nulllotterynoimg"><img src="~@/assets2/images/nulllotteryno-83be1b1b40.png" alt=""></p>
+                    <p class="font14 gray5">暂无比赛</p>
+                    </div>
+                </div>
+                </section>
+            </div>
         </div>
 
+        <div class='bgHeader' v-show="isbetChange" @click="betChange"></div>
         <div class='bg' v-show="isbetNum"></div>
 
-        <div class="bet-bar">
-            
-            <div class="top"  v-if="betlistArr.length<1">
-                至少选择一场比赛(竞猜全场90分钟的比赛结果)<br>
-                <span>竞猜数据仅供参考，请以实票数据为准</span>
+        <section class="bottombet" style="">
+            <!-- 没有选择比赛 默认  -->
+            <div class="bottombetno textc" v-if="betlistArr.length<1">
+                <p>至少选择一场比赛（竞猜全场90分钟的比赛结果）</p>
+                <p class="font10 gray9"><span>竞猜数据仅供参考，请以实票数据为准</span>
+                </p>
             </div>
+            <!-- 有选择比赛 -->
+            <div v-else>
+                <div class="betmoney border_b topcenter">
+                    <p class="boxflex textc">
+                    <span class="mr10">金额 <cite class="fontred">{{bettotalmoney}}</cite> 元</span>
+                    <span class="mr20">最高奖&nbsp;<cite class="fontred jiangjin">{{totalBonus}}</cite>&nbsp;元</span>
+                    </p>
+                    <a class="fontblue" style="display: none;">奖金优化</a>
+                </div>
+                <div class="topcenter bottombetbtn">
+                    <p class="guoguanbtn "><span>选择过关</span>
+                    <cite class="icon_reddot">0</cite>
+                    </p>
+                    <p class="beishu"><input type="text" readonly="readonly" disabled="disabled"></p>
+                    <span class="mr05rem">倍</span>
+                    <!-- <a class="buybtn_gray">保存</a> -->
+                    <!-- <p class="boxflex" style=""><a href="javascript:void(0);" class="hemaibtn">合买</a></p> -->
+                    <p class="boxflex"><a class="buybtn_blue" @click="order">投注</a></p>
+                    <!-- <p class="boxflex"><a @click="checkSubmit" class="buybtn_blue">确认选号</a></p> -->
 
-            <div class="bet-js"  v-else >
+                </div>
+            </div>
+        </section>
 
-                 <div class="guoguang" v-show="isbetNum">
-                    <div class="til">过关方式 <i @click="tabnub" class="iconfont">&#xe60b;</i></div>
-                    <ul>
-                        <li v-for="(item,key) in  betlistArr.length" :key="key"
-                        v-if="item>0"
-                            @click="changebetfield(item,1)"
-                        >
-                        <span v-bind:class="{'on':betfield==item&&cuang==1}">{{item}}串1</span></li>
-                    </ul>
-
-                    <p v-if="field>=3">更多过关</p>
-                    <ul>
-                        <li v-for="(item,index) in gglist" 
-                            :key="index" 
-                            v-if="item[0] <= field"  
-                            @click="changebetfield(item[0],item[1])"
-                            ><span v-bind:class="{'on':cuang==item[1]&&betfield==item[0]}">{{item[0]}}串{{item[1]}}</span></li>
-                    </ul>
+        <!-- 半全场选项 -->
+        <div class="layerbox" style="display: none;">
+            <div class="jincaibtmcon layer_btnlist">
+                <div class="layer_btnlist_tit">
+                <span class="font10">[<span></span>]</span>
+                <span class="font10" style="display: none;"></span>
+                <span></span>
+                &nbsp;&nbsp;VS&nbsp;&nbsp;
+                <span></span>
+                <span class="font10" style="display: none;"></span>
+                <span class="font10">[<span></span>]</span>
                 </div>
 
-                <div class="title">金额 <span class="red">{{bettotalmoney}}</span> 元   最高奖 <span class="red">{{totalBonus}}</span>元</div>
-                <div class="com">
-                    <span class="btn" @click="tabnub">{{betfield}}串{{cuang}}<i>{{betlistArr.length}}</i></span>
-                    <span class="btn input-btn"><input type="text"  v-model="cancel"></span>倍
-                    <span class="gobtn" @click="order">下注</span>
+                <div class="border_b m_half flexbox m_betbox">
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                <p class="boxflex betbtn"><span></span><span></span></p>
+                </div>
+
+                <div class="topcenter layer_btnlist_btn">
+                <p class="boxflex mr15"><a class="btn btn_gray">取消</a></p>
+                <p class="boxflex"><a class="btn btn_blue">确定</a></p>
                 </div>
             </div>
         </div>
-        <loginLayer  ref="loginLayer"></loginLayer>
-	</div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -107,6 +197,7 @@ export default {
 	name: 'index',
 	data(){ //页面数据
 		return {
+            isbetChange: false, // 头部切换
             isbetNum:false,//是否切换 
             betNum:0,
             passModeBdMap:PASS_MODE_TYPE_BD,
@@ -159,7 +250,7 @@ export default {
                         ltype: 'SportteryScore'
                     },
                     '3': {
-                        cn: ['0球', '1球', '2球', '3球', '4球', '5球', '6球', '7球以上'],
+                        cn: ['0球', '1球', '2球', '3球', '4球', '5球', '6球', '7+'],
                         wager: ['0', '1', '2', '3', '4', '5', '6', '7+'],
                         mix: ['00', '01', '02', '03', '04', '05', '06', '07'],
                         ltype: 'SportteryTotalGoals'
@@ -172,6 +263,24 @@ export default {
                     }
             },
             lotterNo:0,
+            danchangTypeUrl: [
+                {
+                    href:'/home/danchang',
+					name:'单场胜平负',
+                },
+                {
+                    href:'/home/danchangBf',
+					name:'单场比分',
+                },
+                {
+                    href:'/home/danchangBq',
+					name:'单场半全场',
+                },
+                {
+                    href:'/home/danchangZjq',
+					name:'单场总进球',
+                }
+            ],
         }
     },
     computed:{
@@ -220,7 +329,9 @@ export default {
             this.oddsData.push([]);
             this.oddsData.pop(); 
         },
-
+        betChange(){
+            this.isbetChange=!this.isbetChange;
+        },
         showAll(item,ite,id){ 
             ite.date=item.date;
             this.allid=id;
@@ -557,108 +668,18 @@ export default {
 
 
 <style lang="less" scoped="scoped">
-.wrap{
-    padding-bottom:1rem;
+.red{
+    color: #F76665 !important;
 }
-.listbox{
-    .item{
-        background: #f4f4f4;
-        .daybar{
-            background: #fff;
-            border-bottom:1px solid #ddd;
-            font-size:.12rem;
-            padding:.05rem;
-            color:#666;
-            p{ display:inline-block;}
-            .more{ 
-                float: right;
-            }
-        }
-        .listItembox{
-            .bs-item{
-                position: relative;
-                padding:.1rem .1rem .1rem .8rem;
-                text-align:center;
-                font-size:.1rem;
-                color:#999;
-                border-bottom:1px solid #d1d1d1;
-                .bs-name{
-                    position: absolute;
-                    top:.3rem;
-                    left:.1rem;
-                    width: .6rem;
-                    line-height: .16rem;
-                    .liansai{
-                        background: #6F00DD;
-                        color:#fff;
-                    }
-
-                }
-                .bs-com{
-                    .duizheng{
-                        font-size:.13rem;
-                        color:#333;
-                        font-style: normal;
-                        overflow: hidden;
-                        span{
-                            padding: .05rem .1rem;
-                            display: inline-block;
-                        }
-                        em,cite{
-                            vertical-align: middle;
-                        }
-                    }
-                    .listbet{
-                       
-                        table{
-                            width:100%;
-                            td{
-                                border:1px solid #d1d1d1;
-                                background: #fff;
-                                line-height: .38rem; 
-                            }
-                            .bet-btn{
-                                span{
-                                    font-size:.16rem;
-                                    color:#333;
-                                    font-weight: bold;
-                                }
-                                .odds{
-                                    font-size:.12rem;
-                                    padding-left:.05rem;
-                                    font-weight: normal;
-                                }
-                            }
-                            .betbtn-rang{
-                                width: .2rem;
-                                background: #c9c9c9;
-                                color:#fff;
-                            }
-                            .btn-red{
-                                background: #F42023;
-                            }
-                            .btn-red1{
-                                background: #F76665;
-                            }
-                            .btn-green{
-                                background: #68D268;
-                            }
-                            .more-btn{ 
-                                line-height: .16rem;
-                                color:#666;
-                            }
-                        }
-                    }
-                }
-
-
-            }
-        }
-        
-    }
-    
+.bgHeader{
+    position: fixed;
+    bottom:0;
+    left:0;
+    top:0;
+    right:0;
+    background: rgba(0,0,0,.5);
+    z-index: 60;
 }
-
 .bg{
     position: fixed;
     bottom:0;
@@ -668,225 +689,9 @@ export default {
     background: rgba(0,0,0,.5);
     z-index: 99;
 }
-
-.bet-bar{
-    background: #fff;
-    border-top:1px solid #dfdfdf;
-    position: fixed;
-    bottom:0;
-    left:0;
-    width: 100%;
-    min-height: .5rem;
-    line-height: .5rem;
-    z-index: 99;
-    .guoguang{
-        .til{
-            background: #ececec;
-            text-align: center;
-            border-top:1px solid #c1c1c1;
-            border-bottom:1px solid #c1c1c1;
-            i{ 
-             margin-right:.1rem;
-             color:#999;   
-             float: right;
-             font-size:.2rem;}
-        }
-        p{
-            text-align: center;
-            color:#999;
-            font-size:.12rem;
-            line-height: .12rem;
-        }
-        ul{
-            overflow: hidden;
-            padding:.05rem;
-            li{
-                width: 25%;
-                float: left;
-                span{
-                    text-align: center;
-                    margin:.05rem .1rem;
-                    border-radius: .05rem;
-                    line-height: .36rem;
-                    display: block;
-                    border:1px solid #dcdcdc;
-                }
-            }
-            .on{
-                background: #ef1823;
-                border:1px solid #ef1823;
-                color:#fff;
-            }
-        }
-    }
-    .top{
-        font-size:.12rem;
-        text-align: center;
-        line-height: .18rem;
-        padding-top:.1rem;
-        span{ 
-            font-size:.1rem;
-            color:#999;
-        }
-    }
-    .bet-js{
-       .title{
-           text-align: center;
-           border-bottom:1px solid #efefef;
-           .red{ 
-               color:red;
-           }
-       } 
-       .com{
-           .btn{ 
-               border:1px solid #d4d4d4;
-               display: inline-block;
-               line-height: .3rem;
-               margin: 0 .1rem;
-               font-size:.13rem;
-               padding:0 .15rem;
-               color:crimson;
-               position: relative;
-               i{
-                   position: absolute;
-                   top:-.1rem;
-                    right:-.1rem;
-                    color:#fff;
-                    display: block;
-                    width: .2rem;
-                    height: .2rem;
-                    line-height: .2rem;
-                    text-align: center;
-                    border-radius: 50%;
-                    background:#ef1823;
-
-               }
-            }
-            .input-btn{
-                width: .5rem;
-                input{
-                    width: 100%;
-                }   
-            }
-           .gobtn{
-               float: right;
-               background:#0875db;
-               color:#fff; 
-               text-align: center;
-               padding:0 .1rem;
-               min-width:.8rem;
-           }
-       }
-    }
-}
-
 .beton{
     background: #ef1823!important;
     color:#fff !important;
     span{color:#fff !important;}
 }
-
-.line{
-    background: #fff;
-    margin-bottom:.1rem;
-    border-bottom:1px solid #d1d1d1;
-    .title{
-        padding:.1rem;
-        color:#666;
-        font-size:.12rem;
-        border-bottom:1px solid #d1d1d1;
-    }
-    
-    .comleft{
-        padding-left:.3rem !important; 
-    }
-    .com{
-        padding: .1rem;
-        position: relative;
-
-        .left{
-            position: absolute;
-            left:.1rem;
-            top:.2rem;
-            width: .22rem;
-            bottom:.1rem;
-            color:#fff;
-            text-align: center;
-            .zhuone{
-                width: 100%;
-                height: 1.44rem;
-                padding-top:.3rem;
-            }
-            .pingone{height: .48rem;}
-        }
-        table{
-            width: 100%;
-            td{
-                text-align: center;
-                border:.01rem solid #ef1823;
-                line-height: .18rem;
-                padding:.05rem 0;
-                .zhu{
-                    min-width:.5rem;
-                    line-height:.22rem;
-                    display:inline-block;
-                }
-                .chi{
-                    font-size:.1rem;
-                    color:#999;
-                }
-            }
-            .one{
-                border: none;
-                width:.2rem;
-                background: #cdcdcd;
-                div{
-
-                    color:#fff;
-                    width: 100%;
-                    height: 100%;
-                    display: block;
-                }
-                
-            }
-        }
-    }
-}
-
-
-
-.table{
-     overflow: hidden;
-     border-top: 1px solid #ef1823;
-     border-left: 1px solid #ef1823;
-     padding: 0 !important;
-     margin:.1rem;
-    .betBtn{
-        text-align: center;
-        border-bottom: 1px solid #ef1823;
-        border-right: 1px solid #ef1823;
-        line-height: .18rem;
-        height: .48rem;
-        padding: .05rem 0;
-        float: left;
-        width: 25%;
-        display:block;
-        .zhu{
-            min-width:.5rem;
-            display:inline-block;
-        }
-        .chi{
-            font-size:.1rem;
-            color:#999;
-        }
-    }
-    .w3{
-        width: 33.33% !important;;
-    }
-    .w5{
-        width: 20% !important;;
-    }
-}
-
-
 </style>

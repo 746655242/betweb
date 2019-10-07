@@ -1,247 +1,317 @@
 <template>
-	<div class="login-box">
-		<header class="title">
-			<span>登陆</span>
-			<router-link to="home" class="close"><span @click="close" class="iconfont icon-guanbi">&#xe613;</span></router-link>
+<div>
+<link href="./static/css/user.css" rel="stylesheet">
+	<div class="bgfff h100">
+	<header class="head">
+		<div class="back"><a class="backlink" @click="close"></a></div>
+		<div class="headertit">
+			<h1>登录</h1>
+		</div>
+		<div class="headBtnbox"></div>
 		</header>
-		<div class="content">
-			<div class="list">
-				<span class="iconfont icon-shouji">&#xe60e;</span>
-				<input type="text"  placeholder="请在这里输入手机号" v-model="formData.username" />
+		<section class="pt48 loginbox">
+
+		<div class="loginmenu topcenter">
+			<p class="boxflex" v-bind:class="{'sed':isSmsLogin}" @click="showSmsLogin">手机快捷登录</p>
+			<p class="boxflex" v-bind:class="{'sed':!isSmsLogin}" @click="showPwdLogin">密码登录</p>
+		</div>
+		<!-- 密码登录 -->
+		<div v-show="!isSmsLogin">
+			<div class="loginform">
+			<div class="loginformlist border_b topcenter">
+				<div class="label">手机号</div>
+				<div class="boxflex topcenter">
+				<input type="tel" class="input_nobd" v-model="formData.mobile" placeholder="请输入手机号">
+				</div>
+				<a class="icon_del" style="display: none;"></a>
+			</div>
+			<div class="loginformlist border_b topcenter">
+				<div class="label">密码</div>
+				<div class="boxflex topcenter">
+				<input class="input_nobd" maxlength="12" type="password" v-model="formData.password" ref="password"  placeholder="请输入6-12位数字或字母" @keyup.enter="query">
+				</div>
+				<div class="iconbox50 topcenter flexend">
+					<a class="icon_del" style="display: none;"></a>
+					<a id="toggle" class="icon_eye" @click="see" v-if="is_look"></a>
+					<a id="toggle" class="icon_eye icon_eye_sed" @click="see" v-if="is_see"></a>
+				</div> <!-- 点击后替换或者增加样式名 icon_eye_sed  -->
 			</div>
 
-			<div class="list">
-				<span class="iconfont icon-mima">&#xe615;</span>
-				<input type="password" placeholder="请输入密码" v-model="formData.password" ref="password" @keyup.enter="query" />
-				<span class="iconfont icon-yanjingguanbi" @click="see" v-if="is_look">&#xe610;</span>
-				<span class="iconfont icon-yanjingguanbi" @click="see" v-if="is_see">&#xe612;</span>
+			<div class="btn_blockbox">
+				<input class="btn btn_red btn_block" v-bind:class="{'btn_disabled':disabled}" type="button" value="登 录" @click="query">
+				<loading :show="show_loading" :text="text_loading"></loading>
+			</div>
+			<div class="topcenter font12 line34 mb20">
+				<p class="boxflex textl">
+					<router-link to="register">立即注册</router-link>
+				</p>
+				<p class="boxflex textr">
+					<router-link to="forgetpassword">忘记密码？</router-link>
+				</p>
 			</div>
 
-			<button class="login-button" @click="query" :disabled="disabled">登录</button>
-			<loading :show="show_loading" :text="text_loading"></loading>
-			<div class="other-login">
-				<router-link to="register">立即注册</router-link>
-				<router-link to="forgetpassword">忘记密码？</router-link>
+			<!-- <div class="mt10 textc font12">
+				<p class="gray8d">登录即代表您已满18岁并同意<a href="javascript:;">《服务协议》</a></p>
+				<p class="gray8b">及<a href="javascript:;">《隐私政策》</a></p>
+			</div> -->
+
 			</div>
 		</div>
+		<!-- 手机快捷登录 -->
+		<div v-show="isSmsLogin">
+			<div class="loginform">
+
+			<div class="loginformlist border_b topcenter">
+				<div class="label">手机号</div>
+				<div class="boxflex topcenter">
+				<input type="tel" class="input_nobd" v-model="formData.mobile" placeholder="请输入手机号">
+				</div>
+				<a class="icon_del mr10" style="display: none;"></a>
+				<p class="font12" v-show="isResend" @click="sendSms">发送验证码</p>
+				<p class="font12" v-show="!isResend" ref="smsResendBtn">(60s)后重新发送</p>
+			</div>
+
+
+			<div class="loginformlist border_b topcenter">
+				<div class="label">验证码</div>
+				<div class="boxflex topcenter">
+				<input type="tel" class="input_nobd" maxlength="4" v-model="formData.captcha" placeholder="请输入4位验证码">
+				</div>
+				<a class="icon_del mr10" style="display: none;"></a>
+				<!-- <a class="font12" style="display: none;">未收到？接听语音验证码</a> -->
+			</div>
+
+			<div class="btn_blockbox">
+				<input class="btn btn_red btn_block" v-bind:class="{'btn_disabled':disabled}" type="button" value="登 录" @click="smsLogin">
+				<loading :show="show_loading" :text="text_loading"></loading>
+			</div>
+			<!-- <div class="topcenter font12 line34">
+			<p class="boxflex textl"><a href="/user/setting/password/?act=reg" :backurl="backurl">注册账户</a></p>
+			<p class="boxflex textr"><a href="/user/setting/password/?act=forget" :backurl="backurl">忘记密码</a></p>
+			</div> -->
+
+			<div class="mt10 textc font12">
+				<p class="gray8d">未注册的手机号将自动创建为口袋好店账户</p>
+				<p class="gray8d">登录即代表您已满18岁并同意<a href="javascript:;">《服务协议》</a></p>
+				<p class="gray8b">及<a href="javascript:;">《隐私政策》</a></p>
+			</div>
+			</div>
+
+		</div>
+
+		</section>
 	</div>
+</div>
 </template>
 
 <script>
-
-	import {mapGetters,mapMutations} from 'vuex'
-	import {Loading} from 'vux'
-	import qs from 'qs'
-	let telRE = /^1[3456789]\d{9}$/;
-	export default {
-		data() {
-			return {
-				formData: {
-					username: '',
-					password: ''
-				},
-				ip: "",
-				disabled:false,
-				show_loading:false,
-				text_loading:""	,
-				is_look: true,
-				is_see:false,
-			}
-		},
-		computed:{
-			validation: function () {
-				return {
-					username: telRE.test(this.formData.username),
-					password: !!this.formData.password.trim()
-				}
+import {mapGetters,mapMutations} from 'vuex'
+import {Loading} from 'vux'
+import qs from 'qs'
+let telRE = /^1[3456789]\d{9}$/;
+export default {
+	data() {
+		return {
+			isSmsLogin: true,
+			formData: {
+				mobile: '',
+				password: '',
+				captcha: ''
 			},
-			isValid: function () {
-				var validation = this.validation
-				return Object.keys(validation).every(function (key) {
-					return validation[key]
-				})
-			}
-		},
-		components: {
-			Loading
-		},
-		props:['storedata'],
-		beforeRouteEnter(to, from, next){
-			if(localStorage.user){
-				let token=JSON.parse(localStorage.user)
-				token&&token.info?next('/home'):next()
-			}else{
-				next()
-			}
-		},
-		methods: {
-			...mapMutations({
-				setuser:'setuser'
-			}),
-			query() {
-				let me=this
-				if(this.isValid) {
-					
-					let params = {
-						account: this.formData.username,
-						password: this.formData.password,
-					};
-					this.disabled = true;
-					this.show_loading = true;
-					this.text_loading = "请稍等";
-
-
-					this.axios.post('/api/user/login',qs.stringify(params)).then(res => {  
-						let data=res.data;
-
-						if(data.errorCode==1){
-							me.setuser({info:data.result.userinfo})
-							me.$emit('storedata')
-							me.$router.push('/home')
-						}else{
-							me.$vux.alert.show({content: data.message})
-							me.disabled = false;
-					 		me.show_loading = false;
-						}
-
-
-
-					}).catch(function(err){
-						console.log(err)
-					
-					}) 
-		
-
-		
-				}else{
-					this.$vux.alert.show({
-						content: '请输入正确手机号和密码'
-					})
-					me.disabled = false;
-					me.show_loading = false;
-				}
-			},
-			see() {
-				let type = this.$refs.password.type;
-				if(type === "password") {
-					this.$refs.password.type = "text";
-					this.is_look = false;
-					this.is_see = true
-				} else {
-					this.$refs.password.type = "password";
-					this.is_look = true;
-					this.is_see = false
-				}
-			},
-			close() {
-				this.$router.push({
-					path: 'home',
-					query: {
-						status: '游客状态'
-					}
-				});
-			}
-
+			ip: "",
+			disabled:false,
+			show_loading:false,
+			text_loading:""	,
+			is_look: true,
+			is_see:false,
+			isResend: true,
+			countdown: 60,
 		}
+	},
+	computed:{
+		validation: function () {
+			return {
+				mobile: telRE.test(this.formData.mobile),
+				password: !!this.formData.password.trim()
+			}
+		},
+		isValid: function () {
+			var validation = this.validation
+			return Object.keys(validation).every(function (key) {
+				return validation[key]
+			})
+		},
+		isValidPhone: function () {
+			return telRE.test(this.formData.mobile);
+		},
+		isValidSmsLogin: function () {
+			return telRE.test(this.formData.mobile) && !!this.formData.captcha.trim();
+		},
+		
+	},
+	components: {
+		Loading
+	},
+	props:['storedata'],
+	beforeRouteEnter(to, from, next){
+		if(localStorage.user){
+			let token=JSON.parse(localStorage.user)
+			token&&token.info?next('/home'):next()
+		}else{
+			next()
+		}
+	},
+	methods: {
+		...mapMutations({
+			setuser:'setuser'
+		}),
+		showSmsLogin() {
+			this.isSmsLogin = true;
+		},
+		showPwdLogin() {
+			this.isSmsLogin = false;
+		},
+		setTime() {
+			let me=this;
+			if (this.countdown == 0) {
+				this.isResend = true;
+				this.countdown = 60;//60秒过后button上的文字初始化,计时器初始化;
+				this.$refs.smsResendBtn.innerText = "("+this.countdown+"s)后重新发送";
+				return;
+			} else {
+				this.isResend = false;
+				this.$refs.smsResendBtn.innerText = "("+this.countdown+"s)后重新发送";
+				this.countdown--;
+			}
+			setTimeout(function() { me.setTime() },1000); //每1000毫秒执行一次
+		},
+		sendSms() {
+			let me=this;
+			if(this.isValidPhone) {
+				let params = {
+					mobile: this.formData.mobile,
+					event: "mobilelogin",
+				};
+				this.disabled = true;
+				this.show_loading = true;
+				this.text_loading = "请稍等";
+
+				this.axios.post('/api/sms/send',qs.stringify(params)).then(res => {  
+					let data=res.data;
+
+					if(data.errorCode==1){
+						me.$vux.alert.show({content: data.message})
+						me.disabled = false;
+						me.show_loading = false;
+						this.isResend = false;
+						this.setTime();
+					}else{
+						me.$vux.alert.show({content: data.message})
+						me.disabled = false;
+						me.show_loading = false;
+					}
+				}).catch(function(err){
+					console.log(err)
+				})
+			}else{
+				this.$vux.alert.show({
+					content: '请输入正确手机号'
+				})
+				me.disabled = false;
+				me.show_loading = false;
+			}
+		},
+		smsLogin() {
+			let me=this
+			if(this.isValidSmsLogin) {
+				let params = {
+					mobile: this.formData.mobile,
+					captcha: this.formData.captcha,
+				};
+				this.disabled = true;
+				this.show_loading = true;
+				this.text_loading = "请稍等";
+
+				this.axios.post('/api/user/mobilelogin',qs.stringify(params)).then(res => {  
+					let data=res.data;
+					if(data.errorCode==1){
+						me.setuser({info:data.result.userinfo});
+						me.$emit('storedata');
+						me.$router.push('/home');
+					}else{
+						me.$vux.alert.show({content: data.message});
+						me.disabled = false;
+						me.show_loading = false;
+					}
+				}).catch(function(err){
+					console.log(err)
+				}) 
+			}else{
+				this.$vux.alert.show({
+					content: '请输入正确手机号和验证码'
+				})
+				me.disabled = false;
+				me.show_loading = false;
+			}
+		},
+		query() {
+			let me=this
+			if(this.isValid) {
+				let params = {
+					account: this.formData.mobile,
+					password: this.formData.password,
+				};
+				this.disabled = true;
+				this.show_loading = true;
+				this.text_loading = "请稍等";
+
+				this.axios.post('/api/user/login',qs.stringify(params)).then(res => {  
+					let data=res.data;
+					if(data.errorCode==1){
+						me.setuser({info:data.result.userinfo});
+						me.$emit('storedata');
+						me.$router.push('/home');
+					}else{
+						me.$vux.alert.show({content: data.message});
+						me.disabled = false;
+						me.show_loading = false;
+					}
+				}).catch(function(err){
+					console.log(err)
+				});
+			}else{
+				this.$vux.alert.show({
+					content: '请输入正确手机号和密码'
+				})
+				me.disabled = false;
+				me.show_loading = false;
+			}
+		},
+		see() {
+			let type = this.$refs.password.type;
+			if(type === "password") {
+				this.$refs.password.type = "text";
+				this.is_look = false;
+				this.is_see = true
+			} else {
+				this.$refs.password.type = "password";
+				this.is_look = true;
+				this.is_see = false
+			}
+		},
+		close() {
+			this.$router.push({
+				path: 'home',
+				query: {
+					status: '游客状态'
+				}
+			});
+		}
+
 	}
+}
 </script>
 
 <style lang="less" scoped="scoped">
-	html,
-	body {
-		width: 100%;
-		height: 100%;
-		background: white;
-	}
-	
-	.login-box {
-		width: 100%;
-		height: 100%;
-		background: white;
-	}
-	
-	.login-box {
-		.close span {
-			display: inline-block;
-			height: .44rem;
-			position: absolute;
-			right: 0rem;
-			padding:0 .15rem;
-			overflow: hidden;
-		}
-		.icon-guanbi {
-			color: white;
-			font-size: .3rem;
-		}
-		.content {
-			padding: 0.3rem 0.225rem 0;
-			position: absolute;
-			top: .44rem;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: #fff;
-			
-		}
-		.list {
-			display: flex;
-			align-items: center;
-			border-bottom: 1px solid #cccccc;
-			margin-top: 0.15rem;
-			position: relative;
-			input {
-				width: 100%;
-				padding:.1rem .3rem;
-				font-size: .16rem;
-				line-height:.3rem;
-			}
-			.iconfont{
-				position: absolute;
-			}
 
-		}
-		.icon-yanjingguanbi {
-			font-size: .24rem;
-			color: #CCC8C7;
-			float: right;
-			position: absolute;
-			right: .1rem;
-		}
-		.icon-yanjingdakai {
-			position: absolute;
-			right: .1rem;
-		}
-		.login-button {
-			width: 100%;
-			margin: 0 auto;
-			height: 0.4rem;
-			background: @red;
-			color: white;
-			line-height: 0.4rem;
-			text-align: center;
-			margin-top: 0.4rem;
-			border-radius: 10px;
-		}
-		.other-login {
-			padding: 0.2rem 0;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-		}
-		.other-login a {
-			color: rgb(34, 34, 34);
-			font-size: 0.14rem;
-		}
-		.icon-shouji {
-			font-size: .24rem;
-			color: #ccc8c7;
-			vertical-align: middle;
-			left:0
-		}
-		.icon-mima {
-			font-size: .24rem;
-			color: #ccc8c7;
-			left:0;
-		}
-	}
 </style>

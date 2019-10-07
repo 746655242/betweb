@@ -84,7 +84,7 @@ let routes=[
         /* 单场比分 */
         {
             path: '/home/danchangBf',
-            name: 'danchang',
+            name: 'danchangBf',
             component: function(resolve) {
                 require(['@/pages/index/danchangBf'], resolve)
             }
@@ -92,7 +92,7 @@ let routes=[
         /* 单场半全场 */
         {
             path: '/home/danchangBq',
-            name: 'danchang',
+            name: 'danchangBq',
             component: function(resolve) {
                 require(['@/pages/index/danchangBq'], resolve)
             }
@@ -100,7 +100,7 @@ let routes=[
         /* 单场总进球 */
         {
             path: '/home/danchangZjq',
-            name: 'danchang',
+            name: 'danchangZjq',
             component: function(resolve) {
                 require(['@/pages/index/danchangZjq'], resolve)
             }

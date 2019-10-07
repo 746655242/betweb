@@ -1,83 +1,115 @@
 <template>
-	<div class="wrap" id="wrap">	
-        <header class="title">      
-			<span onclick="history.go(-1)" class="iconfont icon-fanhui">&#xe614;</span>
-			<span>胜负彩任选九场</span>
+<div>
+<link href="./static/css/zucai.css" rel="stylesheet">
+	<div id="body" class="zucai_ren9">
+
+        <header class="head headfixed">
+            <div class="back w40"><a class="backlink" onclick="history.go(-1)"></a></div>
+            <div class="headertit topcenter column">
+                <a class="boxflex flexcenter tabbtn"><span class="fontwhite font16">足彩任选九 -&nbsp;</span><p class="fontwhite font16">{{oddsData[issueIndex].title}}期</p><em class="icon_arrowgraydown"></em></a>
+                <p class="boxflex font12">截止时间： <span>9-25 22:00</span></p>
+            </div>
+            <div class="headBtnbox w40"><a class="fr"><em class="headiconwhite icon_list"></em></a></div>
+            <!-- 期号切换 -->
+            <div class="layerbox layerbox_header" style="display:none;">
+            <ul class="qibtnlist clearfix">
+                <li class="boxflex"><p class="qibtn qibtn_sed">19129</p></li>
+                <li class="boxflex"><p class="qibtn">19130</p></li>
+                <li class="boxflex"><p class="qibtn">19131</p></li>
+                <li class="boxflex"><p class="qibtn">19132</p></li>
+                <li class="boxflex"><p class="qibtn">19133</p></li>
+            </ul>
+            </div>
+            <!-- 链接层 -->
+            <div class="layerbox layerbox0" style="display:none;">
+            <div class="headerbtnlist">
+                <em class="headerbtnlist_icon"></em>
+                <a href="https://koudai.17itou.com/zucai/prize/" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">开奖结果</a>
+                <div class="headerbtnlist2">
+                <a href="https://koudai.17itou.com/zucai/prize/?id=19128" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">19128&nbsp;&nbsp;&nbsp;&nbsp;已结束0场</a><a href="https://koudai.17itou.com/zucai/prize/?id=19127" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">19127&nbsp;&nbsp;&nbsp;&nbsp;已结束14场</a><a href="https://koudai.17itou.com/zucai/prize/?id=19126" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">19126&nbsp;&nbsp;&nbsp;&nbsp;已结束14场</a>
+                </div>
+                <a href="https://koudai.17itou.com/user/betlist/?type=ZuCai" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">选号记录</a>
+                <a href="https://koudai.17itou.com/livescore/zucai/" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">即时比分</a>
+                <a href="https://koudai.17itou.com/help/gameinfo/zucai/" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">玩法说明</a>
+            </div>
+            </div>
         </header>
 
-        <div class="listbox">
-    
-            <div class="item" v-for="(item,index) in oddsData" :key="index" >
-                <div class="daybar" @click="dshow(index,item)">
-                        <p >第{{ item.title}}期</p>
-                        <i class="iconfont more ">&#xe600;</i>
+    <div class="app">
+    <div class="scrollbox">
+        <section class="zucaimain" drapload-key="ascroll" drapload-initialize="false" drapload-down="" drapload-up="doRefresh()">
+            <!--<div class="advertisingbox" @click.stop="look_adv_details()" v-show="advertising_data.show" style="display: none;"><img src="/static/images/luckylotto_zc-f45a147e03.jpg" alt="好彩足球广告"><em class="advertisingbg">广告</em><p @click.stop="close_adv()" class="icondelminbox">×</p></div>-->
+            <div class="dropload-up"><div class="dropload-refresh">↓下拉刷新</div></div><div>
+                <div class="paijingtop topcenter" style="display:none">
+                <div class="boxflex"><a class="topcenter" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">
+                <em class="iconbg2 iconbg2_horn"></em><p class="boxflex gray3"></p></a></div>
+                <a class="flexcenter delbox"><em class="iconbg icondelmin"></em></a>
                 </div>
 
-                <div class="listItembox" v-show='!item.show'>
-
-                    <div class="bs-item" v-for="(ite,ind) in item.list" :key="ind">
-                            <div class="bs-name">
-                                <div class="xuhao">{{ite.id}}</div>
-                                <div class="liansai" v-bind:style="{'background':ite.color}">{{ite.liansai}}</div>
-                                <div class="time">{{ite.date}} {{ite.timetxt}}</div>
-                            </div>
-                            <div class="bs-com">
-                                <div class="duizheng">
-                                    <span class="fl"><cite>{{ite.zhu.pm}}</cite><em>{{ite.zhu.name}}</em></span>
-                                    <span class="fl" v-bind:class="{red:ite.bf!='VS'}">{{ite.bf}}</span>
-                                    <span class="fl"><em>{{ite.ke.name}}</em><cite>{{ite.ke.pm}}</cite></span>
-                                </div>
-                                <div class="listbet">
-                                    <table>
-                                        <tr>
-                                            <td class="bet-btn" 
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['3']}" 
-                                                @click="addbet(ite,3)"
-                                            ><span>胜</span><span class="odds">{{ite.OddsList['3']}}</span></td>
-                                            <td class="bet-btn"
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['1']}"
-                                                @click="addbet(ite,1)"
-                                                 ><span>平</span><span class="odds">{{ite.OddsList['1']}}</span></td>
-                                            <td class="bet-btn" 
-                                                v-bind:class="{'beton':betlist[ind]&&betlist[ind]['0']}"  
-                                                 @click="addbet(ite,0)"
-                                                ><span>负</span><span class="odds">{{ite.OddsList['0']}}</span></td>
-                                        </tr>
-                                        
-                                    </table>
-                                </div>
-                            </div>
+                <div class="guncun" style="display:none">滚存奖池：<span class="fontred">0</span>元&nbsp;&nbsp;<em class="guncunicon">?</em></div>
+                <div class="matchlist textc" style="">
+                    <div class="matchlist_item topcenter border_b" v-for="(ite,ind) in oddsData[issueIndex].list" :key="ind">
+                        <p class="xuhao graya6">{{ite.id}}</p>
+                        <div class="saishi font12">
+                            <p class="fontwhite" v-bind:style="{'background':ite.color}">{{ite.liansai}}</p>
+                            <p class="graya6">{{ite.date}} {{ite.timetxt}}</p>
+                            <!-- <a>分析</a> -->
+                        </div>
+                        <div class="boxflex topcenter betbtnbox">
+                            <div class="betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['3']}" @click="addbet(ite,3)"><p class="gray5">{{ite.zhu.name}}</p><span class="graya6 font12">{{ite.OddsList['3']}}</span></div>
+                            <div class="betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['1']}" @click="addbet(ite,1)"><p class="gray5">平局</p><span class="graya6 font12">{{ite.OddsList['1']}}</span></div>
+                            <div class="betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['0']}" @click="addbet(ite,0)"><p class="gray5">{{ite.ke.pm}}</p><span class="graya6 font12">{{ite.OddsList['0']}}</span></div>
+                        </div>
+                        <div class="danbox">胆</div>
                     </div>
 
+
+                </div>
+                <!-- matchlist over -->
+                <div class="nulllotteryno" style="display:none;">
+                    <p class="nulllotterynoimg"><img src="~@/assets2/images/nulllotteryno-83be1b1b40.png" alt=""></p>
+                    <p class="font14 gray5">官方足彩无可售期</p>
                 </div>
             </div>
+        </section>
+    </div>
+    </div>
+
+    <section class="bottombet">
+    <!-- 没有选择比赛 默认  -->
+    <div class="bottombet_text1 gray5" v-if="betlistArr.length<totalGame">
+        <p>已选<span class="fontred">{{betlistArr.length}}</span>场，还需选择<span class="fontred">{{totalGame-betlistArr.length}}</span>场</p>
+        <p class="font10"><a>竞猜数据仅供参考，请以实票数据为准</a></p>
+    </div>
+    <!-- 未开售  -->
+    <div class="bottombet_text2 gray5" style="display:none;">
+        <p>彩期未开售</p>
+        <p>开售时间：<span>9-22 20:00</span></p>
+    </div>
+
+    <!-- 购买 -->
+    <div style="display:none;">
+        <div class="betmoney border_b">
+        <p class="textc">金额 <span class="font14 fontred">{{bettotalmoney}}</span> 元</p>
+        </div>
+        <div class="topcenter bottombetbtn">
+        <div class="boxflex">
+            <div class="beishu topcenter"><input type="text" readonly="readonly" disabled="disabled"> 倍</div>
+        </div>
+        <div class="boxflex topcenter">
+            <!-- <a class="buybtn_gray">保存</a> -->
+            <!-- <p class="boxflex" style=""><a href="javascript:void(0);" class="hemaibtn">合买</a></p> -->
+            <p class="boxflex"><a class="buybtn_blue">投注</a></p>
+            <!-- <p class="boxflex"><a @click="checkSubmit" class="buybtn_blue">确认选号</a></p> -->
+        </div>
 
         </div>
 
-        <div class='bg' v-show="isbetNum"></div>
+    </div>
 
-        <div class="bet-bar">
-            
-            <div class="top"  v-if="betlistArr.length<totalGame">
-                已选择{{betlistArr.length}}场,还差{{totalGame-betlistArr.length}}场 <br>
-                <span>竞猜数据仅供参考，请以实票数据为准</span>
-            </div>
-
-            <div class="bet-js"  v-else >
-
-                 
-
-                <div class="title">金额 <span class="red">{{bettotalmoney}}</span> 元 </div>
-                <div class="com">
-                    <span class="btn" >{{betfield}}串{{cuang}}</span>
-                    <span class="btn input-btn"><input type="text"  v-model="cancel"></span>倍
-                    <span class="gobtn" @click="order">下注</span>
-                </div>
-            </div>
-        </div>
-        
-        <loginLayer  ref="loginLayer"></loginLayer>
-	</div>
+    </section>
+    </div>
+</div>
 </template>
 
 <script>
@@ -120,6 +152,7 @@ export default {
             betlist:{}, //选中json投注
 
             issue:null,
+            issueIndex:0,
             
             //选择配置
             optionConfig:{
@@ -144,7 +177,7 @@ export default {
                         ltype: 'SportteryScore'
                     },
                     '3': {
-                        cn: ['0球', '1球', '2球', '3球', '4球', '5球', '6球', '7球以上'],
+                        cn: ['0球', '1球', '2球', '3球', '4球', '5球', '6球', '7+'],
                         wager: ['0', '1', '2', '3', '4', '5', '6', '7+'],
                         mix: ['00', '01', '02', '03', '04', '05', '06', '07'],
                         ltype: 'SportteryTotalGoals'
@@ -395,108 +428,6 @@ export default {
 .red{
     color: #F76665 !important;
 }
-.wrap{
-    padding-bottom:1rem;
-}
-.listbox{
-    .item{
-        background: #f4f4f4;
-        .daybar{
-            background: #fff;
-            border-bottom:1px solid #ddd;
-            font-size:.12rem;
-            padding:.05rem;
-            color:#666;
-            p{ display:inline-block;}
-            .more{ 
-                float: right;
-            }
-        }
-        .listItembox{
-            .bs-item{
-                position: relative;
-                padding:.1rem .1rem .1rem .8rem;
-                text-align:center;
-                font-size:.1rem;
-                color:#999;
-                border-bottom:1px solid #d1d1d1;
-                .bs-name{
-                    position: absolute;
-                    top:.1rem;
-                    left:.1rem;
-                    width: .6rem;
-                    line-height: .16rem;
-                    .liansai{
-                        background: #6F00DD;
-                        color:#fff;
-                    }
-
-                }
-                .bs-com{
-                    .duizheng{
-                        font-size:.13rem;
-                        color:#333;
-                        font-style: normal;
-                        overflow: hidden;
-                        span{
-                            padding: .05rem .1rem;
-                            display: inline-block;
-                        }
-                        em,cite{
-                            vertical-align: middle;
-                        }
-                    }
-                    .listbet{
-                       
-                        table{
-                            width:100%;
-                            td{
-                                border:1px solid #d1d1d1;
-                                background: #fff;
-                                line-height: .38rem; 
-                            }
-                            .bet-btn{
-                                span{
-                                    font-size:.16rem;
-                                    color:#333;
-                                    font-weight: bold;
-                                }
-                                .odds{
-                                    font-size:.12rem;
-                                    padding-left:.05rem;
-                                    font-weight: normal;
-                                }
-                            }
-                            .betbtn-rang{
-                                width: .2rem;
-                                background: #c9c9c9;
-                                color:#fff;
-                            }
-                            .btn-red{
-                                background: #F42023;
-                            }
-                            .btn-red1{
-                                background: #F76665;
-                            }
-                            .btn-green{
-                                background: #68D268;
-                            }
-                            .more-btn{ 
-                                line-height: .16rem;
-                                color:#666;
-                            }
-                        }
-                    }
-                }
-
-
-            }
-        }
-        
-    }
-    
-}
-
 .bg{
     position: fixed;
     bottom:0;
@@ -506,265 +437,9 @@ export default {
     background: rgba(0,0,0,.5);
     z-index: 99;
 }
-
-.bet-bar{
-    background: #fff;
-    border-top:1px solid #dfdfdf;
-    position: fixed;
-    bottom:0;
-    left:0;
-    width: 100%;
-    min-height: .5rem;
-    line-height: .5rem;
-    z-index: 99;
-    .guoguang{
-        .til{
-            background: #ececec;
-            text-align: center;
-            border-top:1px solid #c1c1c1;
-            border-bottom:1px solid #c1c1c1;
-            i{ 
-             margin-right:.1rem;
-             color:#999;   
-             float: right;
-             font-size:.2rem;}
-        }
-        p{
-            text-align: center;
-            color:#999;
-            font-size:.12rem;
-            line-height: .12rem;
-        }
-        ul{
-            overflow: hidden;
-            padding:.05rem;
-            li{
-                width: 25%;
-                float: left;
-                span{
-                    text-align: center;
-                    margin:.05rem .1rem;
-                    border-radius: .05rem;
-                    line-height: .36rem;
-                    display: block;
-                    border:1px solid #dcdcdc;
-                }
-            }
-            .on{
-                background: #ef1823;
-                border:1px solid #ef1823;
-                color:#fff;
-            }
-        }
-    }
-    .top{
-        font-size:.12rem;
-        text-align: center;
-        line-height: .18rem;
-        padding-top:.1rem;
-        span{ 
-            font-size:.1rem;
-            color:#999;
-        }
-    }
-    .bet-js{
-       .title{
-           text-align: center;
-           border-bottom:1px solid #efefef;
-           .red{ 
-               color:red;
-           }
-       } 
-       .com{
-           .btn{ 
-               border:1px solid #d4d4d4;
-               display: inline-block;
-               line-height: .3rem;
-               margin: 0 .1rem;
-               font-size:.13rem;
-               padding:0 .15rem;
-               color:crimson;
-               position: relative;
-               i{
-                   position: absolute;
-                   top:-.1rem;
-                    right:-.1rem;
-                    color:#fff;
-                    display: block;
-                    width: .2rem;
-                    height: .2rem;
-                    line-height: .2rem;
-                    text-align: center;
-                    border-radius: 50%;
-                    background:#ef1823;
-
-               }
-            }
-            .input-btn{
-                width: .5rem;
-                input{
-                    width: 100%;
-                }   
-            }
-           .gobtn{
-               float: right;
-               background:#0875db;
-               color:#fff; 
-               text-align: center;
-               padding:0 .1rem;
-               min-width:.8rem;
-           }
-       }
-    }
-}
-
 .beton{
     background: #ef1823!important;
     color:#fff !important;
     span{color:#fff !important;}
 }
-
-.add-more-layer{
-    position: fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    right:0;
-    background: #f4f4f4;
-    z-index: 100;
-    overflow: auto;
-    padding:.45rem 0  .5rem 0;
-    .header{
-        i{ font-size:.1rem;}
-    }
-    .btnbox{
-        position: fixed;
-        background: #fff;
-        border-top:1px solid #dfdfdf;
-        position: fixed;
-        bottom:0;
-        left:0;
-        width: 100%;
-        text-align: center;
-         padding:.1rem 0 ;
-        .btn{
-            line-height: .3rem;
-            display:inline-block;
-            padding: .02rem .4rem;
-            margin: 0 .2rem;
-            border:1px solid #e6e6e6;
-            border-radius: .05rem;
-            background: #eeeeee;
-        }
-        .confirm{
-            background: #019bff;
-            color:#fff;
-            border:1px solid #019bff;
-        }
-    }
-    .line{
-        background: #fff;
-        margin-bottom:.1rem;
-        border-bottom:1px solid #d1d1d1;
-        .title{
-            padding:.1rem;
-            color:#666;
-            font-size:.12rem;
-            border-bottom:1px solid #d1d1d1;
-        }
-        
-        .comleft{
-            padding-left:.3rem !important; 
-        }
-        .com{
-            padding: .1rem;
-            position: relative;
-
-            .left{
-                position: absolute;
-                left:.1rem;
-                top:.2rem;
-                width: .22rem;
-                bottom:.1rem;
-                color:#fff;
-                text-align: center;
-                .zhuone{
-                    width: 100%;
-                    height: 1.44rem;
-                    padding-top:.3rem;
-                }
-                .pingone{height: .48rem;}
-            }
-            table{
-                width: 100%;
-                td{
-                    text-align: center;
-                    border:.01rem solid #ef1823;
-                    line-height: .18rem;
-                    padding:.05rem 0;
-                    .zhu{
-                        min-width:.5rem;
-                        line-height:.22rem;
-                        display:inline-block;
-                    }
-                    .chi{
-                        font-size:.1rem;
-                        color:#999;
-                    }
-                }
-                .one{
-                    border: none;
-                    width:.2rem;
-                    background: #cdcdcd;
-                    div{
-    
-                        color:#fff;
-                        width: 100%;
-                        height: 100%;
-                        display: block;
-                    }
-                    
-                }
-            }
-        }
-    }
-    
-
-}
-
-
-.table{
-     overflow: hidden;
-     border-top: 1px solid #ef1823;
-     border-left: 1px solid #ef1823;
-     padding: 0 !important;
-     margin:.1rem;
-    .betBtn{
-        text-align: center;
-        border-bottom: 1px solid #ef1823;
-        border-right: 1px solid #ef1823;
-        line-height: .18rem;
-        height: .48rem;
-        padding: .05rem 0;
-        float: left;
-        width: 25%;
-        display:block;
-        .zhu{
-            min-width:.5rem;
-            display:inline-block;
-        }
-        .chi{
-            font-size:.1rem;
-            color:#999;
-        }
-    }
-    .w3{
-        width: 33.33% !important;;
-    }
-    .w5{
-        width: 20% !important;;
-    }
-}
-
-
 </style>

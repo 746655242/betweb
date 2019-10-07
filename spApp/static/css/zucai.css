@@ -1,0 +1,52 @@
+
+/*zucaimain*/
+.zucaimain{padding:0 0 95px;}
+.guncun{background-color:#fff;padding:6px 0;text-align:center;color:#555;}
+.guncun .fontred,.guncunlayer .fontred{color:#cc0002;}
+.guncunicon{display:inline-block;width:14px;height:14px;-moz-border-radius:14px;-webkit-border-radius:14px;border-radius:14px;line-height:14px;background-color:#cc0002;text-align:center;font-size:12px;color:#fff;}
+.guncunlayer {padding:10px;font-size:12px;}
+.matchlist_item{padding:10px 20px;}
+.matchlist_item.border_b::after{background-color:#e4e4e4;}
+.matchlist_item:last-of-type.border_b::after{display:none;}
+.zucai14 .xuhao{width:18px;margin-right:10px;text-align:center;}
+.zucai14 .saishi{width:65px;margin-right:15px;}
+  .saishi .fontwhite{margin:0 auto;width:58px;height:18px;overflow:hidden;background-color:#652509;}
+.betbtn{padding:8px 0;width:33.33%;background-color:#fff;border:1px solid #e4e4e4;margin-left:-1px;-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;line-height:18px;}
+    .betbtnsed{background-color:#cc0002;}
+    .betbtngray{background-color:#bcbcbc;}
+    .betbtnsed .gray5,.betbtnsed .graya6,.betbtngray .gray5,.betbtngray .graya6{color:#fff;}
+    .betbtnun .gray5,.betbtnun .graya6{color:#a6a6a6;}
+/*bottom*/
+.bottombet_text1,.bottombet_text2{padding:8px 20px;line-height:20px;text-align:center;}
+.bottombet_text1{line-height:20px;text-align:center;}
+.bottombet_text1 a{color:#8b8b8b;border-bottom:1px solid #8b8b8b;}
+.bottombet_text2{line-height:20px;text-align:center;}
+  .beishu{margin-left:15px;font-size:12px;}
+  .beishu input{width:80px;margin-right:5px;height:32px;line-height:30px;border:1px solid #c9c9c9;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;text-align:center;color:#555;}
+  .beishu input[disabled]{background-color:#fff;}
+
+/*layer*/
+.layer_numkey_zc {bottom:55px;}
+
+/*ren9*/
+.zucai_ren9 .matchlist_item{padding:10px;}
+.zucai_ren9 .xuhao{width:18px;margin-right:15px;text-align:center;}
+.zucai_ren9 .saishi{margin-right:15px;}
+.danbox{margin-left:10px;width:22px;height:22px;line-height:22px;-webkit-border-radius:22px;-moz-border-radius:22px;border-radius:22px;color:#fff;font-size:14px;background-color:#cdcdcd;}
+  .danboxsed{background-color:#cc0002;}
+
+/*prize*/
+.zucai_prize{padding-top:48px;}
+.prize_qitit{padding:0 20px;line-height:36px;}
+.prize_qitit .gray3{font-size:14px;font-weight:600;}
+.prize_top{line-height:34px;}
+.prizehbg{background-color:#E4E4E4;line-height:30px;}
+.prizehbg > .boxflex ,.prize_top_list > .boxflex{width:25%;}
+.prize_item_tit .changci{width:45px;}
+.prize_item_tit .bif{width:42px;text-align:right;margin:0 40px 0 0;}
+.prize_item {padding:10px 20px 10px 15px;}
+.prize_item .changci{width:20px;margin:0 15px 0 0;}
+.prize_item .bif{width:30px;margin-left:15px;font-size:16px;}
+/*------*/
+/*------*/
+/*------*/

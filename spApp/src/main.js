@@ -14,7 +14,6 @@ import Vue2Touch from 'vue2x-touch'
 Vue.use(Vue2Touch)
 
 import base from '@/store/base'
-import './assets/base.less'
 
 //以阻止 vue 在启动时生成生产提示。
 Vue.config.productionTip = false

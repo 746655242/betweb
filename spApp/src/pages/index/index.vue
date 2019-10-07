@@ -1,45 +1,143 @@
 <template>
-	<div class="daohao-wrap" id="daohao-wrap">	
+<div>
+<link href="./static/css/user.css" rel="stylesheet">
+	<div class="border_tbbox mb15">
+        <div class="lotterytit topcenter bgfff">
+          <p class="boxflex gray3">{{GroupData[0].PageGroupShow}}</p>
+        </div>
 
-		<swiper dots-class="dots-icon" auto :show-desc-mask="false" :aspect-ratio=".413" dots-position="center">
-	      <swiper-item class="swiper-demo-img" v-for="(item, index) in bannerlist" :key="index">
-	        	<img style="width:100%;height:100%" :src="item.img" @touchstart="swiperStart($event)" @touchmove="swiperMove(index, $event)" @touchend="swiperEnd(index)">
-	      </swiper-item>
-    	</swiper>
-		<router-link to="/notice" class="broadcast">  <!--公告入口轮播-->
-			<span class="iconfont icon-sound">&#xe605;</span>
-			<swiper auto height="30px" direction="vertical" :interval=2000 class="text-scroll" :show-dots="false">
-				<swiper-item v-for="(item,index) in LstBulletinData" :key="index">
-					<p>{{item.IdxBulletinSubject}}</p>
-				</swiper-item>
-			</swiper>
-			<span class="iconfont icon-enter">&#xe606;</span>
-		</router-link>
-			
-		<div class="columns-wrap">  <!--彩票分类列表-->
-
-			<div class="columns-box" v-for="(item,index) in GroupData" :key="index">			
-				<div class="columns-title">
-					<span class="columns-dot"></span>
-					<span class="columns-name">{{item.PageGroupShow}}</span>
-				</div>		
+        <div class="lotterylist border_t topcenter">
+          <div class="lotteryitem border_r boxflex" style="">
+			<router-link :to="GroupData[0].LstIconData[0].href">
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_jczq"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[0].IconShowName}}</p>
+                <p class="gray8b"></p>
 				
-				<div class="columns-center">
-									
-					<router-link :to="ite.href" v-for="(ite,idx) in item.LstIconData" :key="idx">
-					<!--<router-link :to="{path:'lotteryList',query:{code:ite.LinkPageCode}}" v-for="(ite,idx) in item.LstIconData" :key="idx">-->	
-						
-						<span>
-							<x-img :src="ite.IconPicInfo" :default-src="require('@/assets/img/icon-cqssc.png')"  class="ximg-demo"  :offset="100" container=".swiper-item"></x-img>
-						</span>				
-						<p>{{ite.IconShowName}}</p>
-					</router-link>	
-				</div>		
-			</div>
+              </div>
+            </router-link>
+		  </div>
 
+          <div class="lotteryitem border_r boxflex" style="">
+			<router-link :to="GroupData[0].LstIconData[1].href">
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_jclq"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[1].IconShowName}}</p>
+                <p class="gray8b"></p>
+              </div>
+			</router-link>
+		  </div>
 
-		</div>
+          <div class="lotteryitem border_r boxflex" style="">
+			<router-link :to="GroupData[0].LstIconData[2].href">
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_14chang"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[2].IconShowName}}</p>
+                <p class="gray8b"></p>
+              </div>
+            </router-link>
+		  </div>
 
+          <div class="lotteryitem border_r boxflex" style="">
+			<router-link :to="GroupData[0].LstIconData[3].href">
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_ren9"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[3].IconShowName}}</p>
+                <p class="gray8b"></p>
+              </div>
+            </router-link>
+		  </div>
+
+        </div>
+        <!-- jingcai over -->
+
+        <div class="lotterylist border_t topcenter">
+          <div class="lotteryitem border_r boxflex" style="">
+			<router-link :to="GroupData[0].LstIconData[4].href">
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_danc"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[4].IconShowName}}</p>
+                <p class="gray8b"></p>
+              </div>
+            </router-link>
+		  </div>
+
+          <div class="lotteryitem border_r boxflex2">
+			<a class="flexcenter">
+              <!-- <div class="lotteryitem border_r boxflex2" v-show="info.lottery.SYY.check"><a class="flexcenter"> -->
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_11x5"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[5].IconShowName}}</p>
+                <p class="gray8b textl">敬请期待</p>
+                <!-- <p class="gray8b textl">稍后开放</p> -->
+              </div>
+            </a>
+		  </div>
+
+          <div class="lotteryitem  border_r boxflex" style="">
+			<a>
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_sfgg"></em></p>
+              <div>
+				<router-link :to="GroupData[0].LstIconData[6].href">
+                <p class="lotteryname">{{GroupData[0].LstIconData[6].IconShowName}}</p>
+                <p class="gray8b"></p>
+				</router-link>
+              </div>
+            </a>
+		  </div>
+        </div>
+        <!-- 北京单场 11x5 胜负 over -->
+
+        <div class="lotterylist border_t topcenter">
+          <div class="lotteryitem border_r boxflex" style="">
+			<a>
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_dlt"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[7].IconShowName}}</p>
+                <p class="gray8b" style="">敬请期待</p>
+              </div>
+            </a>
+		  </div>
+          <div class="lotteryitem border_r boxflex" style="">
+			<a>
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_p7"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[8].IconShowName}}</p>
+                <p class="gray8b" style="">敬请期待</p>
+              </div>
+            </a>
+		  </div>
+          <div class="lotteryitem border_r boxflex" style="">
+			<a>
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_p3"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[9].IconShowName}}</p>
+                <p class="gray8b" style="">敬请期待</p>
+              </div>
+            </a>
+		  </div>
+          <div class="lotteryitem border_r boxflex" style="">
+			<a>
+              <em class="paijiconbg" style="display: none;">派奖</em>
+              <p class="lotterybg"><em class="lottery_p5"></em></p>
+              <div>
+                <p class="lotteryname">{{GroupData[0].LstIconData[10].IconShowName}}</p>
+                <p class="gray8b" style="">敬请期待</p>
+              </div>
+            </a>
+		  </div>
+        </div>
+      </div>
 	</div>
 </template>
 
@@ -67,41 +165,67 @@ export default {
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
 							href:'/home/jincai',
 							IconShowName:'竞彩足球',
+							Tips:'',
 						},
-						// {
-						// 	IconPicInfo:require('@/assets/img/icon-lq.png'),
-						// 	href:'/home/jingcailanqiu',
-						// 	IconShowName:'竞彩篮球',
-						// },
+						{
+							IconPicInfo:require('@/assets/img/icon-lq.png'),
+							href:'/home/jingcailanqiu',
+							IconShowName:'竞彩篮球',
+							Tips:'',
+						},
 						{
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
 							href:'/home/zucai',
 							IconShowName:'足球14场',
+							Tips:'',
 						},
 						{
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
 							href:'/home/zucai9',
 							IconShowName:'任选9场',
+							Tips:'',
 						},
 						{
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
 							href:'/home/danchang',
 							IconShowName:'北京单场',
+							Tips:'',
 						},
 						{
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
-							href:'/home/danchangBf',
-							IconShowName:'北京单场比分',
+							href:'',
+							IconShowName:'广东11选5',
+							Tips:'',
 						},
 						{
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
-							href:'/home/danchangBq',
-							IconShowName:'北京单场半全场',
+							href:'/home/danchangGg',
+							IconShowName:'胜负过关',
+							Tips:'',
 						},
 						{
 							IconPicInfo:require('@/assets/img/icon-zq.png'),
-							href:'/home/danchangZjq',
-							IconShowName:'北京单场总进球',
+							href:'',
+							IconShowName:'大乐透',
+							Tips:'',
+						},
+						{
+							IconPicInfo:require('@/assets/img/icon-zq.png'),
+							href:'',
+							IconShowName:'七星彩',
+							Tips:'',
+						},
+						{
+							IconPicInfo:require('@/assets/img/icon-zq.png'),
+							href:'',
+							IconShowName:'排列3',
+							Tips:'',
+						},
+						{
+							IconPicInfo:require('@/assets/img/icon-zq.png'),
+							href:'',
+							IconShowName:'排列5',
+							Tips:'',
 						}
 					]
 				}	

@@ -1,0 +1,32 @@
+/*ios app*/
+@media only screen and (device-width:375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3){body{padding-bottom:30px;}
+footer{position:relative;}
+footer::after{content:'';position:fixed;bottom:0;left:0;width:100%;height:30px;background-color:#f2f2f2;z-index:999;}
+.bgfff footer::after{background-color:#fff;}
+.zucaimain{padding:0 0 130px 0;}
+.indexbtnbox{padding-bottom:30px;}
+.indexbtnbox.indexbtnbox_def{height:78px;padding:0;border-bottom:30px solid #f2f2f2;z-index:9;}
+.zucai_prize,.livescoremain,.layer_btnlist_btn,.larer_contact,.layer_page_btnbox{padding-bottom:30px;}
+.padbtm30,.matchmain{padding-bottom:30px;}
+.shop_details{padding:48px 0 87px 0}
+.details_info{padding:63px 0 130px;}
+.sjxh_main{padding-bottom:110px;}
+.chartboxpad262{padding-bottom:292px;}
+.bottombet,.betbottom,.navbottom,.navbottombtn,.bg11x5bet,.activity_btnbottom,.confirmbet_fast,.shopnavbottom,.keyboard,.c51itoumain .bottomlink,.iosxbtm{bottom:30px;}
+.morediv{padding-bottom:77px;}
+.morediv_bottom{height:auto;padding-bottom:30px;}
+.padbt75{padding-bottom:90px;}
+.layer_ylbottom,.layerbox_jincaibtm{bottom:109px!important;}
+.layer_numkey_zc{bottom:86px;}
+.layer_jingcai_screen .btnbox{bottom:30px;}
+.layer_prizereviewlist{bottom:118px;}
+.layer_prizereviewlist .layer_jingcai_screen{padding:166px 0 0;}
+.layer_page{padding-bottom:103px;}
+.layer_pagenobtn{padding-bottom:0;}
+.layer_page_btnbox{height:auto;}
+.layer_page_jix{padding-bottom:125px;}
+.gendan_project{padding-bottom:3.8rem;}
+.project_c51itou{margin-top:10px;}
+}
+/*------*/
+/*------*/
