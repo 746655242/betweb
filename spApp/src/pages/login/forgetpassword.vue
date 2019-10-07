@@ -56,6 +56,7 @@
 
 <script>
 import store from '@/store/';
+import qs from 'qs';
 import {Loading} from 'vux'
 let telRE = /^1[3456789]\d{9}$/;
 export default {
