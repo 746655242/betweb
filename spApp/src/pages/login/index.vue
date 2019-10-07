@@ -105,9 +105,9 @@
 </template>
 
 <script>
-import {mapGetters,mapMutations} from 'vuex'
-import {Loading} from 'vux'
-import qs from 'qs'
+import {mapGetters,mapMutations} from 'vuex';
+import {Loading} from 'vux';
+import qs from 'qs';
 let telRE = /^1[3456789]\d{9}$/;
 export default {
 	data() {

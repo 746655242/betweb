@@ -166,7 +166,7 @@ export default {
 				let params = {
 					type: "mobile",
 					mobile: this.formData.mobile,
-					password: this.formData.password,
+					newpassword: this.formData.password,
 					captcha: this.formData.captcha,
 				};
 				this.disabled = true;
