@@ -176,9 +176,8 @@ export default {
 				this.axios.post('/api/user/resetpwd',qs.stringify(params)).then(res => {  
 					let data=res.data;
 					if(data.errorCode==1){
-						me.setuser({info:data.result.userinfo})
-						me.$emit('storedata')
-						me.$router.push('/home')
+						me.$vux.alert.show({content: data.message});
+						me.$router.push('/home');
 					}else{
 						me.$vux.alert.show({content: data.message})
 						me.disabled = false;
