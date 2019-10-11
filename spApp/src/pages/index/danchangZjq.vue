@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="topcenter row_wrap dc_jinqiubtnlist">
                                     <p v-for="(item2,index2) in optionConfig[3].cn" :key="index2" class="boxflex betbtn" 
-                                        v-bind:class="{'beton':betlist[ind]&&betlist[ind][optionConfig[3].mix[index2]]}"
+                                        v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind][optionConfig[3].mix[index2]]}"
                                         @click="addbet(ite, optionConfig[3].mix[index2])"><span>{{item2}}</span><span>{{ite['OddsList'][optionConfig[3].mix[index2]]}}</span></p>
                                     </div>
                                 </div>

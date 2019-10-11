@@ -56,9 +56,9 @@
                             <!-- <a>分析</a> -->
                         </div>
                         <div class="boxflex topcenter betbtnbox">
-                            <div class="betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['3']}" @click="addbet(ite,3)"><p class="gray5">{{ite.zhu.name}}</p><span class="graya6 font12">{{ite.OddsList['3']}}</span></div>
-                            <div class="betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['1']}" @click="addbet(ite,1)"><p class="gray5">平局</p><span class="graya6 font12">{{ite.OddsList['1']}}</span></div>
-                            <div class="betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['0']}" @click="addbet(ite,0)"><p class="gray5">{{ite.ke.pm}}</p><span class="graya6 font12">{{ite.OddsList['0']}}</span></div>
+                            <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['3']}" @click="addbet(ite,3)"><p class="gray5">{{ite.zhu.name}}</p><span class="graya6 font12">{{ite.OddsList['3']}}</span></div>
+                            <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['1']}" @click="addbet(ite,1)"><p class="gray5">平局</p><span class="graya6 font12">{{ite.OddsList['1']}}</span></div>
+                            <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['0']}" @click="addbet(ite,0)"><p class="gray5">{{ite.ke.pm}}</p><span class="graya6 font12">{{ite.OddsList['0']}}</span></div>
                         </div>
                         <div class="danbox">胆</div>
                     </div>

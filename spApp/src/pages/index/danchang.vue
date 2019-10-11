@@ -79,15 +79,15 @@
                                         <cite class="rang rang0 rangred" v-if="ite.Boundary<0">{{ite.Boundary}}</cite>
                                         <cite class="rang rang0 ranggreen" v-else-if="ite.Boundary>0">{{ite.Boundary}}</cite>
                                         <cite class="rang rang0" v-else>{{ite.Boundary}}</cite>
-                                        <div class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['3']}" @click="addbet(ite,3)">
+                                        <div class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['3']}" @click="addbet(ite,3)">
                                             <p class="gray3">{{ite.zhu.name}}</p>
                                             <p class="gray8b">{{ite.OddsList['3']}}</p>
                                         </div>
-                                        <div class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['1']}" @click="addbet(ite,1)">
+                                        <div class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['1']}" @click="addbet(ite,1)">
                                             <p class="gray3">平局</p>
                                             <p class="gray8b">{{ite.OddsList['1']}}</p>
                                         </div>
-                                        <div class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['0']}" @click="addbet(ite,0)">
+                                        <div class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['0']}" @click="addbet(ite,0)">
                                             <p class="gray3">{{ite.ke.name}}</p>
                                             <p class="gray8b">{{ite.OddsList['0']}}</p>
                                         </div>
