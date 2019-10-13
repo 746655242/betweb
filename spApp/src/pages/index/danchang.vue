@@ -4,7 +4,7 @@
 <link href="./static/css/danchang.css" rel="stylesheet">
 	<div id="body" class="danchang_spf">
         <header class="head headfixed">
-            <div class="back"><a class="backlink" onclick="history.go(-1)"></a></div>
+            <div class="back"><router-link :to="homeUrl"><p class="backlink"></p></router-link></div>
             <div class="headertit topcenter column" @click="betChange">
                 <a class="boxflex flexcenter tabbtn"><span class="fontwhite font16">单场胜平负</span><em class="icon_arrowgraydown"></em></a>
             </div>
@@ -112,7 +112,7 @@
         <div class='bgHeader' v-show="isbetChange" @click="betChange"></div>
         <div class='bg' v-show="isbetNum"></div>
 
-        <section class="bottombet" style="">
+        <section class="bottombet">
             <!-- 没有选择比赛 默认  -->
             <div class="bottombetno textc" v-if="betlistArr.length<1">
                 <p>至少选择一场比赛（竞猜全场90分钟的比赛结果）</p>
@@ -126,22 +126,63 @@
                     <span class="mr10">金额 <cite class="fontred">{{bettotalmoney}}</cite> 元</span>
                     <span class="mr20">最高奖&nbsp;<cite class="fontred jiangjin">{{totalBonus}}</cite>&nbsp;元</span>
                     </p>
-                    <a class="fontblue" style="display: none;">奖金优化</a>
                 </div>
                 <div class="topcenter bottombetbtn">
-                    <p class="guoguanbtn "><span>选择过关</span>
-                    <cite class="icon_reddot">0</cite>
+                    <p class="guoguanbtn" @click="tabnub">
+                        <span v-if="betfield == 1">单关</span>
+                        <span v-else>{{betfield}}串{{cuang}}</span>
+                        <cite class="icon_reddot">{{betlistArr.length}}</cite>
                     </p>
-                    <p class="beishu"><input type="text" readonly="readonly" disabled="disabled"></p>
+                    <p class="beishu"><input type="text" v-model="cancel"></p>
                     <span class="mr05rem">倍</span>
-                    <!-- <a class="buybtn_gray">保存</a> -->
-                    <!-- <p class="boxflex" style=""><a href="javascript:void(0);" class="hemaibtn">合买</a></p> -->
                     <p class="boxflex"><a class="buybtn_blue" @click="order">投注</a></p>
-                    <!-- <p class="boxflex"><a @click="checkSubmit" class="buybtn_blue">确认选号</a></p> -->
-
                 </div>
             </div>
         </section>
+        <!-- 过关方式 -->
+        <div class="layerbox layerbox_jincaibtm" v-show="isbetNum">
+            <div class="jincaibtmcon">
+                <a class="closeball" @click="tabnub"></a>
+                <div class="layermenu ">
+                    <nav class="flexbox headermenu unheadermenu">
+                    <p class="boxflex"><a>过关方式</a></p>
+                    <!-- <p class="boxflex" style="display: none"><a>设胆<cite class="icon_reddot" style="display: none;">0</cite></a></p> -->
+                    </nav>
+                </div>
+                <div class="guoguan_list_wrap">
+                    <div class="jincaibtmcon_main">
+                    <ul class="clearfix" >
+                        <li class="betbtn" v-for="(item,key) in betlistArr.length" :key="key"
+                        v-if="item==0" @click="changebetfield(item,1)"
+                        v-bind:class="{'betbtn_sed':betfield==item&&cuang==1}">单关</li>
+                        <li class="betbtn" v-for="(item,key) in betlistArr.length" :key="key"
+                        v-if="item>1" @click="changebetfield(item,1)"
+                        v-bind:class="{'betbtn_sed':betfield==item&&cuang==1}">{{item}}串1</li>
+                    </ul>
+                    <p class="mb6 gray8b font12" v-if="field>=3">更多过关</p>
+                    <ul class="clearfix">
+                        <li class="betbtn" v-for="(item,index) in gglist" :key="index" 
+                        v-if="item[0] <= field" @click="changebetfield(item[0],item[1])" 
+                        v-bind:class="{'betbtn_sed':cuang==item[1]&&betfield==item[0]}">{{item[0]}}串{{item[1]}}</li>
+                    </ul>
+                    </div>
+                    <p class="font12 gray8b text">&nbsp;</p>
+                </div>
+
+                <div class="dingdan_list_wrap" style="display:none;">
+                    <div class="dingdan_list">
+
+                    <!-- dingdan_list_item -->
+
+                    </div>
+                    <!-- dingdan_list over -->
+                </div>
+                <!-- dingdan_list_wrap over-->
+
+            </div>
+        </div>
+
+        <loginLayer ref="loginLayer"></loginLayer>
 
     </div>
 </div>
@@ -223,6 +264,7 @@ export default {
                     }
             },
             lotterNo:0,
+            homeUrl: "/home",
             danchangTypeUrl: [
                 {
                     href:'/home/danchang',
@@ -539,6 +581,8 @@ export default {
                 if(data.errorCode==0){
                     this.totalBonus = data.result.bonus_max;
                     this.bettotalmoney = data.result.total_money;
+                }else if(data.errorCode==1){
+                    this.$refs.loginLayer.show(true);
                 }else{
                     alert(data.message);
                 }
@@ -642,7 +686,7 @@ export default {
     top:0;
     right:0;
     background: rgba(0,0,0,.5);
-    z-index: 99;
+    z-index: 69;
 }
 .beton{
     background: #ef1823!important;

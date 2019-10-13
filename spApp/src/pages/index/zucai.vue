@@ -3,109 +3,87 @@
 <link href="./static/css/zucai.css" rel="stylesheet">
     <div id="body" class="zucai14">
         <header class="head headfixed">
-            <div class="back w40"><a class="backlink" onclick="history.go(-1)"></a></div>
+            <div class="back"><router-link :to="homeUrl"><p class="backlink"></p></router-link></div>
             <div class="headertit topcenter column">
-                <a class="boxflex flexcenter tabbtn"><span class="fontwhite font16">足彩14场 -&nbsp;</span><p class="fontwhite font16">{{oddsData[issueIndex].title}}期</p><em class="icon_arrowgraydown"></em></a>
-                <p class="boxflex font12">截止时间： <span>9-25 22:00</span></p>
+                <a class="boxflex flexcenter tabbtn">
+                    <span class="fontwhite font16">足彩14场 -&nbsp;</span>
+                    <p class="fontwhite font16">{{oddsData[issueIndex].title}}期</p>
+                    <!-- <em class="icon_arrowgraydown"></em> -->
+                </a>
+                <p class="boxflex font12">截止时间： <span>{{oddsData[issueIndex].datetxt}}</span></p>
             </div>
             <div class="headBtnbox w40"><a class="fr"><em class="headiconwhite icon_list"></em></a></div>
             <!-- 期号切换 -->
-            <div class="layerbox layerbox_header" style="display:none;">
+            <!-- <div class="layerbox layerbox_header" style="display:none;">
             <ul class="qibtnlist clearfix">
-                <li class="boxflex"><p class="qibtn qibtn_sed">19129</p></li>
-                <li class="boxflex"><p class="qibtn">19130</p></li>
-                <li class="boxflex"><p class="qibtn">19131</p></li>
-                <li class="boxflex"><p class="qibtn">19132</p></li>
-                <li class="boxflex"><p class="qibtn">19133</p></li>
+                <li class="boxflex"><p class="qibtn qibtn_sed">xxx</p></li>
+                <li class="boxflex"><p class="qibtn">xxx</p></li>
             </ul>
-            </div>
-            <!-- 链接层 -->
-            <div class="layerbox layerbox0" style="display:none;">
-            <div class="headerbtnlist">
-                <em class="headerbtnlist_icon"></em>
-                <a href="https://koudai.17itou.com/zucai/prize/" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">开奖结果</a>
-                <div class="headerbtnlist2">
-                <a href="https://koudai.17itou.com/zucai/prize/?id=19128" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">19128&nbsp;&nbsp;&nbsp;&nbsp;已结束0场</a><a href="https://koudai.17itou.com/zucai/prize/?id=19127" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">19127&nbsp;&nbsp;&nbsp;&nbsp;已结束14场</a><a href="https://koudai.17itou.com/zucai/prize/?id=19126" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">19126&nbsp;&nbsp;&nbsp;&nbsp;已结束14场</a>
-                </div>
-                <a href="https://koudai.17itou.com/user/betlist/?type=ZuCai" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">选号记录</a>
-                <a href="https://koudai.17itou.com/livescore/zucai/" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">即时比分</a>
-                <a href="https://koudai.17itou.com/help/gameinfo/zucai/" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">玩法说明</a>
-            </div>
-            </div>
+            </div> -->
         </header>
 
-    <div class="app">
-    <div class="scrollbox">
-        <section class="zucaimain" drapload-key="ascroll" drapload-initialize="false" drapload-down="" drapload-up="doRefresh()">
-            <!--<div class="advertisingbox" @click.stop="look_adv_details()" v-show="advertising_data.show" style="display: none;"><img src="/static/images/luckylotto_zc-f45a147e03.jpg" alt="好彩足球广告"><em class="advertisingbg">广告</em><p @click.stop="close_adv()" class="icondelminbox">×</p></div>-->
-            <div class="dropload-up"><div class="dropload-refresh">↓下拉刷新</div></div><div>
-                <div class="paijingtop topcenter" style="display:none">
-                <div class="boxflex"><a class="topcenter" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">
-                <em class="iconbg2 iconbg2_horn"></em><p class="boxflex gray3"></p></a></div>
-                <a class="flexcenter delbox"><em class="iconbg icondelmin"></em></a>
-                </div>
-
-                <div class="guncun" style="display:none">滚存奖池：<span class="fontred">0</span>元&nbsp;&nbsp;<em class="guncunicon">?</em></div>
-                <div class="matchlist textc" style="">
-                    <div class="matchlist_item topcenter border_b" v-for="(ite,ind) in oddsData[issueIndex].list" :key="ind">
-                        <p class="xuhao graya6">{{ite.id}}</p>
-                        <div class="saishi font12">
-                            <p class="fontwhite" v-bind:style="{'background':ite.color}">{{ite.liansai}}</p>
-                            <p class="graya6">{{ite.date}} {{ite.timetxt}}</p>
-                            <!-- <a>分析</a> -->
+        <div class="app">
+            <div class="scrollbox">
+                <section class="zucaimain" drapload-key="ascroll" drapload-initialize="false" drapload-down="" drapload-up="doRefresh()">
+                    <!--<div class="advertisingbox" @click.stop="look_adv_details()" v-show="advertising_data.show" style="display: none;"><img src="/static/images/luckylotto_zc-f45a147e03.jpg" alt="好彩足球广告"><em class="advertisingbg">广告</em><p @click.stop="close_adv()" class="icondelminbox">×</p></div>-->
+                    <div class="dropload-up"><div class="dropload-refresh">↓下拉刷新</div></div><div>
+                        <div class="paijingtop topcenter" style="display:none">
+                        <div class="boxflex"><a class="topcenter" backurl="%2Fzucai%2F%3Fback%3D%252Fuser%252Fshop%252Fdetails%252F%253Fid%253D21858271%26scene%3Dstation_lottery%26station_id%3D21858271">
+                        <em class="iconbg2 iconbg2_horn"></em><p class="boxflex gray3"></p></a></div>
+                        <a class="flexcenter delbox"><em class="iconbg icondelmin"></em></a>
                         </div>
-                        <div class="boxflex topcenter betbtnbox">
-                            <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['3']}" @click="addbet(ite,3)"><p class="gray5">{{ite.zhu.name}}</p><span class="graya6 font12">{{ite.OddsList['3']}}</span></div>
-                            <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['1']}" @click="addbet(ite,1)"><p class="gray5">平局</p><span class="graya6 font12">{{ite.OddsList['1']}}</span></div>
-                            <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['0']}" @click="addbet(ite,0)"><p class="gray5">{{ite.ke.pm}}</p><span class="graya6 font12">{{ite.OddsList['0']}}</span></div>
+
+                        <div class="guncun" style="display:none">滚存奖池：<span class="fontred">0</span>元&nbsp;&nbsp;<em class="guncunicon">?</em></div>
+                        <div class="matchlist textc" style="">
+                            <div class="matchlist_item topcenter border_b" v-for="(ite,ind) in oddsData[issueIndex].list" :key="ind">
+                                <p class="xuhao graya6">{{ite.id}}</p>
+                                <div class="saishi font12">
+                                    <p class="fontwhite" v-bind:style="{'background':ite.color}">{{ite.liansai}}</p>
+                                    <p class="graya6">{{ite.date}} {{ite.timetxt}}</p>
+                                    <!-- <a>分析</a> -->
+                                </div>
+                                <div class="boxflex topcenter betbtnbox">
+                                    <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['3']}" @click="addbet(ite,3)"><p class="gray5">{{ite.zhu.name}}</p><span class="graya6 font12">{{ite.OddsList['3']}}</span></div>
+                                    <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['1']}" @click="addbet(ite,1)"><p class="gray5">平局</p><span class="graya6 font12">{{ite.OddsList['1']}}</span></div>
+                                    <div class="betbtn" v-bind:class="{'betbtnsed':betlist[ind]&&betlist[ind]['0']}" @click="addbet(ite,0)"><p class="gray5">{{ite.ke.name}}</p><span class="graya6 font12">{{ite.OddsList['0']}}</span></div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- matchlist over -->
+                        <div class="nulllotteryno" style="display:none;">
+                            <p class="nulllotterynoimg"><img src="~@/assets2/images/nulllotteryno-83be1b1b40.png" alt=""></p>
+                            <p class="font14 gray5">官方足彩无可售期</p>
                         </div>
                     </div>
+                </section>
+            </div>
+        </div>
 
-
+        <section class="bottombet">
+            <!-- 没有选择比赛 默认  -->
+            <div class="bottombetno textc" v-if="betlistArr.length<totalGame">
+                <p>已选择{{betlistArr.length}}场，还差{{totalGame-betlistArr.length}}场</p>
+                <p class="font10 gray9"><span>竞猜数据仅供参考，请以实票数据为准</span>
+                </p>
+            </div>
+            <!-- 有选择比赛 -->
+            <div v-else>
+                <div class="betmoney border_b topcenter">
+                    <p class="boxflex textc">
+                    <span class="mr10">金额 <cite class="fontred">{{bettotalmoney}}</cite> 元</span>
+                    </p>
                 </div>
-                <!-- matchlist over -->
-                <div class="nulllotteryno" style="display:none;">
-                    <p class="nulllotterynoimg"><img src="~@/assets2/images/nulllotteryno-83be1b1b40.png" alt=""></p>
-                    <p class="font14 gray5">官方足彩无可售期</p>
+                <div class="topcenter bottombetbtn">
+                    <p class="guoguanbtn"></p>
+                    <p class="beishu"><input type="text" v-model="cancel"></p>
+                    <span class="mr05rem">倍</span>
+                    <p class="boxflex"><a class="buybtn_blue" @click="order">投注</a></p>
                 </div>
             </div>
         </section>
-    </div>
-    </div>
 
-    <section class="bottombet">
-    <!-- 没有选择比赛 默认  -->
-    <div class="bottombet_text1 gray5" v-if="betlistArr.length<totalGame">
-        <p>已选<span class="fontred">{{betlistArr.length}}</span>场，还需选择<span class="fontred">{{totalGame-betlistArr.length}}</span>场</p>
-        <p class="font10"><a>竞猜数据仅供参考，请以实票数据为准</a></p>
-    </div>
-    <!-- 未开售  -->
-    <div class="bottombet_text2 gray5" style="display:none;">
-        <p>彩期未开售</p>
-        <p>开售时间：<span>9-22 20:00</span></p>
-    </div>
-
-    <!-- 购买 -->
-    <div style="display:none;">
-        <div class="betmoney border_b">
-        <p class="textc">金额 <span class="font14 fontred">{{bettotalmoney}}</span> 元</p>
-        </div>
-        <div class="topcenter bottombetbtn">
-        <div class="boxflex">
-            <div class="beishu topcenter"><input type="text" readonly="readonly" disabled="disabled"> 倍</div>
-        </div>
-        <div class="boxflex topcenter">
-            <!-- <a class="buybtn_gray">保存</a> -->
-            <!-- <p class="boxflex" style=""><a href="javascript:void(0);" class="hemaibtn">合买</a></p> -->
-            <p class="boxflex"><a class="buybtn_blue">投注</a></p>
-            <!-- <p class="boxflex"><a @click="checkSubmit" class="buybtn_blue">确认选号</a></p> -->
-        </div>
-
-        </div>
-
-    </div>
-
-    </section>
     </div>
 </div>
 </template>
@@ -187,6 +165,7 @@ export default {
                         ltype: 'SportteryHalfFull'
                     }
             },
+            homeUrl: "/home",
         }
     },
     computed:{
@@ -435,7 +414,7 @@ export default {
     top:0;
     right:0;
     background: rgba(0,0,0,.5);
-    z-index: 99;
+    z-index: 69;
 }
 .beton{
     background: #ef1823!important;

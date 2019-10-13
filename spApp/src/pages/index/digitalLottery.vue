@@ -44,7 +44,8 @@ export default {
 		return {
 			bannerlist:[],
 			LstIdxNumberData:[],
-			bigIndex:''
+			bigIndex:'',
+			homeUrl: "/home",
 		}
 	},
 	 created() { //初始化

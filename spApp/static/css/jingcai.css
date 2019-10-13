@@ -41,7 +41,7 @@
 .matchtit .icon_arrowgrayup,.matchtit .icon_arrowgraydown,
 .moremain_tit .icon_arrowgrayup,.moremain_tit .icon_arrowgraydown{border-width:7px 6px;}
 .matchitem{padding:10px;text-align:center;}
-.matchitem_tit{width:48px;margin:20px .3rem 0 0;position:relative;text-align:center;color:#010101;line-height:16px;}
+.matchitem_tit{width:48px;margin:20px .2rem 0 0;position:relative;text-align:center;color:#010101;line-height:16px;}
 .matchitem_tit .saishi {line-height:18px;height:18px;overflow:hidden;color:#fff;}
 .matchitem_tit .gray8b.font10{color:#010101;}
 .rang{display: inline-block;margin: -5px 5px 0 0;width:17px;height: 17px;line-height: 17px;border-radius: 17px;-webkit-border-radius: 17px;-moz-border-radius: 17px;font-size: 12px;text-align:center;}

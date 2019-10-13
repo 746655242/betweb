@@ -3,7 +3,7 @@
 <link href="./static/css/jingcai.css" rel="stylesheet">
 	<div>
         <header class="head prel">
-            <div class="back"><a class="backlink" onclick="history.go(-1)"></a></div>
+            <div class="back"><router-link :to="homeUrl"><p class="backlink"></p></router-link></div>
             <div class="headertit">
             <h1>竞彩足球</h1>
             </div>
@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="morebtn topcenter">
-                                    <p>更多玩法</p>
+                                    <p @click="showAll(item,ite,ind)">更多玩法</p>
                                     <!-- <p v-text="item.info.selectNum"></p> -->
                                 </div>
                                 </div>
@@ -85,7 +85,125 @@
             </section>
         </div>
 
-        <section class="bottombet" style="">
+        <!-- 更多彩种 -->
+        <div class="layerbox" v-if="allodds">
+            <div class="morediv">
+            <header class="head">
+                <a class="closeball2"></a>
+                <div class="headertit"><h1>
+                <span class="font10">{{allodds['zhu']['pm']}}</span>
+                <span class="font10" style="display: none;"></span>
+                <span>{{allodds['zhu']['name']}}</span>&nbsp;VS&nbsp;<span>{{allodds['ke']['name']}}</span>
+                <span class="font10" style="display: none;"></span>
+                <span class="font10">{{allodds['zhu']['pm']}}</span>
+                </h1></div>
+                <div class="headBtnbox w40 topcenter"><a><em class="headicon icon_chart"></em></a></div>
+            </header>
+
+            <div class="moremain">
+                <p class="m_tip bgfff">红色框选项可投单关</p>
+                <!-- <div class="topcenter moremain_tit border_b"><p class="boxflex">胜平负/让球胜平负</p></div> -->
+                <div class="bgfff listbox morebet_spf">
+                    <div class="topcenter itemstrecth">
+                        <div class="topcenter listtit m_spftitbg"><cite>胜平负</cite></div>
+                        <div class="boxflex flexbox dan">
+                            <p class="boxflex betbtn" v-for="(item,index) in optionConfig[0].cn" :key="index"
+                             v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[0].mix[index]]}"
+                             @click="addbet(allodds,optionConfig[0].mix[index])">
+                             <span>{{item}}</span><span>{{allodds['OddsList'][optionConfig[0].mix[index]]}}</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="topcenter itemstrecth">
+                        <div class="listtit topcenter m_spf_titred" v-if="allodds['Boundary']<0">
+                            <p class="boxflex"><cite>主 </cite><br><cite>{{allodds['Boundary']}}</cite></p>
+                        </div>
+                        <div class="listtit topcenter m_spf_titgreen" v-else>
+                            <p class="boxflex"><cite>主 </cite><br><cite>{{allodds['Boundary']}}</cite></p>
+                        </div>
+                        <div class="boxflex flexbox">
+                            <p class="boxflex betbtn" v-for="(item,index) in optionConfig[1].cn" :key="index"
+                            v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[1].mix[index]]}"
+                            @click="addbet(allodds,optionConfig[1].mix[index])">
+                            <span>{{item}}</span><span>{{allodds['OddsList'][optionConfig[1].mix[index]]}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- spf over -->
+
+                <!-- <div class="topcenter moremain_tit border_tb"><p class="boxflex">比分</p></div> -->
+                <div class="topcenter listbox m_bif">
+                    <div class="listtit topcenter"><p class="boxflex">比分</p></div>
+                    <div class="boxflex">
+                        <div class="flexbox m_betbox">
+                            <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[2].cn" v-if="index<13" :key="index"
+                            v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[2].mix[index]]}"
+                            @click="addbet(allodds,optionConfig[2].mix[index])">
+                            <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[2].mix[index]]}}</span>
+                            </p>
+                        </div>
+                        <div class="flexbox m_betbox">
+                            <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[2].cn" v-if="index>=15 && index<=19" :key="index"
+                            v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[2].mix[index]]}"
+                            @click="addbet(allodds,optionConfig[2].mix[index])">
+                            <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[2].mix[index]]}}</span>
+                            </p>
+                        </div>
+                        <div class="flexbox m_betbox">
+                            <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[2].cn" v-if="index>19" :key="index"
+                            v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[2].mix[index]]}"
+                            @click="addbet(allodds,optionConfig[2].mix[index])">
+                            <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[2].mix[index]]}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- bif over -->
+
+                <!-- zongjq -->
+                <!-- <div class="topcenter moremain_tit border_tb"><p class="boxflex">总进球数</p></div> -->
+                <div class="topcenter listbox m_zongjq">
+                    <div class="topcenter listtit"><p class="boxflex">总进球数</p></div>
+                    <div class="boxflex m_betbox flexbox">
+                        <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[3].cn" :key="index"
+                        v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[3].mix[index]]}"
+                        @click="addbet(allodds,optionConfig[3].mix[index])">
+                        <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[3].mix[index]]}}</span>
+                        </p>
+                    </div>
+                </div>              
+                <!-- zongjq over -->
+
+                <!-- m_half -->
+                <!-- <div class="topcenter moremain_tit border_tb"><p class="boxflex">半全场</p></div> -->
+                <div class="topcenter listbox m_half">
+                    <div class="topcenter listtit"><p class="boxflex">半全场</p></div>
+                    <div class="boxflex m_betbox flexbox">
+                        <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[4].cn" :key="index"
+                        v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[4].mix[index]]}"
+                        @click="addbet(allodds,optionConfig[4].mix[index])">
+                        <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[4].mix[index]]}}</span>
+                        </p>
+                    </div>
+                    
+                </div> 
+                <!-- <div class="border_b m_half flexbox" v-else>未受注</div> -->
+                <!-- m_half over -->
+            </div>
+            <!-- moremain over -->
+
+            <div class="topcenter morediv_bottom">
+                <p class="boxflex mr15"><a class="btn btn_gray" @click="closeAll(true)">取消</a></p>
+                <p class="boxflex"><a class="btn btn_blue" @click="closeAll(false)">确定</a></p>
+            </div>
+            </div>
+        </div>
+        
+        <div class='bg' v-show="isbetNum"></div>
+        
+        <section class="bottombet">
             <!-- 没有选择比赛 默认  -->
             <div class="bottombetno textc" v-if="betlistArr.length<2">
                 <p>至少选择一场比赛（竞猜全场90分钟的比赛结果）</p>
@@ -99,23 +217,59 @@
                     <span class="mr10">金额 <cite class="fontred">{{bettotalmoney}}</cite> 元</span>
                     <span class="mr20">最高奖&nbsp;<cite class="fontred jiangjin">{{totalBonus}}</cite>&nbsp;元</span>
                     </p>
-                    <a class="fontblue" style="display: none;">奖金优化</a>
                 </div>
                 <div class="topcenter bottombetbtn">
-                    <p class="guoguanbtn "><span>选择过关</span>
-                    <cite class="icon_reddot">0</cite>
+                    <p class="guoguanbtn" @click="tabnub">
+                        <span>{{betfield}}串{{cuang}}</span>
+                        <cite class="icon_reddot">{{betlistArr.length}}</cite>
                     </p>
-                    <p class="beishu"><input type="text" readonly="readonly" disabled="disabled"></p>
+                    <p class="beishu"><input type="text" v-model="cancel"></p>
                     <span class="mr05rem">倍</span>
-                    <!-- <a class="buybtn_gray">保存</a> -->
-                    <!-- <p class="boxflex" style=""><a href="javascript:void(0);" class="hemaibtn">合买</a></p> -->
                     <p class="boxflex"><a class="buybtn_blue" @click="order">投注</a></p>
-                    <!-- <p class="boxflex"><a @click="checkSubmit" class="buybtn_blue">确认选号</a></p> -->
-
                 </div>
             </div>
         </section>
+        <!-- 过关方式 -->
+        <div class="layerbox layerbox_jincaibtm" v-show="isbetNum">
+            <div class="jincaibtmcon">
+                <a class="closeball" @click="tabnub"></a>
+                <div class="layermenu ">
+                    <nav class="flexbox headermenu unheadermenu">
+                    <p class="boxflex"><a>过关方式</a></p>
+                    <!-- <p class="boxflex" style="display: none"><a>设胆<cite class="icon_reddot" style="display: none;">0</cite></a></p> -->
+                    </nav>
+                </div>
+                <div class="guoguan_list_wrap">
+                    <div class="jincaibtmcon_main">
+                    <ul class="clearfix" >
+                        <li class="betbtn" v-for="(item,key) in  betlistArr.length" :key="key"
+                        v-if="item>1" @click="changebetfield(item,1)"
+                        v-bind:class="{'betbtn_sed':betfield==item&&cuang==1}">{{item}}串1</li>
+                    </ul>
+                    <p class="mb6 gray8b font12" v-if="field>=3">更多过关</p>
+                    <ul class="clearfix">
+                        <li class="betbtn" v-for="(item,index) in gglist" :key="index" 
+                        v-if="item[0] <= field" @click="changebetfield(item[0],item[1])" 
+                        v-bind:class="{'betbtn_sed':cuang==item[1]&&betfield==item[0]}">{{item[0]}}串{{item[1]}}</li>
+                    </ul>
+                    </div>
+                    <p class="font12 gray8b text">&nbsp;</p>
+                </div>
 
+                <div class="dingdan_list_wrap" style="display:none;">
+                    <div class="dingdan_list">
+
+                    <!-- dingdan_list_item -->
+
+                    </div>
+                    <!-- dingdan_list over -->
+                </div>
+                <!-- dingdan_list_wrap over-->
+
+            </div>
+        </div>
+
+        <loginLayer ref="loginLayer"></loginLayer>
 	</div>
 </div>
 </template>
@@ -194,8 +348,8 @@ export default {
                         ltype: 'SportteryHalfFull'
                     }
             },
-            
-	}
+            homeUrl: "/home",
+	    }
     },
     computed:{
 
@@ -501,6 +655,8 @@ export default {
                 if(data.errorCode==0){
                     this.totalBonus = data.result.bonus_max;
                     this.bettotalmoney = data.result.total_money;
+                }else if(data.errorCode==1){
+                    this.$refs.loginLayer.show(true);
                 }else{
                     alert(data.message);
                 }
@@ -596,7 +752,7 @@ export default {
     top:0;
     right:0;
     background: rgba(0,0,0,.5);
-    z-index: 99;
+    z-index: 69;
 }
 .beton{
     background: #ef1823!important;
