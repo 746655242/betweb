@@ -585,6 +585,7 @@ export default {
             let reqData={};
             reqData['gameid'] = 5;
             reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            reqData['dc_type'] = 3;
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
@@ -620,7 +621,7 @@ export default {
         order(){
             let reqData={};
             reqData['gameid'] = 5;
-            reqData['bet_type'] = 3;
+            reqData['dc_type'] = 3;
             if(this.betfield > 6){
                 this.betfield = 6;
             }

@@ -570,6 +570,7 @@ export default {
             let reqData={};
             reqData['gameid'] = 5;
             reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            reqData['dc_type'] = 1;
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
@@ -608,6 +609,7 @@ export default {
             let reqData={};
             reqData['gameid'] = 5;
             reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            reqData['dc_type'] = 1;
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
