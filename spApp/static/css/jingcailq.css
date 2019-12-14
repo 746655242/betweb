@@ -1,0 +1,34 @@
+/*layer_jingcailq_screen*/
+.jingcailq .dropload-up, .dropload-down, .dropload-noData{top:0;}
+.jcscreentit{text-align:center}
+.layer_jingcailq_screen{width:95%;margin:48px auto;background-color:#fff;border-radius:5px;}
+.jcscreena_caishi{height:200px;}
+.layer_jingcailq_screen .btnbox{padding:10px 15%;height:56px;width: 100%;border-top:1px solid #e4e4e4;}
+.layer_jingcailq_screen .btnbox .btn{height:36px;line-height:36px;width:100%;padding:0;display:block;font-size:14px;}
+
+.betbtn_dan + .lqbifen{border-left-color:#eb6759;}
+/*match*/
+.matchitem_tit{margin:10px 15px 0 0}
+.matchitem {padding:10px 20px;}
+.matchitem_cont .team {margin:0;padding-bottom:10px;height:auto;position:relative;}
+.matchitem_cont .team .font10{color:#999;-webkit-transform:scale(0.84,0.84);transform:scale(0.84,0.84);}
+.matchitem_cont .team .lqbifen{padding:0 10px;}
+.matchitem_contlist .lqbifen{padding:0;width:50px;background-color:#eaeaea;color:#ff0000;font-size:12px;}
+
+@media screen and (max-width:320px) {
+  .matchitem{padding:10px;}
+}
+
+.morebet_rqsf,.morebet_sf{padding:10px;background-color:#fff;margin-bottom:10px;}
+.morebet_sf .betbtn{padding:5px 30px;}
+  .morebet_sf .betbtn>span:first-child{line-height:30px;float: left;}
+  .morebet_sf .betbtn>span:last-child{line-height:30px;float: right;}
+.m_bif .betbtn{flex:1;width:16.66%;}
+.morebet_rqsf .lqbifen{width:80px;background-color:#eaeaea;line-height:30px;}
+/*bottombet*/
+/*prize---jingcai*/
+.prizeitem_team .fontredz{width:65px;}
+.prizeitem_mian>div{width:25%;}
+/*------*/
+/*------*/
+/*------*/

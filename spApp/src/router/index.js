@@ -51,9 +51,16 @@ let routes=[
                 require(['@/pages/index/jincai'], resolve)
             }
          
-        }, 
-
-
+        },
+        /* 竞彩篮球 */
+        {
+            path: '/home/jingcailanqiu',
+            name: 'jingcailanqiu',
+            component: function(resolve) {
+                require(['@/pages/index/jingcailanqiu'], resolve)
+            }
+         
+        },
         /* 14投注 */
         {
             path: '/home/zucai',
@@ -61,9 +68,7 @@ let routes=[
             component: function(resolve) {
                 require(['@/pages/index/zucai'], resolve)
             }
-        }, 
-
-
+        },
          /* 9投注 */
          {
             path: '/home/zucai9',
@@ -71,8 +76,7 @@ let routes=[
             component: function(resolve) {
                 require(['@/pages/index/zucai9'], resolve)
             }
-        }, 
-
+        },
          /* 单场 */
          {
             path: '/home/danchang',

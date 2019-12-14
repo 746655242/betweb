@@ -5,7 +5,7 @@
         <header class="head prel">
             <div class="back"><router-link :to="homeUrl"><p class="backlink"></p></router-link></div>
             <div class="headertit">
-            <h1>竞彩足球</h1>
+            <h1>竞彩篮球</h1>
             </div>
             <div class="headBtnbox topcenter">
                 <!-- <a><em class="headicon icon_screen"></em></a> -->
@@ -13,185 +13,221 @@
             </div>
         </header>
 
-        <div id="dropload-body">
-            <section id="scrollBody" class="match bgf2">
-
-            <div class="paijingtop topcenter" style="display:none">
-                <div class="boxflex">
-                    <a class="topcenter" onclick="history.go(-1)"><em class="iconbg2 iconbg2_horn"></em><p class="boxflex gray3"></p></a>
-                </div>
-                <a class="flexcenter delbox"><em class="iconbg icondelmin"></em></a>
-            </div>
-
-
-            <div class="padmainbtm">
-                <div v-for="(item,index) in oddsData" :key="index">
-                    <div class="topcenter matchtit" @click="dshow(index,item)">
-                        <p class="boxflex gray8b" v-html="item.title"></p>
-                        <em id="downupBtn" class="icon_arrowgraydown icon_arrowgrayup"></em>
+        <div class="app">
+            <div class="scrollbox">
+                <section id="scrollBody" class="bgf2" style="margin: 0px;">
+                <div style="padding-bottom:95px;">
+                    <div class="paijingtop topcenter" style="display:none">
+                        <div class="boxflex">
+                            <a class="topcenter" onclick="history.go(-1)"><em class="iconbg2 iconbg2_horn"></em><p class="boxflex gray3"></p></a>
+                        </div>
+                        <a class="flexcenter delbox"><em class="iconbg icondelmin"></em></a>
                     </div>
-                    <!-- matchtit over -->
-                    <div class="matchlist matchlist_jingcai" v-show='!item.show'>
-                        <div class="border_b flexbox matchitem" v-for="(ite,ind) in item.list" :key="ind">
-                            <div class="matchitem_tit">
-                                <p class="gray8b font12">{{ite.id}}</p>
-                                <p class="saishi" v-bind:style="{'background':ite.color}"><span class="font12">{{ite.liansai}}</span></p>
-                                <p class="font12">{{ite.timetxt}}</p>
-                                <!-- <div class="fontblue font12">分析</div> -->
+
+                    <div>
+                        <div v-for="(item,index) in oddsData" :key="index">
+                            <div class="topcenter matchtit" @click="dshow(index,item)">
+                                <p class="boxflex gray8b">
+                                    <span class="mr10">{{ite.title}}</span>
+                                    <!-- <span>共x场比赛</span> -->
+                                    <!-- <span class="font12">（红色选项可投单关）</span> -->
+                                </p>
+                                <em class="icon_arrowgraydown icon_arrowgrayup"></em>
                             </div>
-                            <div class="boxflex matchitem_cont">
-                                <div class="topcenter team">
-                                    <p class="boxflex topcenter flexend"><cite class="team_host"><span>{{ite.zhu.pm}}</span><span
-                                            style="display: none;"></span></cite>
-                                        <span>{{ite.zhu.name}}</span>
-                                    </p>
-                                    <p class="teambf"><span>VS</span></p>
-                                    <p class="boxflex topcenter textl">
-                                        <span>{{ite.ke.name}}</span>
-                                        <cite class="team_guest"><span>{{ite.ke.pm}}</span><span style="display: none;"></span></cite>
-                                    </p>
-                                </div>
-                                <div class="topcenter">
-                                <div class="boxflex">
-                                    <div class="topcenter dan"><cite class="rang rang0">0</cite>
-                                    <p class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['16']}" @click="addbet(ite,16)"><span>胜</span><span>{{ite.OddsList['16']}}</span></p>
-                                    <p class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['15']}" @click="addbet(ite,15)"><span>平</span><span>{{ite.OddsList['15']}}</span></p>
-                                    <p class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['14']}" @click="addbet(ite,14)"><span>负</span><span>{{ite.OddsList['14']}}</span></p>
+                            <!-- matchtit over -->
+                            <div class="matchlist" v-show='!item.show'>
+                                <div class="border_b flexbox matchitem" v-for="(ite,ind) in item.list" :key="ind">
+                                    <div class="matchitem_tit">
+                                        <!-- <div class="matchitem_tit"> -->
+                                        <p class="gray8b mb6 font10">{{ite.id}}</p>
+                                        <p style="background-color:#00CCFF;color:#fff"><span class="font10">{{ite.liansai}}</span></p>
+                                        <p class="font10">{{ite.timetxt}}</p>
+                                        <!-- <div class="fontblue font10">分析</div> -->
                                     </div>
-                                    <div class="topcenter"><cite class="rang rangred" v-if="ite.Boundary<0">{{ite.Boundary}}</cite><cite class="rang ranggreen" v-else>{{ite.Boundary}}</cite>
-                                    <p class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['13']}" @click="addbet(ite,13)"><span>胜</span><span>{{ite.OddsList['13']}}</span></p>
-                                    <p class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['11']}" @click="addbet(ite,11)"><span>平</span><span>{{ite.OddsList['11']}}</span></p>
-                                    <p class="boxflex betbtn" v-bind:class="{'beton':betlist[ind]&&betlist[ind]['10']}" @click="addbet(ite,10)"><span>负</span><span>{{ite.OddsList['10']}}</span></p>
+                                    <div class="boxflex matchitem_cont">
+                                        <div class="flexbox team">
+                                            <p class="textr boxflex">
+                                                <cite class="font12 gray8b mr10">客</cite>
+                                                <cite class="font10">{{ite.ke.pm}}</cite>
+                                                <span>{{ite.ke.name}}</span>
+                                            </p>
+                                            <div class="lqbifen"><cite>VS</cite></div>
+                                            <p class="textl boxflex">
+                                                <span>{{ite.zhu.name}}</span>
+                                                <cite class="font10">{{ite.zhu.pm}}</cite>
+                                                <cite class="font12 gray8b ml10">主</cite>
+                                            </p>
+                                        </div>
+                                        <div class="topcenter matchitem_contlist">
+                                            <div class="boxflex">
+                                                <div class="topcenter dan">
+                                                    <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['93']}" @click="addbet(ite,93)"><span>客胜</span><span>{{ite.OddsList['93']}}</span></p>
+                                                    <div class="betbtn lqbifen"><cite class="fontgreen">主{{ite.oddsRqRf}}</cite></div>
+                                                    <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['92']}" @click="addbet(ite,92)"><span>主胜</span><span>{{ite.OddsList['92']}}</span></p>
+                                                </div>
+                                                <div class="topcenter">
+                                                    <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['94']}" @click="addbet(ite,94)"><span>大分</span><span>{{ite.OddsList['94']}}</span></p>
+                                                    <div class="betbtn lqbifen"><cite class="fontredz">{{ite.oddsDxfRf}}</cite></div>
+                                                    <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['95']}" @click="addbet(ite,95)"><span>小分</span><span>{{ite.OddsList['95']}}</span></p>
+                                                </div>
+                                            </div>
+                                            <div class="topcenter morebtn">
+                                                <p @click="showAll(item,ite,ind)">更多选项</p>
+                                                <!-- <div class="morebtn" :class="{'morebtn_sed': item.info.selectNum}" v-text="item.info.selectNum" @click="item.loadMore()"><p></p> -->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="morebtn topcenter">
-                                    <p @click="showAll(item,ite,ind)">更多玩法</p>
-                                    <!-- <p v-text="item.info.selectNum"></p> -->
-                                </div>
-                                </div>
+                                <!--matchitem over  -->
                             </div>
+                            <!-- matchlist over -->
                         </div>
                     </div>
-                    <!-- matchlist over -->
+                    <!-- 无赛程 -->
+                    <div class="nulllotteryno" style="display:none;">
+                        <p class="nulllotterynoimg"><img src="~@/assets2/images/nulllotteryno-83be1b1b40.png" alt=""></p>
+                        <p class="font14 gray5">暂无比赛</p>
+                    </div>
+
                 </div>
-                
-                <!-- 无赛程 -->
-                <div class="nulllotteryno" style="display:none;">
-                    <p class="nulllotterynoimg"><img src="~@/assets2/images/nulllotteryno-83be1b1b40.png" alt=""></p>
-                    <p class="font14 gray5">暂无比赛</p>
-                </div>
-                <!-- matchlist over -->
+                </section>
+
             </div>
-            </section>
         </div>
 
         <!-- 更多彩种 -->
         <div class="layerbox" v-if="allodds">
             <div class="morediv">
             <header class="head">
-                <a class="closeball2"></a>
-                <div class="headertit"><h1>
-                <span class="font10">{{allodds['zhu']['pm']}}</span>
-                <span class="font10" style="display: none;"></span>
-                <span>{{allodds['zhu']['name']}}</span>&nbsp;VS&nbsp;<span>{{allodds['ke']['name']}}</span>
-                <span class="font10" style="display: none;"></span>
+              <a class="closeball2"></a>
+              <div class="headertit"><h1>
                 <span class="font10">{{allodds['ke']['pm']}}</span>
-                </h1></div>
-                <div class="headBtnbox w40 topcenter"><a><em class="headicon icon_chart"></em></a></div>
+                <span class="font10" style="display: none;"></span>
+                <span>{{allodds['ke']['name']}}</span>&nbsp;VS&nbsp;<span>{{allodds['zhu']['name']}}</span>
+                <span class="font10" style="display: none;"></span>
+                <span class="font10">{{allodds['zhu']['pm']}}</span>
+              </h1></div>
+              <div class="headBtnbox w40 topcenter"><a><em class="headicon icon_chart"></em></a></div>
             </header>
 
             <div class="moremain">
-                <p class="m_tip bgfff">红色框选项可投单关</p>
-                <!-- <div class="topcenter moremain_tit border_b"><p class="boxflex">胜平负/让球胜平负</p></div> -->
-                <div class="bgfff listbox morebet_spf">
-                    <div class="topcenter itemstrecth">
-                        <div class="topcenter listtit m_spftitbg"><cite>胜平负</cite></div>
-                        <div class="boxflex flexbox dan">
-                            <p class="boxflex betbtn" v-for="(item,index) in optionConfig[0].cn" :key="index"
-                             v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[0].mix[index]]}"
-                             @click="addbet(allodds,optionConfig[0].mix[index])">
-                             <span>{{item}}</span><span>{{allodds['OddsList'][optionConfig[0].mix[index]]}}</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="topcenter itemstrecth">
-                        <div class="listtit topcenter m_spf_titred" v-if="allodds['Boundary']<0">
-                            <p class="boxflex"><cite>主 </cite><br><cite>{{allodds['Boundary']}}</cite></p>
-                        </div>
-                        <div class="listtit topcenter m_spf_titgreen" v-else>
-                            <p class="boxflex"><cite>主 </cite><br><cite>{{allodds['Boundary']}}</cite></p>
-                        </div>
-                        <div class="boxflex flexbox">
-                            <p class="boxflex betbtn" v-for="(item,index) in optionConfig[1].cn" :key="index"
-                            v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[1].mix[index]]}"
-                            @click="addbet(allodds,optionConfig[1].mix[index])">
-                            <span>{{item}}</span><span>{{allodds['OddsList'][optionConfig[1].mix[index]]}}</span>
-                            </p>
-                        </div>
-                    </div>
+              <div class="moremain_tit border_b">让球胜负/大小球</div>
+              <div class="morebet_rqsf border_b">
+                <div class="topcenter dan">
+                  <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['93']}" @click="addbet(allodds,93)">
+                    <span>客胜</span>
+                    <span>{{allodds['OddsList']['93']}}</span>
+                  </p>
+                  <div class="betbtn lqbifen">
+                    <cite style="" class="fontred">主{{allodds['oddsRqRf']}}</cite>
+                  </div>
+                  <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['92']}" @click="addbet(allodds,92)">
+                    <span>主胜</span>
+                    <span>{{allodds['OddsList']['92']}}</span>
+                  </p>
                 </div>
-                <!-- spf over -->
-
-                <!-- <div class="topcenter moremain_tit border_tb"><p class="boxflex">比分</p></div> -->
-                <div class="topcenter listbox m_bif">
-                    <div class="listtit topcenter"><p class="boxflex">比分</p></div>
-                    <div class="boxflex">
-                        <div class="flexbox m_betbox">
-                            <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[2].cn" v-if="index<13" :key="index"
-                            v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[2].mix[index]]}"
-                            @click="addbet(allodds,optionConfig[2].mix[index])">
-                            <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[2].mix[index]]}}</span>
-                            </p>
-                        </div>
-                        <div class="flexbox m_betbox">
-                            <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[2].cn" v-if="index>=15 && index<=19" :key="index"
-                            v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[2].mix[index]]}"
-                            @click="addbet(allodds,optionConfig[2].mix[index])">
-                            <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[2].mix[index]]}}</span>
-                            </p>
-                        </div>
-                        <div class="flexbox m_betbox">
-                            <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[2].cn" v-if="index>19" :key="index"
-                            v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[2].mix[index]]}"
-                            @click="addbet(allodds,optionConfig[2].mix[index])">
-                            <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[2].mix[index]]}}</span>
-                            </p>
-                        </div>
-                    </div>
+                <div class="topcenter">
+                  <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['94']}" @click="addbet(allodds,94)">
+                    <span>大分</span>
+                    <span>{{allodds['OddsList']['94']}}</span>
+                  </p>
+                  <div class="betbtn lqbifen">
+                    <cite class="fontred" style="">{{allodds['oddsDxfRf']}}</cite>
+                  </div>
+                  <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['95']}" @click="addbet(allodds,95)">
+                    <span>小分</span>
+                    <span>{{allodds['OddsList']['95']}}</span>
+                  </p>
                 </div>
-                <!-- bif over -->
+                <!--<div class="topcenter">
+                  <p class="boxflex betbtn betbtn_sed"><span>大分</span><span>4.55</span></p>
+                  <div class="lqbifen"><span class="fontred">200.5</span></div>
+                  <p class="boxflex betbtn"><span>小分</span><span>1.53</span></p>
+                </div>-->
+              </div>
+              <!-- rqsf over -->
+              <div class="moremain_tit border_b">胜负</div>
+              <div class="morebet_sf border_b">
+                <div class="topcenter dan">
+                  <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['91']}" @click="addbet(allodds,91)">
+                    <span>客胜</span>
+                    <span>{{allodds['OddsList']['91']}}</span>
+                  </p>
+                  <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['90']}" @click="addbet(allodds,90)">
+                    <span>主胜</span>
+                    <span>{{allodds['OddsList']['90']}}</span>
+                  </p>
+                </div>
+              </div>
+              <!-- spf over -->
 
-                <!-- zongjq -->
-                <!-- <div class="topcenter moremain_tit border_tb"><p class="boxflex">总进球数</p></div> -->
-                <div class="topcenter listbox m_zongjq">
-                    <div class="topcenter listtit"><p class="boxflex">总进球数</p></div>
-                    <div class="boxflex m_betbox flexbox">
-                        <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[3].cn" :key="index"
-                        v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[3].mix[index]]}"
-                        @click="addbet(allodds,optionConfig[3].mix[index])">
-                        <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[3].mix[index]]}}</span>
-                        </p>
-                    </div>
-                </div>              
-                <!-- zongjq over -->
+              <div class="moremain_tit border_b">胜分差
+                <!-- <span class="fontblue" v-show="currItem.item.game.SportteryWS.danguan">（可投单关）</span> --></div>
+              <div class="border_b m_bif">
+                <div class="topcenter m_bif_f">
+                  <div class="bif_tit topcenter"><p class="boxflex">客胜</p></div>
+                  <div class="boxflex flexbox">
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['102']}" @click="addbet(allodds,102)">
+                      <span>1-5</span>
+                      <span>{{allodds['OddsList']['102']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['103']}" @click="addbet(allodds,103)">
+                      <span>6-10</span>
+                      <span>{{allodds['OddsList']['103']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['104']}" @click="addbet(allodds,104)">
+                      <span>11-15</span>
+                      <span>{{allodds['OddsList']['104']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['105']}" @click="addbet(allodds,105)">
+                      <span>16-20</span>
+                      <span>{{allodds['OddsList']['105']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['106']}" @click="addbet(allodds,106)">
+                      <span>21-25</span>
+                      <span>{{allodds['OddsList']['106']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['107']}" @click="addbet(allodds,107)">
+                      <span>26+</span>
+                      <span>{{allodds['OddsList']['107']}}</span>
+                    </p>
+                  </div>
+                </div>
 
-                <!-- m_half -->
-                <!-- <div class="topcenter moremain_tit border_tb"><p class="boxflex">半全场</p></div> -->
-                <div class="topcenter listbox m_half">
-                    <div class="topcenter listtit"><p class="boxflex">半全场</p></div>
-                    <div class="boxflex m_betbox flexbox">
-                        <p class="boxflex betbtn betbtn_dan" v-for="(item,index) in optionConfig[4].cn" :key="index"
-                        v-bind:class="{'beton':betlist[allid]&&betlist[allid][optionConfig[4].mix[index]]}"
-                        @click="addbet(allodds,optionConfig[4].mix[index])">
-                        <span>{{item}}</span><span class="gray8b">{{allodds['OddsList'][optionConfig[4].mix[index]]}}</span>
-                        </p>
-                    </div>
-                    
-                </div> 
-                <!-- <div class="border_b m_half flexbox" v-else>未受注</div> -->
-                <!-- m_half over -->
-            </div>
+
+                <div class="topcenter m_bif_s">
+                  <div class="bif_tit topcenter"><p class="boxflex">主胜</p></div>
+                  <div class="boxflex flexbox">
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['96']}" @click="addbet(allodds,96)">
+                      <span>1-5</span>
+                      <span>{{allodds['OddsList']['96']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['97']}" @click="addbet(allodds,97)">
+                      <span>6-10</span>
+                      <span>{{allodds['OddsList']['97']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['98']}" @click="addbet(allodds,98)">
+                      <span>11-15</span>
+                      <span>{{allodds['OddsList']['98']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['99']}" @click="addbet(allodds,99)">
+                      <span>16-20</span>
+                      <span>{{allodds['OddsList']['99']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['100']}" @click="addbet(allodds,100)">
+                      <span>21-25</span>
+                      <span>{{allodds['OddsList']['100']}}</span>
+                    </p>
+                    <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['101']}" @click="addbet(allodds,101)">
+                      <span>26+</span>
+                      <span>{{allodds['OddsList']['101']}}</span>
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+              <!-- sfc over -->
+          </div>
             <!-- moremain over -->
 
             <div class="topcenter morediv_bottom">
@@ -346,6 +382,12 @@ export default {
                         wager: ['3-3', '3-1', '3-0', '1-3', '1-1', '1-0', '0-3', '0-1', '0-0'],
                         mix: ['20', '21', '22', '23', '24', '25', '26', '27', '28'],
                         ltype: 'SportteryHalfFull'
+                    },
+                    '5': {
+                        cn: ['主胜', '客胜', '主胜', '客胜', '大分', '小分', '1-5', '6-10', '11-15', '16-20', '21-25', '26+', '1-5', '6-10', '11-15', '16-20', '21-25', '26+'],
+                        wager: ['3', '0', '3', '0', '3', '0', '1-5', '6-10', '11-15', '16-20', '21-25', '26+', '1-5', '6-10', '11-15', '16-20', '21-25', '26+'],
+                        mix: ['90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100', '101', '102', '103', '104', '105', '106', '107'],
+                        ltype: 'SportteryBasketMix'
                     }
             },
             homeUrl: "/home",
@@ -365,7 +407,7 @@ export default {
 
         //加载数据
 		fetchData(){
-            this.axios.post('/api/ball/GetBall/odds?code=jcodds').then(res => {  
+            this.axios.post('/api/ball/GetBall/odds?code=oddsJclq').then(res => {  
                 let data=res.data.result;
                 if(data.code==0){
                     this.oddsData=data.data;
