@@ -28,7 +28,7 @@
                         <div v-for="(item,index) in oddsData" :key="index">
                             <div class="topcenter matchtit" @click="dshow(index,item)">
                                 <p class="boxflex gray8b">
-                                    <span class="mr10">{{ite.title}}</span>
+                                    <span class="mr10">{{item.title}}</span>
                                     <!-- <span>共x场比赛</span> -->
                                     <!-- <span class="font12">（红色选项可投单关）</span> -->
                                 </p>
@@ -60,15 +60,28 @@
                                         </div>
                                         <div class="topcenter matchitem_contlist">
                                             <div class="boxflex">
-                                                <div class="topcenter dan">
+                                                <div class="topcenter dan" v-if="ite.oddsRqAllowBet == '1'">
                                                     <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['93']}" @click="addbet(ite,93)"><span>客胜</span><span>{{ite.OddsList['93']}}</span></p>
-                                                    <div class="betbtn lqbifen"><cite class="fontgreen">主{{ite.oddsRqRf}}</cite></div>
+                                                    <div class="betbtn lqbifen">
+                                                        <cite class="fontgreen" v-if="ite.oddsRqRf > 0">主+{{ite.oddsRqRf}}</cite>
+                                                        <cite class="fontredz" v-else>主{{ite.oddsRqRf}}</cite>
+                                                    </div>
                                                     <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['92']}" @click="addbet(ite,92)"><span>主胜</span><span>{{ite.OddsList['92']}}</span></p>
                                                 </div>
-                                                <div class="topcenter">
+                                                <div class="topcenter dan" v-else>
+                                                    <p class="boxflex betbtn betbtn_gray"><span>客胜</span><span>- -</span></p>
+                                                    <div class="betbtn lqbifen"><cite class="fontgreen" style="display: none;">0</cite></div>
+                                                    <p class="boxflex betbtn betbtn_gray"><span>主胜</span><span>- -</span></p>
+                                                </div>
+                                                <div class="topcenter" v-if="ite.oddsDxfAllowBet == '1'">
                                                     <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['94']}" @click="addbet(ite,94)"><span>大分</span><span>{{ite.OddsList['94']}}</span></p>
                                                     <div class="betbtn lqbifen"><cite class="fontredz">{{ite.oddsDxfRf}}</cite></div>
                                                     <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[ind]&&betlist[ind]['95']}" @click="addbet(ite,95)"><span>小分</span><span>{{ite.OddsList['95']}}</span></p>
+                                                </div>
+                                                <div class="topcenter" v-else>
+                                                    <p class="boxflex betbtn betbtn_gray"><span>大分</span><span>- -</span></p>
+                                                    <div class="betbtn lqbifen"><cite class="fontredz" style="display: none;">0</cite></div>
+                                                    <p class="boxflex betbtn betbtn_gray"><span>小分</span><span>- -</span></p>
                                                 </div>
                                             </div>
                                             <div class="topcenter morebtn">
@@ -113,20 +126,27 @@
             <div class="moremain">
               <div class="moremain_tit border_b">让球胜负/大小球</div>
               <div class="morebet_rqsf border_b">
-                <div class="topcenter dan">
+                <div class="topcenter dan" v-if="allodds['oddsRqAllowBet'] == '1'">
                   <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['93']}" @click="addbet(allodds,93)">
                     <span>客胜</span>
                     <span>{{allodds['OddsList']['93']}}</span>
                   </p>
                   <div class="betbtn lqbifen">
-                    <cite style="" class="fontred">主{{allodds['oddsRqRf']}}</cite>
+                    <cite class="fontgreen" v-if="allodds['oddsRqRf'] > 0">主+{{allodds['oddsRqRf']}}</cite>
+                    <cite class="fontred" v-else>主{{allodds['oddsRqRf']}}</cite>
                   </div>
                   <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['92']}" @click="addbet(allodds,92)">
                     <span>主胜</span>
                     <span>{{allodds['OddsList']['92']}}</span>
                   </p>
                 </div>
-                <div class="topcenter">
+                <div class="topcenter dan" v-else>
+                  <p class="boxflex betbtn betbtn_gray"><span>客胜</span><span>未受注</span></p>
+                  <div class="betbtn lqbifen"><cite class="fontred" style="display: none;">0</cite></div>
+                  <p class="boxflex betbtn betbtn_gray"><span>主胜</span><span>未受注</span></p>
+                </div>
+
+                <div class="topcenter" v-if="allodds['oddsDxfAllowBet'] == '1'">
                   <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['94']}" @click="addbet(allodds,94)">
                     <span>大分</span>
                     <span>{{allodds['OddsList']['94']}}</span>
@@ -139,6 +159,11 @@
                     <span>{{allodds['OddsList']['95']}}</span>
                   </p>
                 </div>
+                <div class="topcenter" v-else>
+                  <p class="boxflex betbtn betbtn_gray"><span>大分</span><span>未受注</span></p>
+                  <div class="betbtn lqbifen"><cite class="fontred" style="display: none;">0</cite></div>
+                  <p class="boxflex betbtn betbtn_gray"><span>小分</span><span>未受注</span></p>
+                </div>
                 <!--<div class="topcenter">
                   <p class="boxflex betbtn betbtn_sed"><span>大分</span><span>4.55</span></p>
                   <div class="lqbifen"><span class="fontred">200.5</span></div>
@@ -148,7 +173,7 @@
               <!-- rqsf over -->
               <div class="moremain_tit border_b">胜负</div>
               <div class="morebet_sf border_b">
-                <div class="topcenter dan">
+                <div class="topcenter dan" v-if="allodds['oddsSfAllowBet'] == '1'">
                   <p class="boxflex betbtn" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['91']}" @click="addbet(allodds,91)">
                     <span>客胜</span>
                     <span>{{allodds['OddsList']['91']}}</span>
@@ -158,6 +183,10 @@
                     <span>{{allodds['OddsList']['90']}}</span>
                   </p>
                 </div>
+                <div class="topcenter dan" v-else>
+                  <p class="boxflex betbtn betbtn_gray"><span>客胜</span><span>未受注</span></p>
+                  <p class="boxflex betbtn betbtn_gray"><span>主胜</span><span>未受注</span></p>
+                </div>
               </div>
               <!-- spf over -->
 
@@ -166,7 +195,7 @@
               <div class="border_b m_bif">
                 <div class="topcenter m_bif_f">
                   <div class="bif_tit topcenter"><p class="boxflex">客胜</p></div>
-                  <div class="boxflex flexbox">
+                  <div class="boxflex flexbox" v-if="allodds['oddsSfcAllowBet'] == '1'">
                     <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['102']}" @click="addbet(allodds,102)">
                       <span>1-5</span>
                       <span>{{allodds['OddsList']['102']}}</span>
@@ -192,12 +221,33 @@
                       <span>{{allodds['OddsList']['107']}}</span>
                     </p>
                   </div>
+                  <div class="boxflex flexbox" v-else>
+                    <p class="boxflex betbtn betbtn_gray">
+                      <span>1-5</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>6-10</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>11-15</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>16-20</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>21-25</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>26+</span>
+                      <span>未受注</span>
+                    </p>
+                  </div>
                 </div>
 
 
                 <div class="topcenter m_bif_s">
                   <div class="bif_tit topcenter"><p class="boxflex">主胜</p></div>
-                  <div class="boxflex flexbox">
+                  <div class="boxflex flexbox" v-if="allodds['oddsSfcAllowBet'] == '1'">
                     <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['96']}" @click="addbet(allodds,96)">
                       <span>1-5</span>
                       <span>{{allodds['OddsList']['96']}}</span>
@@ -221,6 +271,27 @@
                     <p class="boxflex betbtn betbtn_dan" v-bind:class="{'betbtn_sed':betlist[allid]&&betlist[allid]['101']}" @click="addbet(allodds,101)">
                       <span>26+</span>
                       <span>{{allodds['OddsList']['101']}}</span>
+                    </p>
+                  </div>
+                  <div class="boxflex flexbox" v-else>
+                    <p class="boxflex betbtn betbtn_gray">
+                      <span>1-5</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>6-10</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>11-15</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>16-20</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>21-25</span>
+                      <span>未受注</span>
+                    </p><p class="boxflex betbtn betbtn_gray">
+                      <span>26+</span>
+                      <span>未受注</span>
                     </p>
                   </div>
                 </div>
@@ -437,7 +508,8 @@ export default {
             $("#downupBtn").hasClass()
         },
 
-        showAll(item,ite,id){ 
+        showAll(item,ite,id){
+            window.console.log('---------');
             ite.date=item.date;
             this.allid=id;
             this.allodds=ite;
@@ -684,7 +756,7 @@ export default {
             }
 
             let reqData={};
-            reqData['gameid'] = 1;
+            reqData['gameid'] = 2;
             reqData['pass_type'] = this.betfield + "_" + this.cuang;
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
@@ -722,13 +794,13 @@ export default {
         //下单
         order(){
             let reqData={};
-            reqData['gameid'] = 1;
+            reqData['gameid'] = 2;
             reqData['pass_type'] = this.betfield + "_" + this.cuang;
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
             window.console.log(reqData);
-            this.axios.post('/api/ball/GetBall/betNew', qs.stringify(reqData)).then(res => {  
+            this.axios.post('/api/ball/GetBall/betJclq', qs.stringify(reqData)).then(res => {  
                 let data = res.data;
                 window.console.log("========data========");
                 window.console.log(data);
