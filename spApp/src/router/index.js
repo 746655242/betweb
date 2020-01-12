@@ -43,7 +43,7 @@ let routes=[
             // }
         },  
         
-         /* 投注 */
+         /* 订单 */
          {
             path: '/home/jincai',
             name: 'jincai',
@@ -61,7 +61,7 @@ let routes=[
             }
          
         },
-        /* 14投注 */
+        /* 14订单 */
         {
             path: '/home/zucai',
             name: 'zucai',
@@ -69,7 +69,7 @@ let routes=[
                 require(['@/pages/index/zucai'], resolve)
             }
         },
-         /* 9投注 */
+         /* 9订单 */
          {
             path: '/home/zucai9',
             name: 'zucai9',
@@ -110,7 +110,7 @@ let routes=[
             }
         },
 
-        /* 投注记录 */
+        /* 订单记录 */
         {
             path: '/mine/betting',
             name: 'betting',
@@ -316,7 +316,7 @@ let routes=[
         }, 
         
         
-        /* 彩票投注列表  */
+        /* 彩票订单列表  */
         {
             path: '/lotteryBettingList',
             name: 'lotteryBettingList',

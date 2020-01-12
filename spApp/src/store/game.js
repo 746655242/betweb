@@ -133,7 +133,7 @@ const  PASS_MODE_TYPE2_BD=[
 ];
 /**
  * 
- * @param {Array} matches 投注场次
+ * @param {Array} matches 订单场次
  * @param {Number} cgCount 串关场数
  * @param {Number} cgMode 串关方式
  */

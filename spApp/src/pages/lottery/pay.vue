@@ -5,7 +5,7 @@
     <div class="back"><a class="backlink" @click="close"></a></div>
     <div class="headertit topcenter column">
       <h2>我的店内账本</h2>
-      <h3>福盈中央山投注站</h3>
+      <h3>福盈中央山订单站</h3>
     </div>
     <div class="headBtnbox"><a class="fr"><em class="headicon icon_tel"></em></a></div>
   </header>

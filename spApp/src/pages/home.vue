@@ -3,7 +3,7 @@
 
     <header class="head">
       <div class="headertit">
-        <h1>福盈中央山投注站</h1>
+        <h1>福盈中央山订单站</h1>
       </div>
     </header>
 
@@ -95,7 +95,7 @@
 
       <!-- <div class="advertbox"><img src="" alt=""></div> -->
 
-      <div class="mb15 border_tbbox">
+      <div class="mb15 border_tbbox" style="display: none;">
         <div class="shop_details_activity flexbox border_b">
           <div style="" class="boxflex shop_details_acitem border_r">
             <p class="icon_shopdetail icon_hemai"></p>
@@ -160,8 +160,8 @@
   // import  digitalLottery  from '@/pages/index/digitalLottery'
 
   const list = () => [{
-      title: '福盈中央投注站',
-      nav: '福盈中央投注站',
+      title: '福盈中央订单站',
+      nav: '福盈中央订单站',
       url: 'main'
     },
     // {title:'彩票',nav:'彩票',url:'lottery'},

@@ -332,7 +332,7 @@
                     </p>
                     <p class="beishu"><input type="text" v-model="cancel"></p>
                     <span class="mr05rem">倍</span>
-                    <p class="boxflex"><a class="buybtn_blue" @click="order">投注</a></p>
+                    <p class="boxflex"><a class="buybtn_blue" @click="order">订单</a></p>
                 </div>
             </div>
         </section>
@@ -399,10 +399,10 @@ export default {
             cancel:1, //倍数
             field:2, //总比赛场数
             cuang:1,//串
-            betfield:2,//投注场
+            betfield:2,//订单场
 
-            betmoney:2, //投注金额
-            bettotalmoney:2, //投注总金额 
+            betmoney:2, //订单金额
+            bettotalmoney:2, //订单总金额 
             totalBonus:0,//总奖金
             
             allbetlist:null,
@@ -415,10 +415,10 @@ export default {
             oddsData:[],
             oddsDataobj:{},
             
-            betlistArr:[],//选择投注
+            betlistArr:[],//选择订单
 
             oldbetlist:{},//旧数据
-            betlist:{}, //选中json投注
+            betlist:{}, //选中json订单
             
             //选择配置
             optionConfig:{
@@ -529,9 +529,9 @@ export default {
             this.cancel = 1; // 倍数
             this.field = 2; // 总比赛场数
             this.cuang = 1; //串
-            this.betfield = 2; //投注场
-            this.betmoney = 2; // 投注金额
-            this.bettotalmoney = 2; // 投注总金额 
+            this.betfield = 2; //订单场
+            this.betmoney = 2; // 订单金额
+            this.bettotalmoney = 2; // 订单总金额 
             this.totalBonus = 0; //总奖金
 
             this.allbetlist = null;
@@ -539,9 +539,9 @@ export default {
             this.allodds = null;
             this.orderData =  ""; //  下单数据
 
-            this.betlistArr = []; //选择投注
+            this.betlistArr = []; //选择订单
             this.oldbetlist = {}; //旧数据
-            this.betlist = {}; //选中json投注
+            this.betlist = {}; //选中json订单
         },
 
         //增加和删除
@@ -577,7 +577,7 @@ export default {
             for(let i in this.betlist){
                 let keys=[];
                 let onetoal=2*this.cancel;
-                //生成投注明线
+                //生成订单明线
                 let orderDataIdxTmp = "";
                 for(let k in this.betlist[i]){
                     let name= this.oddsDataobj[i].date+'|'+i+'|'+k+'|'+this.betlist[i][k]+'|'+this.oddsDataobj[i].Boundary;

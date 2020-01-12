@@ -2,7 +2,7 @@
 	<div class="daohao-wrap">
 		<header class="betListHeader">
 			<span onclick="history.go(-1)" class="iconfont icon-fanhui">&#xe614;</span>
-			<span>广东11选5投注单</span>
+			<span>广东11选5订单单</span>
 		</header>
 		<div class="betListBox">
 			<div class="info-time">

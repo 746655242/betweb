@@ -23,7 +23,7 @@
 		<router-link to="/mine/betting" >
 			<span class="list_itema nextarrow topcenter">
 			<em class="usericon2 icon_betlist"></em>
-			<p class="boxflex font16 gray0">投注记录</p>
+			<p class="boxflex font16 gray0">订单记录</p>
 			</span>
 		</router-link>
 	</li>
