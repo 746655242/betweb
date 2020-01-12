@@ -94,8 +94,8 @@
       </div>
 
       <!-- <div class="advertbox"><img src="" alt=""></div> -->
-
-      <div class="mb15 border_tbbox" style="display: none;">
+<!-- 
+      <div class="mb15 border_tbbox">
         <div class="shop_details_activity flexbox border_b">
           <div style="" class="boxflex shop_details_acitem border_r">
             <p class="icon_shopdetail icon_hemai"></p>
@@ -110,14 +110,12 @@
           <div class="boxflex shop_details_acitem">
             <p class="icon_shopdetail activity"></p>
             <p class="mt6 gray3">优惠活动</p>
-            <!-- <p v-show="huodong.num > 0 && !huodong.has_rcmd" class="fontred font12">送好礼</p>
-				<p v-show="huodong.has_rcmd" class="icon_shopdetail activity_tipbg font12" >赚彩金</p> -->
+            <p v-show="huodong.num > 0 && !huodong.has_rcmd" class="fontred font12">送好礼</p>
+				<p v-show="huodong.has_rcmd" class="icon_shopdetail activity_tipbg font12" >赚彩金</p>
             <p class="fontred font12" style="">送好礼</p>
           </div>
         </div>
-        <!--shop_details_activity over  -->
-
-      </div>
+      </div> -->
 
       <index @LstPageMenu='LstPageMenu'></index>
 
