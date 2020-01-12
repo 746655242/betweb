@@ -38,24 +38,23 @@
 
       </div>
 
-      <div class="bgfff border_b mb15">
-        <!-- <div class="topcenter shop_detail_len">
+      <!-- <div class="bgfff border_b mb15">
+        <div class="topcenter shop_detail_len">
 			<div class="boxflex topcenter border_r"><em class="iconbg icon_weizhi"></em>
 				<p class="font12 boxflex" v-text="data.city"></p></div>
 			<div class="topcenter shop_detail_lianxi">
 				<p class="boxflex flexcenter" @click="emptyFun" id="weixin1" v-show="data.weixin" :data-clipboard-text="data.weixin"><em class="iconbg2 icon_weixin2"></em></p>
 				<p class="boxflex flexcenter"><a class="flexcenter tellink" :href="'tel:' + data.mobile"><em class="iconbg2 icon_telblue"></em></a></p>
 				<p class="boxflex flexcenter" @click="doshowContact"><em class="flexcenter lianxi_morebtn">+</em></p></div>
-			</div> -->
+			</div>
 
         <div class="border_t topcenter shop_detail_topbtn">
           <div class="downapp_box flexcenter" style="" _v-218db263=""><em class="iconbg2 iconbg_downgray"
               _v-218db263=""></em>
             <p class="prel" _v-218db263="">下载APP
-              <!-- <em class="iconhotbg">热</em>-->
+              <em class="iconhotbg">热</em>
             </p>
-            <div class="layer_shop_detail_tip" style="display:none" _v-218db263="">
-              <!-- v-show="showNew" -->
+            <div class="layer_shop_detail_tip" style="display:none">
               <em class="arrow" _v-218db263=""></em>
               <div class="topcenter" _v-218db263="">
                 <p class="boxflex" _v-218db263="">店小二提醒：APP在手，通知我有</p>
@@ -68,11 +67,9 @@
             data-clipboard-text="$店铺口令$长按复制本条消息，打开口袋好店App即可进入，MjE4NTgyNzE="></div>
           <div class="collect_box boxflex flexcenter" style="display:none"><em class="iconbg2 icon_collect"></em>
             <p class="prel">收藏
-              <!-- <em class="iconhotbg">新</em> -->
+              <em class="iconhotbg">新</em>
             </p>
-            <!-- 弹层 -->
             <div class="layer_shop_detail_tip" style="display:none">
-              <!-- v-show="collect.showNew" -->
               <em class="arrow"></em>
               <div class="topcenter">
                 <p class="boxflex">店小二提醒：收藏本店 快速直达</p>
@@ -91,7 +88,7 @@
             <p>分享</p>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- <div class="advertbox"><img src="" alt=""></div> -->
 <!-- 
