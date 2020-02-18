@@ -110,7 +110,7 @@
             if (data.code == 0) {
               this.listdata = this.listdata.concat(data.list);
               for(let i in this.listdata){
-                  this.listdata[i]['href'] = '/mine/betting_detail?orderid='+this.listdata[i]['id'];
+                  this.listdata[i]['href'] = '/mine/betting_detail/'+this.listdata[i]['id'];
               }
               this.totalpage = Math.floor(data.total / 20);
             }

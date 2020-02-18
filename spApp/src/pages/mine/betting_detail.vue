@@ -15,23 +15,13 @@
     </header>
     <div id="dropload-body">
       <section class="project padheader pb48">
-        <!-- 未提交彩店 -->
-        <div class="mb10 border_tbbox bgfff pad305" style="display: none;">
-          <a class="list_itema topcenter nextarrow">
-            <!-- <div class="projecsigngray mr20"><em class="shopicon icon_start"></em></div> -->
-            <div class="boxflex topcenter">
-              <p class="font14 gray0 mr10 line30">标记出票</p>
-              <div class="boxflex"><span class="gray8b font12">标记出票100.00元，请仔细核对并妥善保管您的票。</span></div>
-            </div>
-          </a>
-        </div>
         <!-- 已提交彩店 -->
         <div class="mb10 border_tbbox bgfff pad305">
           <a class="list_itema topcenter nextarrow">
             <!-- <div class="projecsignsed mr20"><em class="shopicon icon_signwhite"></em></div> -->
-            <p class="font14 gray0 mr10 line30">标记出票</p>
+            <p class="font14 gray0 mr10 line30">{{betinfoData.status_title}}</p>
             <div class="boxflex">
-              <p class="gray8b font12 mr10">标记出票100.00元，请仔细核对并妥善保管您的票。</p>
+              <p class="gray8b font12 mr10">{{betinfoData.status_title}}{{betinfoData.bet_amount}}元，请仔细核对并妥善保管您的票。</p>
               <p class="txtbg_redbd font12" style="display: none;"><span></span>截止</p>
             </div>
             <!-- 未接单 -->
@@ -56,17 +46,16 @@
           <div>
             <div class="pad305 bgfff line34 gray8b">
               <div class="topcenter">
-                <p class="boxflex">金额：<span class="fontredz font15">100</span> 元 [50倍]</p>
-                <p style=""><span>理论最高奖金：</span><a class="fontredz fontredbtnborder">215.00</a>元</p>
-                <p style="display: none;">理论最高奖金：</p>
+                <p class="boxflex">金额：<span class="fontredz font15">{{betinfoData.bet_amount}}</span> 元 [{{betinfoData.multiple}}倍]</p>
+                <p><span>理论最高奖金：</span><a class="fontredz fontredbtnborder">{{betinfoData.bonus}}</a>元</p>
               </div>
               <div class="topcenter">
                 <p class="boxflex">
                   <span class="fontblue">竞足混合过关</span>&nbsp;&nbsp;
-                  选<span class="fontredz">2</span>场&nbsp;&nbsp;
-                  <span class="fontredz">2串1</span>
+                  选<span class="fontredz">{{betinfoData.game_total}}</span>场&nbsp;&nbsp;
+                  <span class="fontredz">{{betinfoData.pass_type_title}}</span>
                 </p>
-                <span style="display: none;">第<span>2020-01-18</span>期</span>
+                <span style="display: none;">第<span>2020-xx-xx</span>期</span>
               </div>
             </div>
             <div style="display: none;" class="bgfff border_tb projecthide">
@@ -253,11 +242,6 @@
         listdata: [],
         index: 0,
         page: 0,
-        totalpage: 1,
-
-        ylistdata: [],
-        ypage: 0,
-        ytotalpage: 1,
 
         betinfoData: {},
         betinfoShow: false,
@@ -266,7 +250,6 @@
     },
     created() {
       this.fetchData();
-      // this.ygetdata();
     },
     computed: {
       ...mapGetters({
@@ -286,106 +269,28 @@
     methods: {
       fetchData() {
         let me = this;
-        let user = this.user.info
-        let data = {
-          page: this.page
-        };
+        let user = this.user.info;
         if (user && user.token) {
-          this.axios.post('/api/ball/GetBall/betlist', qs.stringify(data)).then(res => {
+          let id = this.$route.params.id;
+          let reqData = {
+            ids: id,
+          }
+          this.axios.post('/api/ball/GetBall/betinfo', qs.stringify(reqData)).then(res => {
             let data = res.data;
             if (data.code == 0) {
-              this.listdata = this.listdata.concat(data.list);
-              this.totalpage = Math.floor(data.total / 20);
+              this.listdata = data.list;
+              this.betinfoData = this.listdata[0];
             }
           }).catch(function (err) {
-            console.log(err)
+            console.log(err);
           })
         } else {
-          this.$router.push('/login')
+          this.$router.push('/login');
         }
       },
       onItemClick(index) {
         this.index = index;
       },
-      tabindex() {
-        if (this.page + 1 <= this.totalpage) {
-          this.page++;
-          this.fetchData();
-        } else {
-          alert('已经到最后一页');
-        }
-      },
-
-      ygetdata() {
-        let me = this;
-        let user = this.user.info
-        let data = {
-          page: this.page,
-          status: 1
-        };
-        if (user && user.token) {
-          this.axios.post('/api/ball/GetBall/betlist', qs.stringify(data)).then(res => {
-            let data = res.data;
-            if (data.code == 0) {
-              this.ylistdata = this.listdata.concat(data.list);
-              this.ytotalpage = Math.floor(data.total / 20);
-            }
-          }).catch(function (err) {
-            console.log(err)
-          })
-        } else {
-          this.$router.push('/login')
-        }
-      },
-
-      ytabindex() {
-        if (this.ypage + 1 <= this.ytotalpage) {
-          this.ypage++;
-          this.ygetdata();
-        } else {
-          alert('已经到最后一页');
-        }
-      },
-
-      //显示详情
-      betinfoSw(item) {
-        if ([3, 4].indexOf(item['game_type']) >= 0) {
-          var ids = item.issue;
-        } else if ([1, 5].indexOf(item['game_type']) >= 0) {
-          let betCom = item.bet_con.split(',');
-          var ids = [];
-          for (let i in betCom) {
-            ids.push(betCom[i].split('|')[1]);
-          }
-          ids = ids.join(',');
-
-        } else {
-          alert('暂时查看详情');
-          return;
-        }
-
-        // console.log(ids);
-
-        let data = {
-          ids: ids,
-          type: item['game_type']
-        }
-
-        this.axios.post('/api/ball/GetBall/betinfo', qs.stringify(data)).then(res => {
-          let data = res.data;
-          if (data.code == 0) {
-            item['betList'] = data.list;
-            this.betinfoData = item;
-            // console.log(this.betinfoData);
-          }
-        }).catch(function (err) {
-          console.log(err)
-        })
-      },
-
-      colsebetinfoSw() {
-        this.betinfoData = {};
-      }
     }
   }
 </script>

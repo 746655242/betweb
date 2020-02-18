@@ -118,6 +118,15 @@ let routes=[
                 require(['@/pages/mine/betting'], resolve)
             }
          
+        },
+        /* 订单详情 */
+        {
+            path: '/mine/betting_detail/:id/',
+            name: 'betting',
+            component: function(resolve) {
+                require(['@/pages/mine/betting'], resolve)
+            }
+         
         }, 
 
 
