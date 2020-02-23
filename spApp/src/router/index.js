@@ -124,7 +124,7 @@ let routes=[
             path: '/mine/betting_detail/:id/',
             name: 'betting',
             component: function(resolve) {
-                require(['@/pages/mine/betting'], resolve)
+                require(['@/pages/mine/betting_detail'], resolve)
             }
          
         }, 

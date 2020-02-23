@@ -3,7 +3,7 @@
     <link href="./static/css/user.css" rel="stylesheet">
     <link href="./static/css/dropload.css" rel="stylesheet">
     <header class="head headfixed">
-      <div class="back w60"><a class="backlink"></a></div>
+      <div class="back w60"><router-link :to="homeUrl"><p class="backlink"></p></router-link></div>
       <div class="headertit">
         <nav class="flexbox headermenu">
           <p class="boxflex border_r" @click="onItemClick(0)"><a v-bind:class="{'sed':index==0}">全部订单</a></p>
@@ -75,7 +75,9 @@
 
         betinfoData: {},
         betinfoShow: false,
-        SwiperHeight: ''
+        SwiperHeight: '',
+
+        homeUrl: "/home",
       }
     },
     created() {

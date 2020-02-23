@@ -3,7 +3,7 @@
     <link href="./static/css/user.css" rel="stylesheet">
     <link href="./static/css/jingcai.css" rel="stylesheet">
     <header class="head">
-      <div class="back w70"><a class="backlink"></a></div>
+      <div class="back w70"><router-link :to="bettingUrl"><p class="backlink"></p></router-link></div>
       <div class="headertit topcenter column">
         <h2><span>福盈中央山订单站</span> - <span>333405738</span></h2>
         <h3>预计 xx-xx xx:xx 开奖</h3>
@@ -65,23 +65,23 @@
                 <p><span class="fontred">停售</span>后公开</p>
               </div>
             </div>
-            <ul style="" class="project_betlist bgfff font12">
-              <li class="flexbox border_t project_list_item">
+            <ul class="project_betlist bgfff font12" v-if="betinfoData.game_data.length>0">
+              <li class="flexbox border_t project_list_item" v-for="(item,index) in betinfoData.game_data" :key="index">
                 <div class="liansai gray8b">
-                  <p class="font10"><span>周六002</span></p>
-                  <p class="font10">澳超</p>
-                  <a class="xi font10">分析</a>
+                  <p class="font10"><span>{{item.orderid}}</span></p>
+                  <p class="font10">{{item.liansai}}</p>
+                  <a class="xi font10">&nbsp;&nbsp;</a>
                 </div>
                 <p class="hasdan"><em class="redball font10" style="display: none;">胆</em></p>
                 <div class="boxflex">
                   <div class="name topcenter">
-                    <p class="boxflex textr"><span>墨尔本城</span></p>
-                    <div class="boxflex bifen">
+                    <p class="boxflex textr"><span>{{item.zhu_name}}</span></p>
+                    <!-- <div class="boxflex bifen">
                       <cite class="font10 fontblue">35'&nbsp;&nbsp;</cite>
                       <span class="gray8b fontredz">1:0</span>
-                    </div>
-                    <!-- <p v-text="item.intro.time">8/10  17:00</p> -->
-                    <p class="boxflex textl"><span>纽喷气机</span></p>
+                    </div> -->
+                    <div class="boxflex bifen"><span class="gray8b">{{item.timetxt}}</span></div>
+                    <p class="boxflex textl"><span>{{item.ke_name}}</span></p>
                   </div>
                   <div class="flexbox caidiv caidivspf">
                     <em class="rang rang0">0</em>
@@ -105,7 +105,6 @@
                         当list.rOdds存在时，未中奖的选项赔率为空，中奖的显示最终赔率
                         当list.rOdds不存在时，所有选项显示自身赔率
                 -->
-
                     <div class="caiguo caiguo_jz" style="display: none;">
                       <p class="caiguo_jztit">彩果</p>
                       <p class="caiguo_jzcg"></p>
@@ -115,54 +114,6 @@
                 </div>
                 <!-- project_betlist over -->
               </li>
-              <li class="flexbox border_t project_list_item">
-                <div class="liansai gray8b">
-                  <p class="font10"><span>周六038</span></p>
-                  <p class="font10">亚青23</p>
-                  <a class="xi font10">分析</a>
-                </div>
-                <p class="hasdan"><em class="redball font10" style="display: none;">胆</em></p>
-                <div class="boxflex">
-                  <div class="name topcenter">
-                    <p class="boxflex textr"><span>泰国23</span></p>
-                    <div class="boxflex bifen"><span class="gray8b">1/18 18:15</span></div>
-                    <!-- <p v-text="item.intro.time">8/10  17:00</p> -->
-                    <p class="boxflex textl"><span>沙特23</span></p>
-                  </div>
-                  <div class="flexbox caidiv caidivspf">
-                    <em class="rang rang0 ranggreen">+1</em>
-                    <div class="boxflex betwlist topcenter">
-                      <div class="betbtn betbtnsed">
-                        <p class="gray5 fl">胜</p>
-                        <p class="graya6 fr">1.57</p>
-                      </div>
-                      <div class="betbtn">
-                        <p class="gray5 fl">平</p>
-                        <p class="graya6 fr">3.45</p>
-                      </div>
-                      <div class="betbtn">
-                        <p class="gray5 fl">负</p>
-                        <p class="graya6 fr">4.5</p>
-                      </div>
-                    </div>
-                    <!--
-                  list.rOdds: 北京单场（和胜负过关）中奖选项的最终赔率
-                  逻辑：当list.rOdds存在时，视为已开奖。
-                        当list.rOdds存在时，未中奖的选项赔率为空，中奖的显示最终赔率
-                        当list.rOdds不存在时，所有选项显示自身赔率
-                -->
-
-                    <div class="caiguo caiguo_jz" style="display: none;">
-                      <p class="caiguo_jztit">彩果</p>
-                      <p class="caiguo_jzcg"></p>
-                      <!-- <p v-text="list.rOdds">胜</p> -->
-                    </div>
-                  </div>
-                </div>
-                <!-- project_betlist over -->
-              </li>
-
-            </ul>
             <!--选号详情 结束  -->
 
           </div>
@@ -175,13 +126,6 @@
             <p>足球竞猜的是90分钟+伤停补时的赛果，不含加时和点球。</p>
             <a href="javascript:;"><span class="gray3">投注数据、奖金仅供参考，请以实票数据为准</span></a>
           </div>
-        </div>
-
-        <div class="c51itou"><a class="flexcenter">
-            <!-- <p class="itoulogo"> </p> -->
-            <p class="gray8b">itou提供技术支持</p>
-            <em class="nextarrow_icon"></em>
-          </a>
         </div>
 
         <!-- <gameadv v-ref:gameadv></gameadv> -->
@@ -245,7 +189,10 @@
 
         betinfoData: {},
         betinfoShow: false,
-        SwiperHeight: ''
+        SwiperHeight: '',
+
+        homeUrl: "/home",
+        bettingUrl: "/mine/betting",
       }
     },
     created() {
@@ -280,6 +227,10 @@
             if (data.code == 0) {
               this.listdata = data.list;
               this.betinfoData = this.listdata[0];
+              window.console.log("----betinfoData------");
+              window.console.log(this.betinfoData);
+              window.console.log("----game_data------");
+              window.console.log(this.betinfoData.game_data);
             }
           }).catch(function (err) {
             console.log(err);
