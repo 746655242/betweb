@@ -16,13 +16,13 @@
 		  <router-link to="/nickname">
 		  <label class="list_itema topcenter nextarrow" style="cursor:pointer">
 			<p class="boxflex font16 gray0">昵称</p>
-			<p class="gray8d">{{user.info.nickname}}</p>
+			<p class="gray8d">{{user.info.nickname}}----{{nickname}}</p>
 		  </label>
 		  </router-link>
 		</li>
       <li class="list_item"><a href="javascript:;" class="list_itema topcenter nextarrow">
           <p class="boxflex font16 gray0">修改绑定手机号</p>
-          <p class="gray8d">{{user.info.mobile}}</p>
+          <p class="gray8d">{{user.info.mobile}}----{{mobile}}</p>
         </a></li>
 
       <li class="list_item"><a class="list_itema topcenter nextarrow" href="javascript:;">
@@ -56,6 +56,8 @@ export default {
 			],
 			maskShow:false,
 			clearShow:false,
+			mobile:'',
+			nickname:'',
         }
     },
     created(){
@@ -82,6 +84,7 @@ export default {
 					let data=res.data;
 					window.console.log(data);
 					if(data.errorCode==1){
+						this.loadInfo(data.result.userinfo.mobile, data.result.userinfo.nickname)
 						me.setuser({info:data.result.userinfo});
 						me.$emit('storedata');
 					}else{
