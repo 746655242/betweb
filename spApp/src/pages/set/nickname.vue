@@ -68,7 +68,7 @@ export default {
 					window.console.log(err);
 				})
 			}else{
-				this.$router.push('/login');
+				// this.$router.push('/login');
 			}
 		},
 		loadNickname(nickname){
