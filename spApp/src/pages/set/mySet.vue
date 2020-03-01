@@ -12,11 +12,14 @@
   <section class="pt48 setting">
     <ul class="listboxpr0 mb15">
 
-      <li class="list_item"><a href="javascript:;" class="list_itema topcenter nextarrow">
-          <p class="boxflex font16 gray0">昵称</p>
-          <p class="gray8d">{{user.info.nickname}}</p>
-
-        </a></li>
+      <li class="list_item">
+		  <router-link to="/mySet">
+		  <label class="list_itema topcenter nextarrow">
+			<p class="boxflex font16 gray0">昵称</p>
+			<p class="gray8d">{{user.info.nickname}}</p>
+		  </label>
+		  </router-link>
+		</li>
       <li class="list_item"><a href="javascript:;" class="list_itema topcenter nextarrow">
           <p class="boxflex font16 gray0">修改绑定手机号</p>
           <p class="gray8d">{{user.info.mobile}}</p>

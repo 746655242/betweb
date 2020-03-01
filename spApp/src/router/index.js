@@ -428,6 +428,14 @@ let routes=[
            },
         },
         
+        /* 我的-->设置-->修改昵称 */
+        {
+        	path: '/updateNickname',
+        	name: 'updateNickname',
+        	component: function(resolve) {
+                require(['@/pages/set/nickname'], resolve)
+            },
+        },
     
         /* 我的-->我的申请-->文章发表 */
         {
