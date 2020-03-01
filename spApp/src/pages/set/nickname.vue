@@ -12,7 +12,7 @@
   <section class="pt48 settingnickname">
     <ul class="listboxplr0 mb15">
       <li class="list_item topcenter listinput">
-        <p class="boxflex"><input class="form-control font16" type="text" v-model="formData.nickname"></p><em class="icon_del" @click="clearNickname"></em>
+        <p class="boxflex"><input class="form-control font16" type="text" v-model="nickname"></p><em class="icon_del" @click="clearNickname"></em>
       </li>
     </ul>
     <div class="btn_blockbox mt50">
@@ -24,7 +24,9 @@
 </template>
 
 <script>
-import {mapGetters,mapMutations} from 'vuex'
+import {mapGetters,mapMutations} from 'vuex';
+import {Loading} from 'vux';
+import qs from 'qs';
 export default {
     data(){
         return {
@@ -49,7 +51,6 @@ export default {
 
 	},
     methods: {
-		...mapMutations(['deluser']),
 		fetchData(){
 			let me= this;
 			let user=this.user.info;
@@ -57,9 +58,7 @@ export default {
 				this.axios.post('/api/user/getuser').then(res => {  
 					let data=res.data;
 					if(data.errorCode==1){
-						me.setuser({info:data.result.userinfo});
-						me.$emit('storedata');
-						this.nickname = data.result.userinfo.nickname;
+						this.loadNickname(data.result.userinfo.nickname);
 					}else{
 						// me.$vux.alert.show({content: data.message})
 						// me.disabled = false;
@@ -71,6 +70,9 @@ export default {
 			}else{
 				this.$router.push('/login');
 			}
+		},
+		loadNickname(nickname){
+			this.nickname = nickname;
 		},
 		clearNickname(){
 			this.nickname = "";
@@ -88,9 +90,10 @@ export default {
 			this.axios.post('/api/user/updateNickname',qs.stringify(params)).then(res => {  
 				let data=res.data;
 				if(data.errorCode==1){
+					me.$vux.alert.show({content: data.message});
+					me.$router.push('/mySet');
 					me.setuser({info:data.result.userinfo});
 					me.$emit('storedata');
-					me.$router.push('/mySet');
 				}else{
 					me.$vux.alert.show({content: data.message});
 					me.disabled = false;

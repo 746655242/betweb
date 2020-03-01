@@ -430,8 +430,8 @@ let routes=[
         
         /* 我的-->设置-->修改昵称 */
         {
-        	path: '/updateNickname',
-        	name: 'updateNickname',
+        	path: '/nickname',
+        	name: 'nickname',
         	component: function(resolve) {
                 require(['@/pages/set/nickname'], resolve)
             },
