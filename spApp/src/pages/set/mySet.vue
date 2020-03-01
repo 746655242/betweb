@@ -16,13 +16,13 @@
 		  <router-link to="/nickname">
 		  <label class="list_itema topcenter nextarrow" style="cursor:pointer">
 			<p class="boxflex font16 gray0">昵称</p>
-			<p class="gray8d">{{nickname}}</p>
+			<p class="gray8d">{{user.info.nickname}}</p>
 		  </label>
 		  </router-link>
 		</li>
       <li class="list_item"><a href="javascript:;" class="list_itema topcenter nextarrow">
           <p class="boxflex font16 gray0">修改绑定手机号</p>
-          <p class="gray8d">{{mobile}}</p>
+          <p class="gray8d">{{user.info.mobile}}</p>
         </a></li>
 
       <li class="list_item"><a class="list_itema topcenter nextarrow" href="javascript:;">
@@ -56,8 +56,6 @@ export default {
 			],
 			maskShow:false,
 			clearShow:false,
-			mobile: user.info.mobile,
-			nickname: user.info.nickname,
         }
     },
     created(){
@@ -84,7 +82,6 @@ export default {
 					let data=res.data;
 					window.console.log(data);
 					if(data.errorCode==1){
-						this.loadInfo(data.result.userinfo.mobile, data.result.userinfo.nickname);
 						me.setuser({info:data.result.userinfo});
 						me.$emit('storedata');
 					}else{
@@ -100,8 +97,17 @@ export default {
 			}
 		},
 		loadInfo(mobile, nickname){
+			window.console.log("====mobile=====");
+			window.console.log(mobile);
+			window.console.log("====nickname=====");
+			window.console.log(nickname);
 			this.mobile = mobile;
 			this.nickname = nickname;
+
+			window.console.log("====this.mobile=====");
+			window.console.log(this.mobile);
+			window.console.log("====this.nickname=====");
+			window.console.log(this.nickname);
 		},
 		clearCache(){
 			this.maskShow = !this.maskShow
