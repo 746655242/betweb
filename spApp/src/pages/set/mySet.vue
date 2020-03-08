@@ -13,27 +13,38 @@
     <ul class="listboxpr0 mb15">
 
       <li class="list_item">
-		  <router-link to="/nickname">
-		  <label class="list_itema topcenter nextarrow" style="cursor:pointer">
-			<p class="boxflex font16 gray0">昵称</p>
-			<p class="gray8d">{{nickname}}</p>
-		  </label>
+		<router-link to="/nickname">
+			<label class="list_itema topcenter nextarrow" style="cursor:pointer">
+				<p class="boxflex font16 gray0">昵称</p>
+				<p class="gray8d">{{nickname}}</p>
+			</label>
+		</router-link>
+	  </li>
+      <li class="list_item">
+		<router-link to="/mobile">
+			<label class="list_itema topcenter nextarrow" style="cursor:pointer">
+				<p class="boxflex font16 gray0">修改绑定手机号</p>
+				<p class="gray8d">{{mobile}}</p>
+			</label>
+		</router-link>
+	  </li>
+
+      <li class="list_item">
+		<router-link to="/setpwd">
+			<a class="list_itema topcenter nextarrow" style="cursor:pointer">
+				<p class="boxflex font16 gray0">密码</p>
+				<p class="fontred">设置</p>
+			</a>
+		</router-link>
+	  </li>
+
+      <li class="list_item">
+		  <router-link to="/contact">
+			<label class="list_itema topcenter nextarrow" style="cursor:pointer">
+			<p class="boxflex font16 gray0">联系方式设置</p>
+			</label>
 		  </router-link>
-		</li>
-      <li class="list_item"><a href="javascript:;" class="list_itema topcenter nextarrow">
-          <p class="boxflex font16 gray0">修改绑定手机号</p>
-          <p class="gray8d">{{mobile}}</p>
-        </a></li>
-
-      <li class="list_item"><a class="list_itema topcenter nextarrow" href="javascript:;">
-          <p class="boxflex font16 gray0">密码</p>
-          <p class="gray8d" style="display:none">修改</p>
-          <p class="fontred" style="">设置</p>
-        </a></li>
-
-      <li class="list_item"><a href="javascript:;" class="list_itema topcenter nextarrow">
-          <p class="boxflex font16 gray0">联系方式设置</p>
-        </a></li>
+	  </li>
 
     </ul>
 

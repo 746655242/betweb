@@ -436,6 +436,33 @@ let routes=[
                 require(['@/pages/set/nickname'], resolve)
             },
         },
+
+        /* 我的-->设置-->联系方式 */
+        {
+        	path: '/contact',
+        	name: 'contact',
+        	component: function(resolve) {
+                require(['@/pages/set/contact'], resolve)
+            },
+        },
+
+        /* 我的-->设置-->修改手机号 */
+        {
+        	path: '/mobile',
+        	name: 'mobile',
+        	component: function(resolve) {
+                require(['@/pages/set/mobile'], resolve)
+            },
+        },
+
+        /* 我的-->设置-->设置密码 */
+        {
+        	path: '/setpwd',
+        	name: 'setpwd',
+        	component: function(resolve) {
+                require(['@/pages/set/setpwd'], resolve)
+            },
+        },
     
         /* 我的-->我的申请-->文章发表 */
         {
