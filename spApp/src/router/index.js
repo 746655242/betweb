@@ -7,7 +7,6 @@ import store from "@/store"
 
 
 let routes=[
-    
     	{
             path: '/go',
             name: 'go',
@@ -22,7 +21,7 @@ let routes=[
             name: 'home',
             component: home,
             alias: '/index',
-            children: [ 
+            children: [
                 {
 	                path:'',
 	                component:function(resolve) {
@@ -50,7 +49,6 @@ let routes=[
             component: function(resolve) {
                 require(['@/pages/index/jincai'], resolve)
             }
-         
         },
         /* 竞彩篮球 */
         {
@@ -117,8 +115,8 @@ let routes=[
             component: function(resolve) {
                 require(['@/pages/mine/betting'], resolve)
             }
-         
         },
+
         /* 订单详情 */
         {
             path: '/mine/betting_detail/:id/',
@@ -126,14 +124,7 @@ let routes=[
             component: function(resolve) {
                 require(['@/pages/mine/betting_detail'], resolve)
             }
-         
         }, 
-
-
-         
-
-
-
 
         /* 开奖 */
         {
@@ -146,8 +137,7 @@ let routes=[
                 pagecode:['Open_Lottery','Open_Number','Open_Sports']
             }
         }, 
-        
-        
+
         /* 导航 */
         {
             path: '/guide',
@@ -159,8 +149,7 @@ let routes=[
                 keepAlive: true
             }
         },
-        
-                
+      
         /* 服务 */
         {
             path: '/serving',
@@ -172,7 +161,6 @@ let routes=[
                 keepAlive: true
             }
         }, 
-        
         
         /* 服务-->遗漏分析 */
         {
@@ -193,7 +181,7 @@ let routes=[
             path: '/mine',
             name: 'mine',
             component: function(resolve) {
-                require(['@/pages/mine/'], resolve)
+                require(['@/pages/mine/index'], resolve)
             },
             meta: {
                 keepAlive: true,
