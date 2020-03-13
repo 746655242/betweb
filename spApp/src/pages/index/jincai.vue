@@ -243,14 +243,14 @@
                     <div class="jincaibtmcon_main">
                     <ul class="clearfix" >
                         <li class="betbtn" v-for="(item,key) in  betlistArr.length" :key="key"
-                        v-if="item>1" @click="changebetfield(item,1)"
-                        v-bind:class="{'betbtn_sed':betfield==item&&cuang==1}">{{item}}串1</li>
+                        v-if="item>1" @click="togglePassType(item,1)"
+                        v-bind:class="{'betbtn_sed':checkPassType(item,1)}">{{item}}串1</li>
                     </ul>
                     <p class="mb6 gray8b font12" v-if="field>=3">更多过关</p>
                     <ul class="clearfix">
                         <li class="betbtn" v-for="(item,index) in gglist" :key="index" 
-                        v-if="item[0] <= field" @click="changebetfield(item[0],item[1])" 
-                        v-bind:class="{'betbtn_sed':cuang==item[1]&&betfield==item[0]}">{{item[0]}}串{{item[1]}}</li>
+                        v-if="item[0] <= field" @click="togglePassType(item[0],item[1])" 
+                        v-bind:class="{'betbtn_sed':checkPassType(item[0],item[1])}">{{item[0]}}串{{item[1]}}</li>
                     </ul>
                     </div>
                     <p class="font12 gray8b text">&nbsp;</p>
@@ -293,6 +293,7 @@ export default {
             field:2, //总比赛场数
             cuang:1,//串
             betfield:2,//订单场
+            passTypeArr:[], // 过关方式
 
             betmoney:2, //订单金额
             bettotalmoney:2, //订单总金额 
@@ -377,7 +378,6 @@ export default {
         },
 
         loadoddsDataobj(data){
-
             data.forEach((val,index)=>{
                 for(let i in val.list){
                     this.oddsDataobj[i]=val.list[i];
@@ -416,6 +416,7 @@ export default {
             this.field = 2; // 总比赛场数
             this.cuang = 1; //串
             this.betfield = 2; //订单场
+            this.passTypeArr = []; // 过关方式
             this.betmoney = 2; // 订单金额
             this.bettotalmoney = 2; // 订单总金额 
             this.totalBonus = 0; //总奖金
@@ -428,6 +429,39 @@ export default {
             this.betlistArr = []; //选择订单
             this.oldbetlist = {}; //旧数据
             this.betlist = {}; //选中json订单
+        },
+
+        togglePassType(betfield, cuang){
+            window.console.log("-----togglePassType-----");
+            let currPassType = betfield + "_" + cuang;
+            window.console.log("currPassType", currPassType);
+            let exist = false;
+            let currI = 0;
+            for(let i in this.passTypeArr){
+                if(currPassType === this.passTypeArr[i]){
+                    exist = true;
+                    currI = i;
+                }
+            }
+            window.console.log("exist", exist, "currI", currI);
+            if(exist){
+                this.passTypeArr.splice(currI, 1);
+                window.console.log("jian", this.passTypeArr);
+            }else{
+                this.passTypeArr.splice(this.passTypeArr.length, 0, currPassType);
+                window.console.log("jia", this.passTypeArr);
+            }
+        },
+
+        checkPassType(betfield, cuang){
+            let currPassType = betfield + "_" + cuang;
+            let exist = false;
+            for(let i in this.passTypeArr){
+                if(currPassType === this.passTypeArr[i]){
+                    exist = true;
+                }
+            }
+            return exist;
         },
 
         //增加和删除
@@ -508,21 +542,6 @@ export default {
             this.reBonus();
         },
 
-/* 
-    -1 [
-    3+3,     16 - 13   16 '15', '14'   '13', '11', '10'
-    3+1,     16 - 11
-    1+0,     15 - 10
-    0+0      14 - 10 
-    ]
-
-    +1 [
-    3+3,  16 -13
-    1+3,  15 -13
-    0+0,  14 -10  
-    0+1   14 -11
-    ]
-*/
         //标盘和平盘比较去重
         jscompare(arr){
             let rang=arr[0].split('|')[4];
@@ -643,7 +662,11 @@ export default {
 
             let reqData={};
             reqData['gameid'] = 1;
-            reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            if(this.passTypeArr.length <= 0){
+                reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            }else{
+                reqData['pass_type'] = this.passTypeArr.join(",");
+            }
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
@@ -681,7 +704,11 @@ export default {
         order(){
             let reqData={};
             reqData['gameid'] = 1;
-            reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            if(this.passTypeArr.length <= 0){
+                reqData['pass_type'] = this.betfield + "_" + this.cuang;
+            }else{
+                reqData['pass_type'] = this.passTypeArr.join(",");
+            }
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
