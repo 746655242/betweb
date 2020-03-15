@@ -401,6 +401,7 @@ export default {
             cuang:1,//串
             betfield:2,//订单场
             passTypeArr:[], // 过关方式
+            isManual: false, // 是否手动选择过关方式
 
             betmoney:2, //订单金额
             bettotalmoney:2, //订单总金额 
@@ -531,6 +532,7 @@ export default {
             this.cuang = 1; //串
             this.betfield = 2; //订单场
             this.passTypeArr = []; // 过关方式
+            this.isManual = false; // 是否手动选择过关方式
             this.betmoney = 2; // 订单金额
             this.bettotalmoney = 2; // 订单总金额 
             this.totalBonus = 0; //总奖金
@@ -553,6 +555,7 @@ export default {
                 if(currPassType === this.passTypeArr[i]){
                     exist = true;
                     currI = i;
+                    break;
                 }
             }
             if(exist){
@@ -560,6 +563,7 @@ export default {
             }else{
                 this.passTypeArr.splice(this.passTypeArr.length, 0, currPassType);
             }
+            this.isManual = true;
         },
 
         checkPassType(betfield, cuang){
@@ -645,6 +649,10 @@ export default {
                 if(exist == false){
                     this.cuang = 1;
                 }
+            }
+
+            if(!this.isManual){
+                this.passTypeArr = [this.betfield + "_" + this.cuang];
             }
 
             //this.allbetlist=createOne(this.betlistArr,this.betfield);
@@ -765,17 +773,13 @@ export default {
         reBonus(){
             this.totalBonus = 0;
             this.bettotalmoney = 0;
-            if(this.betfield <= 1){
+            if(this.passTypeArr.length < 1){
                 return false;
             }
 
             let reqData={};
             reqData['gameid'] = 2;
-            if(this.passTypeArr.length <= 0){
-                reqData['pass_type'] = this.betfield + "_" + this.cuang;
-            }else{
-                reqData['pass_type'] = this.passTypeArr.join(",");
-            }
+            reqData['pass_type'] = this.passTypeArr.join(",");
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");
@@ -811,13 +815,12 @@ export default {
 
         //下单
         order(){
+            if(this.passTypeArr.length < 1){
+                return false;
+            }
             let reqData={};
             reqData['gameid'] = 2;
-            if(this.passTypeArr.length <= 0){
-                reqData['pass_type'] = this.betfield + "_" + this.cuang;
-            }else{
-                reqData['pass_type'] = this.passTypeArr.join(",");
-            }
+            reqData['pass_type'] = this.passTypeArr.join(",");
             reqData['order_data'] = this.orderData;
             reqData['multiple'] = this.cancel;
             window.console.log("========reqData========");

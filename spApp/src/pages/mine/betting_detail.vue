@@ -71,13 +71,14 @@
               </div>
             </div>
             <ul class="project_betlist bgfff font12" v-if="betinfoData.game_data.length>0">
-              <li class="flexbox border_t project_list_item" v-for="(item,index) in betinfoData.game_data" :key="index">
+              <li class="flexbox border_t project_list_item" v-for="(item, index) in betinfoData.game_data" :key="index">
                 <div class="liansai gray8b">
                   <p class="font10"><span>{{item.orderid}}</span></p>
                   <p class="font10">{{item.liansai}}</p>
                   <a class="xi font10">&nbsp;&nbsp;</a>
                 </div>
                 <p class="hasdan"><em class="redball font10" style="display: none;">胆</em></p>
+                <!-- 足球开始 -->
                 <div class="boxflex" v-if="betinfoData.game_type != balltypeLq">
                   <div class="name topcenter">
                     <p class="boxflex textr"><span>{{item.zhu_name}}</span></p>
@@ -86,37 +87,55 @@
                       <span class="gray8b fontredz">1:0</span>
                     </div> -->
                     <div class="boxflex bifen"><span class="gray8b">{{item.timetxt}}</span></div>
+                    <!-- <div class="boxflex bifen"><span class="gray8b fontredz">2:1</span></div> -->
                     <p class="boxflex textl"><span>{{item.ke_name}}</span></p>
                   </div>
-                  <div class="flexbox caidiv caidivspf">
+                  <!-- 胜平负 -->
+                  <div class="flexbox caidiv caidivspf" v-if="checkOptions(betinfoData.order_data[item.orderid], optionConfig['0']['mix'])">
                     <em class="rang rang0">0</em>
                     <div class="boxflex betwlist topcenter">
-                      <div class="betbtn" v-bind:class="{'betbtnsed':checkOption()}">
-                        <p class="gray5 fl">胜</p>
-                        <p class="graya6 fr">1.37</p>
-                      </div>
-                      <div class="betbtn">
-                        <p class="gray5 fl">平</p>
-                        <p class="graya6 fr">4.35</p>
-                      </div>
-                      <div class="betbtn">
-                        <p class="gray5 fl">负</p>
-                        <p class="graya6 fr">5.45</p>
+                      <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['0'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['0'].mix[indexOption], betinfoData.order_data[item.orderid])}">
+                        <p class="gray5 fl">{{itemOption}}</p>
+                        <p class="graya6 fr">{{item.odds[optionConfig['0'].mix[indexOption]]}}</p>
                       </div>
                     </div>
-                    <!--
-                  list.rOdds: 北京单场（和胜负过关）中奖选项的最终赔率
-                  逻辑：当list.rOdds存在时，视为已开奖。
-                        当list.rOdds存在时，未中奖的选项赔率为空，中奖的显示最终赔率
-                        当list.rOdds不存在时，所有选项显示自身赔率
-                -->
                     <div class="caiguo caiguo_jz" style="display: none;">
                       <p class="caiguo_jztit">彩果</p>
                       <p class="caiguo_jzcg"></p>
                       <!-- <p v-text="list.rOdds">胜</p> -->
                     </div>
                   </div>
-                </div>
+                  <!-- 让球胜平负 -->
+                  <div class="flexbox caidiv caidivspf" v-if="checkOptions(betinfoData.order_data[item.orderid], optionConfig['1']['mix'])">
+                    <em class="rang rang0">0</em>
+                    <div class="boxflex betwlist topcenter">
+                      <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['1'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['1'].mix[indexOption], betinfoData.order_data[item.orderid])}">
+                        <p class="gray5 fl">{{itemOption}}</p>
+                        <p class="graya6 fr">{{item.odds[optionConfig['1'].mix[indexOption]]}}</p>
+                      </div>
+                    </div>
+                    <div class="caiguo caiguo_jz" style="display: none;">
+                      <p class="caiguo_jztit">彩果</p>
+                      <p class="caiguo_jzcg"></p>
+                      <!-- <p v-text="list.rOdds">胜</p> -->
+                    </div>
+                  </div>
+                  <!-- 比分，总进球，半全场 -->
+                  <div class="flexbox caidiv" v-for="(itemConfig, indexConfig) in optionConfig" :key="indexConfig" v-if="(indexConfig=='2' || indexConfig=='3' || indexConfig=='4') && checkOptions(betinfoData.order_data[item.orderid], optionConfig[indexConfig]['mix'])">
+                    <div class="boxflex betwlist topcenter">
+                      <div class="betbtn betbtnsed" v-for="(itemOption, indexOption) in optionConfig[indexConfig].cn" :key="indexOption" v-if="optionConfig[indexConfig].mix[indexOption] != null && checkSelect(optionConfig[indexConfig].mix[indexOption], betinfoData.order_data[item.orderid])">
+                        <p class="gray5">{{itemOption}}</p>
+                        <p class="graya6">{{item.odds[optionConfig[indexConfig].mix[indexOption]]}}</p>
+                      </div>
+                    </div>
+                    <div class="caiguo caiguo_jz" style="display: none;">
+                      <p class="caiguo_jztit">彩果</p>
+                      <p class="caiguo_jzcg"></p>
+                      <!-- <p v-text="list.rOdds">胜</p> -->
+                    </div>
+                  </div>
+                </div><!-- 足球结束 -->
+                <!-- 篮球开始 -->
                 <div class="boxflex" v-else>
                   <div class="name topcenter">
                     <p class="boxflex textr"><span>{{item.zhu_name}}</span></p>
@@ -131,24 +150,15 @@
                     <em class="rang rang0">0</em>
                     <div class="boxflex betwlist topcenter">
                       <div class="betbtn betbtnsed">
-                        <p class="gray5 fl">胜</p>
-                        <p class="graya6 fr">1.37</p>
+                        <p class="gray5 fl">大分</p>
+                        <p class="graya6 fr">1.7</p>
                       </div>
+                      <div class="betbtn lqbifen fontredz">230.5</div>
                       <div class="betbtn">
-                        <p class="gray5 fl">平</p>
-                        <p class="graya6 fr">4.35</p>
-                      </div>
-                      <div class="betbtn">
-                        <p class="gray5 fl">负</p>
-                        <p class="graya6 fr">5.45</p>
+                        <p class="gray5 fl">小分</p>
+                        <p class="graya6 fr">1.7</p>
                       </div>
                     </div>
-                    <!--
-                  list.rOdds: 北京单场（和胜负过关）中奖选项的最终赔率
-                  逻辑：当list.rOdds存在时，视为已开奖。
-                        当list.rOdds存在时，未中奖的选项赔率为空，中奖的显示最终赔率
-                        当list.rOdds不存在时，所有选项显示自身赔率
-                -->
                     <div class="caiguo caiguo_jz" style="display: none;">
                       <p class="caiguo_jztit">彩果</p>
                       <p class="caiguo_jzcg"></p>
@@ -156,7 +166,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- project_betlist over -->
+                <!-- 篮球结束 -->
               </li>
               <!--选号详情 结束  -->
 
@@ -352,12 +362,30 @@
         this.index = index;
       },
 
-      // 查询有没选中，game_type: 投注项，optionArr: 选中的投注项数组
-      checkOption(game_type, optionArr) {
+      // 查询是否有该类型的投注, options: 投注项, optionArr: 玩法数组
+      checkOptions(options, optionArr) {
         let exist = false;
         for (let i in optionArr) {
-          if (optionArr[i] == game_type) {
+          for (let j in options) {
+            if (optionArr[i] == options[j]) {
+              exist = true;
+              break;
+            }
+          }
+          if(exist){
+            break;
+          }
+        }
+        return exist;
+      },
+
+      // 查询是否选中, option: 玩法, options: 已投注项
+      checkSelect(option, options) {
+        let exist = false;
+        for (let i in options) {
+          if (options[i] == option) {
             exist = true;
+            break;
           }
         }
         return exist;
