@@ -564,6 +564,7 @@ export default {
                 this.passTypeArr.splice(this.passTypeArr.length, 0, currPassType);
             }
             this.isManual = true;
+            this.reBonus();
         },
 
         checkPassType(betfield, cuang){

@@ -67,7 +67,7 @@
                         </div>
                         <!-- matchtit over -->
                         <div class="matchlist" v-show='!item.show'>
-                            <div class="border_b topcenter matchitem" v-for="(ite,ind) in item.list" :key="ind">
+                            <div class="border_b topcenter matchitem" v-for="(ite,ind) in item.list" :key="ind" v-if="ite.timetxt !== ''">
                                 <div class="matchitem_tit">
                                     <p class="gray8b font12">第{{ite.id}}场</p>
                                     <p class="saishi" v-bind:style="{'background':ite.color}"><span class="font12">{{ite.liansai}}</span></p>
@@ -387,6 +387,7 @@ export default {
                 this.passTypeArr.splice(this.passTypeArr.length, 0, currPassType);
             }
             this.isManual = true;
+            this.reBonus();
         },
 
         checkPassType(betfield, cuang){
@@ -584,8 +585,11 @@ export default {
 
         //重新计算
         reBonus(){
+            window.console.log("========reBonus========");
             this.totalBonus = 0;
             this.bettotalmoney = 0;
+            window.console.log("========this.passTypeArr========");
+            window.console.log(this.passTypeArr);
             if(this.passTypeArr.length < 1){
                 return false;
             }
@@ -624,7 +628,7 @@ export default {
         changebetfield(index,cuang){
             this.betfield = index;
             this.cuang = cuang;
-            this.reBonus(); 
+            this.reBonus();
         },
 
         //下单

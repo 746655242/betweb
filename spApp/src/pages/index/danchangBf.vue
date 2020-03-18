@@ -67,7 +67,7 @@
                         </div>
                         <!-- matchtit over -->
                         <div class="matchlist" v-show='!item.show'>
-                            <div class="border_b topcenter matchitem" v-for="(ite,ind) in item.list" :key="ind">
+                            <div class="border_b topcenter matchitem" v-for="(ite,ind) in item.list" :key="ind" v-if="ite.timetxt !== ''">
                                 <div class="matchitem_tit">
                                     <p class="gray8b font10">{{ite.id}}</p>
                                     <p class="saishi" v-bind:style="{'background':ite.color}"><span class="font10">{{ite.liansai}}</span></p>
@@ -453,6 +453,7 @@ export default {
                 this.passTypeArr.splice(this.passTypeArr.length, 0, currPassType);
             }
             this.isManual = true;
+            this.reBonus();
         },
 
         checkPassType(betfield, cuang){
