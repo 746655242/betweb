@@ -31,7 +31,11 @@
                 <p class="day">{{item.day}}</p>
                 <p class="month">{{item.month}}月</p>
               </div>
-              <div class="boxflex"><span class="mb10 doingbg">{{item.status_title}}</span></div>
+              <div class="boxflex">
+                <span class="mb10 failbg" v-if="item.status == -2 || item.status == 2">{{item.status_title}}</span>
+                <span class="mb10 successbg" v-else-if="item.status == 1">{{item.status_title}}</span>
+                <span class="mb10 doingbg" v-else>{{item.status_title}}</span>
+              </div>
               <div class="icon_activity activityicon" style="display: none;"></div>
               <div class="textr gray8d ">
                 <p><span class="font10 caitype">{{item.game_type_title}}</span></p>

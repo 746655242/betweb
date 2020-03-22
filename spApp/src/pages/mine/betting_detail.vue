@@ -21,17 +21,29 @@
       <section class="project padheader pb48">
         <!-- 已提交彩店 -->
         <div class="mb10 border_tbbox bgfff pad305">
-          <a class="list_itema topcenter nextarrow">
-            <!-- <div class="projecsignsed mr20"><em class="shopicon icon_signwhite"></em></div> -->
-            <p class="font14 gray0 mr10 line30">{{betinfoData.status_title}}</p>
+          <a class="list_itema topcenter nextarrow" v-if="betinfoData.status == -2">
+            <p class="font14 gray0 mr10 line30">未出票</p>
             <div class="boxflex">
-              <p class="gray8b font12 mr10">{{betinfoData.status_title}}{{betinfoData.bet_amount}}元，请仔细核对并妥善保管您的票。</p>
-              <p class="txtbg_redbd font12" style="display: none;"><span></span>截止</p>
+              <p class="gray8b font12 mr10"></p>
             </div>
-            <!-- 未接单 -->
-            <p class="borderbtn_gray" style="display: none;">取消</p>
-            <!--已经接单  -->
-            <!-- <p class="textr gray8b font10" style="display:none;">更多状态</p> -->
+          </a>
+          <a class="list_itema topcenter nextarrow" v-if="betinfoData.status == -1">
+            <p class="font14 gray0 mr10 line30">出票中</p>
+            <div class="boxflex">
+              <p class="gray8b font12 mr10">出票中{{betinfoData.bet_amount}}元。</p>
+            </div>
+          </a>
+          <a class="list_itema topcenter nextarrow" v-if="betinfoData.status == 0 || betinfoData.status == 2">
+            <p class="font14 gray0 mr10 line30">已出票</p>
+            <div class="boxflex">
+              <p class="gray8b font12 mr10">已出票{{betinfoData.bet_amount}}元，请仔细核对并妥善保管您的票。</p>
+            </div>
+          </a>
+          <a class="list_itema topcenter nextarrow" v-if="betinfoData.status == 1">
+            <p class="font14 gray0 mr10 line30">已兑奖</p>
+            <div class="boxflex">
+              <p class="gray8b font12 mr10">已为您兑奖{{betinfoData.bonus}}元。</p>
+            </div>
           </a>
         </div>
 
@@ -50,9 +62,10 @@
           <div>
             <div class="pad305 bgfff line34 gray8b">
               <div class="topcenter">
-                <p class="boxflex">金额：<span class="fontredz font15">{{betinfoData.bet_amount}}</span> 元
-                  [{{betinfoData.multiple}}倍]</p>
-                <p><span>理论最高奖金：</span><a class="fontredz fontredbtnborder">{{betinfoData.bonus}}</a>元</p>
+                <p class="boxflex">金额：<span class="fontredz font15">{{betinfoData.bet_amount}}</span> 元 [{{betinfoData.multiple}}倍]</p>
+                <p v-if="betinfoData.status == -2 || betinfoData.status == -1 || betinfoData.status == 0"><span>理论最高奖金：</span><a class="fontredz fontredbtnborder">{{betinfoData.bonus_theory}}</a>元</p>
+                <p v-else-if="betinfoData.status == 1"><span>实票奖金：</span><a class="fontredz fontredbtnborder">{{betinfoData.bonus}}</a>元</p>
+                <p v-else>未中奖</p>
               </div>
               <div class="topcenter">
                 <p class="boxflex">
@@ -107,7 +120,8 @@
                   </div>
                   <!-- 让球胜平负 -->
                   <div class="flexbox caidiv caidivspf" v-if="checkOptions(betinfoData.order_data[item.orderid], optionConfig['1']['mix'])">
-                    <em class="rang rang0">0</em>
+                    <em class="rang rang0" v-if="!!item.boundary">{{item.boundary}}</em>
+                    <em class="rang rang0" v-else>0</em>
                     <div class="boxflex betwlist topcenter">
                       <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['1'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['1'].mix[indexOption], betinfoData.order_data[item.orderid])}">
                         <p class="gray5 fl">{{itemOption}}</p>
