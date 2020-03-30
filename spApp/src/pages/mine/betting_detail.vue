@@ -95,19 +95,15 @@
                 <div class="boxflex" v-if="betinfoData.game_type != balltypeLq">
                   <div class="name topcenter">
                     <p class="boxflex textr"><span>{{item.zhu_name}}</span></p>
-                    <!-- <div class="boxflex bifen">
-                      <cite class="font10 fontblue">35'&nbsp;&nbsp;</cite>
-                      <span class="gray8b fontredz">1:0</span>
-                    </div> -->
-                    <div class="boxflex bifen"><span class="gray8b">{{item.timetxt}}</span></div>
-                    <!-- <div class="boxflex bifen"><span class="gray8b fontredz">2:1</span></div> -->
+                    <div class="boxflex bifen" v-if="!!betinfoData.game_res[item.orderid]['allScore']"><span class="gray8b fontredz">{{betinfoData.game_res[item.orderid]['allScore']}}</span></div>
+                    <div class="boxflex bifen" v-else><span class="gray8b">{{item.timetxt}}</span></div>
                     <p class="boxflex textl"><span>{{item.ke_name}}</span></p>
                   </div>
                   <!-- 胜平负 -->
                   <div class="flexbox caidiv caidivspf" v-if="checkOptions(betinfoData.order_data[item.orderid], optionConfig['0']['mix'])">
                     <em class="rang rang0">0</em>
                     <div class="boxflex betwlist topcenter">
-                      <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['0'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['0'].mix[indexOption], betinfoData.order_data[item.orderid])}">
+                      <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['0'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['0'].mix[indexOption], betinfoData.order_data[item.orderid]), 'betbtngray': checkSelect(optionConfig['0'].mix[indexOption], betinfoData.order_data[item.orderid]) && checkWinGray(optionConfig['0'].mix[indexOption], betinfoData.game_res[item.orderid]['win'])}">
                         <p class="gray5 fl">{{itemOption}}</p>
                         <p class="graya6 fr">{{item.odds[optionConfig['0'].mix[indexOption]]}}</p>
                       </div>
@@ -123,7 +119,7 @@
                     <em class="rang rang0" v-if="!!item.boundary">{{item.boundary}}</em>
                     <em class="rang rang0" v-else>0</em>
                     <div class="boxflex betwlist topcenter">
-                      <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['1'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['1'].mix[indexOption], betinfoData.order_data[item.orderid])}">
+                      <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['1'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['1'].mix[indexOption], betinfoData.order_data[item.orderid]), 'betbtngray': checkSelect(optionConfig['1'].mix[indexOption], betinfoData.order_data[item.orderid]) && checkWinGray(optionConfig['1'].mix[indexOption], betinfoData.game_res[item.orderid]['win'])}">
                         <p class="gray5 fl">{{itemOption}}</p>
                         <p class="graya6 fr">{{item.odds[optionConfig['1'].mix[indexOption]]}}</p>
                       </div>
@@ -137,14 +133,14 @@
                   <!-- 比分，总进球，半全场 -->
                   <div class="flexbox caidiv" v-for="(itemConfig, indexConfig) in optionConfig" :key="indexConfig" v-if="(indexConfig=='2' || indexConfig=='3' || indexConfig=='4') && checkOptions(betinfoData.order_data[item.orderid], optionConfig[indexConfig]['mix'])">
                     <div class="boxflex betwlist topcenter">
-                      <div class="betbtn betbtnsed" v-for="(itemOption, indexOption) in optionConfig[indexConfig].cn" :key="indexOption" v-if="optionConfig[indexConfig].mix[indexOption] != null && checkSelect(optionConfig[indexConfig].mix[indexOption], betinfoData.order_data[item.orderid])">
+                      <div class="betbtn betbtnsed" v-for="(itemOption, indexOption) in optionConfig[indexConfig].cn" :key="indexOption" v-if="optionConfig[indexConfig].mix[indexOption] != null && checkSelect(optionConfig[indexConfig].mix[indexOption], betinfoData.order_data[item.orderid])" v-bind:class="{'betbtngray': checkWinGray(optionConfig[indexConfig].mix[indexOption], betinfoData.game_res[item.orderid]['win'])}">
                         <p class="gray5">{{itemOption}}</p>
                         <p class="graya6">{{item.odds[optionConfig[indexConfig].mix[indexOption]]}}</p>
                       </div>
                     </div>
-                    <div class="caiguo caiguo_jz" style="display: none;">
+                    <div class="caiguo caiguo_jz" v-if="!!betinfoData.game_res[item.orderid]['allScore']">
                       <p class="caiguo_jztit">彩果</p>
-                      <p class="caiguo_jzcg"></p>
+                      <p class="caiguo_jzcg">{{resWin[item.orderid][indexConfig]}}</p>
                       <!-- <p v-text="list.rOdds">胜</p> -->
                     </div>
                   </div>
@@ -268,6 +264,14 @@
         },
         balltypeLq: '2',
 
+        // 彩果
+        /*
+        '2': '', // 比分
+        '3': '', // 总进球
+        '4': '', // 半全场
+        */
+        resWin: {},
+
         //选择配置
         optionConfig: {
           '0': {
@@ -360,10 +364,7 @@
             if (data.code == 0) {
               this.listdata = data.list;
               this.betinfoData = this.listdata[0];
-              window.console.log("----betinfoData------");
-              window.console.log(this.betinfoData);
-              window.console.log("----game_data------");
-              window.console.log(this.betinfoData.game_data);
+              this.getResWin();
             }
           }).catch(function (err) {
             console.log(err);
@@ -404,6 +405,77 @@
         }
         return exist;
       },
+
+      // 查询彩果（是否不为赢）, option: 玩法, winArr: 彩果
+      checkWinGray(option, winArr) {
+        let showGray = false; // 是否显示灰色
+        let hasRes = false; // 是否有彩果
+        let isWin = false; // 是否为赢
+        for (let winOption in winArr) {
+          hasRes = true;
+          if (winOption == option) {
+            isWin = true;
+            break;
+          }
+        }
+        if(hasRes == true && isWin == false){
+          showGray = true;
+        }
+        return showGray;
+      },
+
+      // 查询彩果（用于显示）, option: 玩法, winArr: 彩果
+      getResWin() {
+        if(this.betinfoData.game_data.length > 0){
+          for(let i in this.betinfoData.game_data){
+            let orderid = this.betinfoData.game_data[i].orderid;
+            let winArr = this.betinfoData.game_res[orderid]['win'];
+            // 比分
+            let resText_2 = '';
+            for(let option in this.optionConfig['2'].mix) {
+              if(this.optionConfig['2'].mix[option] == null){
+                continue;
+              }
+              for (let winOption in winArr) {
+                if (winOption == this.optionConfig['2'].mix[option]) {
+                  resText_2 = winArr[winOption];
+                  break;
+                }
+              }
+            }
+            if(resText_2 != "" ){
+              this.resWin[orderid] = [];
+            }
+            this.resWin[orderid]['2'] = resText_2;
+
+            // 总进球
+            let resText_3 = '';
+            for(let option in this.optionConfig['3'].mix) {
+              for (let winOption in winArr) {
+                if (winOption == this.optionConfig['3'].mix[option]) {
+                  resText_3 = winArr[winOption];
+                  break;
+                }
+              }
+            }
+            this.resWin[orderid]['3'] = resText_3;
+
+            // 半全场
+            let resText_4 = '';
+            for(let option in this.optionConfig['4'].mix) {
+              for (let winOption in winArr) {
+                if (winOption == this.optionConfig['4'].mix[option]) {
+                  resText_4 = winArr[winOption];
+                  break;
+                }
+              }
+            }
+            this.resWin[orderid]['4'] = resText_4;
+          }
+        }
+        return;
+      },
+
     }
   }
 </script>
