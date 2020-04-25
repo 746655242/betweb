@@ -23,8 +23,9 @@
       </div>
 
       <div class="topcenter showYufu">
-        <!-- <a class="btn borderbtn">申请清账</a> -->
-        <p class="boxflex"><a class="btn btn_orange" @click="showCharge">立即充值</a></p>
+        <p class="boxflex" style="width: 49%"><a class="btn btn_orange" @click="showCharge">立即充值</a></p>
+		<p style="width: 2%"></p>
+        <p class="boxflex" style="width: 49%"><a class="btn borderbtn"  @click="withdraw">申请清账</a></p>
       </div>
 
     </div>
@@ -236,7 +237,7 @@ export default {
 						me.timer(parseInt(data.result.data.left - 1));
 						this.orderlst = setTimeout(function() { me.monitorOrder() },3000);
 					}else{
-						me.$vux.alert.show({content: data.message})
+						me.$vux.alert.show({content: data.message});
 						me.show_loading = false;
 					}
 				}).catch(function(err){
@@ -279,6 +280,26 @@ export default {
 		},
 		close() {
 			this.$router.push({path: 'home'});
+		},
+		withdraw() {
+			let me=this;
+			let params = {};
+			this.show_loading = true;
+			this.text_loading = "请稍等";
+
+			this.axios.post('/api/ball/withdraw/do',qs.stringify(params)).then(res => {  
+				let data=res.data;
+				if(data.errorCode==0){
+					this.money = 0.00;
+					me.$vux.alert.show({content: data.message});
+					me.show_loading = false;
+				}else{
+					me.$vux.alert.show({content: data.message});
+					me.show_loading = false;
+				}
+			}).catch(function(err){
+				console.log(err);
+			})
 		},
 	},
 	computed: { //缓存，
