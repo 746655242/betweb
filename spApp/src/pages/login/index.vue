@@ -234,6 +234,7 @@ export default {
 
 				this.axios.post('/api/user/mobilelogin',qs.stringify(params)).then(res => {  
 					let data=res.data;
+					window.console.log("=======smsLogin", data);
 					if(data.errorCode==1){
 						me.setuser({info:data.result.userinfo});
 						me.$emit('storedata');
@@ -244,7 +245,7 @@ export default {
 						me.show_loading = false;
 					}
 				}).catch(function(err){
-					console.log(err)
+					window.console.log(err);
 				}) 
 			}else{
 				this.$vux.alert.show({
@@ -267,6 +268,7 @@ export default {
 
 				this.axios.post('/api/user/login',qs.stringify(params)).then(res => {  
 					let data=res.data;
+					window.console.log("=======query", data);
 					if(data.errorCode==1){
 						me.setuser({info:data.result.userinfo});
 						me.$emit('storedata');
@@ -277,7 +279,7 @@ export default {
 						me.show_loading = false;
 					}
 				}).catch(function(err){
-					console.log(err)
+					window.console.log(err);
 				});
 			}else{
 				this.$vux.alert.show({

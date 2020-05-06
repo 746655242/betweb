@@ -88,7 +88,7 @@
       fetchData() {
         let me = this;
         let user = this.user.info;
-
+        window.console.log("===========user", user);
         if (user && user.token) {
           this.axios.post('/api/user/getuser').then(res => {
             let data = res.data;

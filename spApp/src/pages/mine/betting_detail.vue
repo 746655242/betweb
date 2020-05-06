@@ -99,7 +99,7 @@
                     <div class="boxflex bifen" v-else><span class="gray8b">{{item.timetxt}}</span></div>
                     <p class="boxflex textl"><span>{{item.ke_name}}</span></p>
                   </div>
-                  <!-- 胜平负 -->
+                  <!-- 竞彩胜平负 -->
                   <div class="flexbox caidiv caidivspf" v-if="checkOptions(betinfoData.order_data[item.orderid], optionConfig['0']['mix'])">
                     <em class="rang rang0">0</em>
                     <div class="boxflex betwlist topcenter">
@@ -122,6 +122,22 @@
                       <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['1'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['1'].mix[indexOption], betinfoData.order_data[item.orderid]), 'betbtngray': checkSelect(optionConfig['1'].mix[indexOption], betinfoData.order_data[item.orderid]) && checkWinGray(optionConfig['1'].mix[indexOption], betinfoData.game_res[item.orderid]['win'])}">
                         <p class="gray5 fl">{{itemOption}}</p>
                         <p class="graya6 fr">{{item.odds[optionConfig['1'].mix[indexOption]]}}</p>
+                      </div>
+                    </div>
+                    <div class="caiguo caiguo_jz" style="display: none;">
+                      <p class="caiguo_jztit">彩果</p>
+                      <p class="caiguo_jzcg"></p>
+                      <!-- <p v-text="list.rOdds">胜</p> -->
+                    </div>
+                  </div>
+                  <!-- 北单胜平负 -->
+                  <div class="flexbox caidiv caidivspf" v-if="checkOptions(betinfoData.order_data[item.orderid], optionConfig['1']['wager'])">
+                    <em class="rang rang0" v-if="!!item.boundary">{{item.boundary}}</em>
+                    <em class="rang rang0" v-else>0</em>
+                    <div class="boxflex betwlist topcenter">
+                      <div class="betbtn" v-for="(itemOption, indexOption) in optionConfig['1'].cn" :key="indexOption" v-bind:class="{'betbtnsed':checkSelect(optionConfig['1'].wager[indexOption], betinfoData.order_data[item.orderid]), 'betbtngray': checkSelect(optionConfig['1'].wager[indexOption], betinfoData.order_data[item.orderid]) && checkWinGray(optionConfig['1'].wager[indexOption], betinfoData.game_res[item.orderid]['win'])}">
+                        <p class="gray5 fl">{{itemOption}}</p>
+                        <p class="graya6 fr">{{item.odds[optionConfig['1'].wager[indexOption]]}}</p>
                       </div>
                     </div>
                     <div class="caiguo caiguo_jz" style="display: none;">
