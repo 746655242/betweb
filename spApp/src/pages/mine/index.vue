@@ -77,14 +77,14 @@
       ...mapGetters({
         user: 'getuser'
       }),
-      ...mapMutations({
-        setuser: 'setuser'
-      }),
     },
     components: {
       picUp
     },
     methods: {
+      ...mapMutations({
+        setuser: 'setuser'
+      }),
       fetchData() {
         let me = this;
         let user = this.user.info;
@@ -94,9 +94,7 @@
             let data = res.data;
             window.console.log(data);
             if (data.errorCode == 1) {
-              me.setuser({
-                info: data.result.userinfo
-              })
+              me.setuser({info:data.result.userinfo});
               me.$emit('storedata')
             } else {
               // me.$vux.alert.show({content: data.message})

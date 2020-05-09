@@ -146,8 +146,21 @@ export default {
 	created :function(){
 		this.fetchData();
 	},
+	computed: { //缓存，
+		...mapGetters({
+			user:'getuser'
+		}),
+	},
+	watch: { //数据监听
 
+	},
+	components: { //模板
+
+	},
 	methods: { //无缓存
+		...mapMutations({
+			setuser:'setuser'
+		}),
 		fetchData(){
 			let me= this;
 			let user=this.user.info;
@@ -301,20 +314,6 @@ export default {
 				console.log(err);
 			})
 		},
-	},
-	computed: { //缓存，
-		...mapGetters({
-			user:'getuser'
-		}),
-		...mapMutations({
-			setuser:'setuser'
-		}),
-	},
-	watch: { //数据监听
-
-	},
-	components: { //模板
-
 	},
 	activated:function(){
 //		console.log('Lottery激活事件')

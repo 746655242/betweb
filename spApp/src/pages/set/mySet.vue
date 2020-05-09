@@ -78,22 +78,24 @@ export default {
 		...mapGetters({
 			user:'getuser'
 		}),
-		...mapMutations({
-			setuser:'setuser'
-		}),
 	},
 	components:{
 
 	},
     methods: {
-		...mapMutations(['deluser']),
+		...mapMutations({
+			setuser:'setuser'
+		}),
+		...mapMutations({
+			deluser:'deluser'
+		}),
 		fetchData(){
 			let me= this;
 			let user=this.user.info;
 			if(user&&user.token){
 				this.axios.post('/api/user/getuser').then(res => {  
 					let data=res.data;
-					window.console.log(data);
+					window.console.log('=====myset data:', data);
 					if(data.errorCode==1){
 						this.loadInfo(data.result.userinfo.mobile, data.result.userinfo.nickname)
 						me.setuser({info:data.result.userinfo});
@@ -128,6 +130,7 @@ export default {
 			alert("缓存已清除")
 		},
 		exitAccount(){
+			window.console.log('=====myset exitAccount start');
 			localStorage.removeItem('user');
 			this.deluser();
 			this.$router.push('/home');

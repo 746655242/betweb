@@ -9,7 +9,6 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/store/'
 
-
 import Vue2Touch from 'vue2x-touch'
 Vue.use(Vue2Touch)
 
@@ -39,44 +38,37 @@ Vue.directive('title', {
 //全局组件
 import tabbar from '@/components/tabbar'
 import loginLayer from '@/components/loginLayer'
-Vue.component(tabbar.name, tabbar);
-Vue.component(loginLayer.name, loginLayer);
-
-
+Vue.component(tabbar.name, tabbar)
+Vue.component(loginLayer.name, loginLayer)
 import { AlertPlugin, ToastPlugin ,Alert} from 'vux'
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
 Vue.use(Alert)
 
-//点击延迟
+// 点击延迟
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
 
-
-
-
-
 /* 登录拦截器 */
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-		if (!base.auth.loggedIn()) {
-			next({
-				path: '/login',
-				query: { redirect:to.fullPath }
-			})
-		} else {
-			next()
-		}
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!base.auth.loggedIn()) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
     } else {
-    	next() 
+      next()
     }
-});
-
+  } else {
+    next()
+  }
+})
 
 new Vue({
-    el: '#app',
-    router,
-    store,
-    template: '<App/>',
-    components: { App }
+  el: '#app',
+  router,
+  store,
+  template: '<App/>',
+  components: { App }
 })

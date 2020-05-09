@@ -111,6 +111,9 @@ export default {
 	mounted() {
 	},
 	methods: {
+		...mapMutations({
+			setuser:'setuser'
+		}),
 		setTime() {
 			let me=this;
 			if (this.countdown == 0) {
