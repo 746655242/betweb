@@ -225,18 +225,27 @@
       <!-- 已经提交彩店 -->
       <div class="navbottom project_navbottom" style="">
         <div class="topcenter flexstretch pbtnbox">
-          <div class="boxflex border_r iconbtn flexcenter column"><em class="iconbg icon_dianpu"></em>
-            <p>店铺</p>
+          <div class="boxflex border_r iconbtn flexcenter column">
+            <router-link to="/home">
+              <em class="iconbg icon_dianpu"></em>
+              <p style="color: #ffffff;">首页</p>
+            </router-link>
           </div>
-          <div class="boxflex border_r iconbtn flexcenter column"><em class="iconbg icon_pj"></em>
+          <div class="boxflex border_r iconbtn flexcenter column" style="display: none;">
+            <em class="iconbg icon_pj"></em>
             <p>投诉/评价</p>
           </div>
-          <div class="boxflex2 flexcenter column paybtn"><em class="iconbg2 icon_telwhite"></em>
+          <div class="boxflex2 flexcenter column paybtn">
+            <em class="iconbg2 icon_telwhite"></em>
             <p class="font12">联系本店</p>
           </div>
-          <div class="border_l boxflex5 flexcenter paybtn2 " style="display:none">付款</div>
+          <div class="border_l boxflex5 flexcenter paybtn2" style="display:none">付款</div>
           <!-- paybtn_gray2 -->
-          <div class="border_l boxflex5 flexcenter paybtn3" style="">再来一单</div>
+          <div class="border_l boxflex5 flexcenter paybtn3">
+            <router-link :to="balltypeUrl[betinfoData.game_type]">
+              <p style="color: #ffffff;">再来一单</p>
+            </router-link>
+          </div>
           <!-- <div class="boxflex flexcenter column paybtn" style="display:none" v-show="info.pay_method != 'none' && browser != 'mobile' && canPayScan" @click="gotoMa"><p v-text="gotoPayText">获取付款码</p><p class="font12" v-show="info.status.orderStatus == 0 && payscan.project.last != '0秒'">剩<span v-text="payscan.project.last"></span></p></div> -->
           <!-- <div class="boxflex flexcenter column paybtn2" style="display:none" v-show="info.pay_method != 'none' && (browser == 'mobile' || !canPayScan)" @click="gotoPay">付款给店铺</div> -->
 
@@ -346,6 +355,13 @@
 
         homeUrl: "/home",
         bettingUrl: "/mine/betting",
+        balltypeUrl: {
+          '1': '/home/jincai',
+          '2': '/home/jingcailanqiu',
+          '3': '/home/zucai',
+          '4': '/home/zucai9',
+          '5': '/home/danchang',
+        },
       }
     },
     created() {

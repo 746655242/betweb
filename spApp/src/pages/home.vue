@@ -21,9 +21,12 @@
           <div class="boxflex2 shopimgbox_info">
             <!-- <div class="topcenter"><em class="iconbg icon_people"></em>
 					<p class="boxflex gray8b">近30天 <span v-text="data.deal_users"> </span>人成功出票</p></div> -->
-            <div class="topcenter"><em class="iconbg icon_pingjia"></em>
-              <p class="gray8b" style="display: none;"><span class="fontred">0</span>位客户<span
-                  style="display: none;">评价<span>很差</span></span></p>
+            <div class="topcenter" style="display: none;">
+              <em class="iconbg icon_pingjia"></em>
+              <p class="gray8b" style="display: none;">
+                <span class="fontred">0</span>位客户
+                <span style="display: none;">评价<span>很差</span></span>
+              </p>
               <p class="gray8b">暂无评价</p>
             </div>
             <div class="topcenter contactlink"><em class="usericon2 icon_tel_gray"></em>
