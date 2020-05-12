@@ -9,8 +9,8 @@
         </router-link>
       </div>
       <div class="headertit topcenter column">
-        <h2><span>福盈中央山订单站</span> - <span>333405738</span></h2>
-        <h3>预计 xx-xx xx:xx 开奖</h3>
+        <h2><span>福盈中央山订单站</span> - <span>{{betinfoData.id}}</span></h2>
+        <h3>预计 {{betinfoData.open_date}} 开奖</h3>
       </div>
       <div class="headBtnbox topcenter w70">
         <a style="display:none" class="head_btnborder">发跟单</a>
@@ -228,7 +228,7 @@
           <div class="boxflex border_r iconbtn flexcenter column">
             <router-link to="/home">
               <em class="iconbg icon_dianpu"></em>
-              <p style="color: #ffffff;">首页</p>
+              <p style="color: #000;">首页</p>
             </router-link>
           </div>
           <div class="boxflex border_r iconbtn flexcenter column" style="display: none;">
@@ -397,6 +397,9 @@
               this.listdata = data.list;
               this.betinfoData = this.listdata[0];
               this.getResWin();
+            } else {
+              me.$vux.alert.show({content: data.message});
+              this.$router.push('/mine/betting');
             }
           }).catch(function (err) {
             console.log(err);

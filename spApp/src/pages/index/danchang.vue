@@ -298,7 +298,6 @@ export default {
 
 	},
 	methods:{
-
         //加载数据
 		fetchData(){
             this.axios.post('/api/ball/GetBall/odds?code=oddsdanchang').then(res => {  

@@ -13,8 +13,7 @@
               <p class="lotterybg"><em class="lottery_jczq"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[0].IconShowName}}</p>
-                <p class="gray8b"></p>
-				
+                <p class="gray8b" style="width: auto;">{{gameTotal.jcodds}}</p>
               </div>
             </router-link>
 		  </div>
@@ -25,7 +24,7 @@
               <p class="lotterybg"><em class="lottery_jclq"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[1].IconShowName}}</p>
-                <p class="gray8b"></p>
+                <p class="gray8b" style="width: auto;">{{gameTotal.oddsJclq}}</p>
               </div>
 			</router-link>
 		  </div>
@@ -36,7 +35,7 @@
               <p class="lotterybg"><em class="lottery_14chang"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[2].IconShowName}}</p>
-                <p class="gray8b"></p>
+                <p class="gray8b" style="width: auto;">{{gameTotal.odds14}}</p>
               </div>
             </router-link>
 		  </div>
@@ -47,7 +46,7 @@
               <p class="lotterybg"><em class="lottery_ren9"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[3].IconShowName}}</p>
-                <p class="gray8b"></p>
+                <p class="gray8b" style="width: auto;">{{gameTotal.odds9}}</p>
               </div>
             </router-link>
 		  </div>
@@ -62,7 +61,7 @@
               <p class="lotterybg"><em class="lottery_danc"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[4].IconShowName}}</p>
-                <p class="gray8b"></p>
+                <p class="gray8b" style="width: auto;">{{gameTotal.oddsdanchang}}</p>
               </div>
             </router-link>
 		  </div>
@@ -74,7 +73,7 @@
               <p class="lotterybg"><em class="lottery_11x5"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[5].IconShowName}}</p>
-                <p class="gray8b textl">敬请期待</p>
+                <p class="gray8b textl" style="width: auto;">敬请期待</p>
                 <!-- <p class="gray8b textl">稍后开放</p> -->
               </div>
             </a>
@@ -87,7 +86,7 @@
               <div>
 				<router-link :to="GroupData[0].LstIconData[6].href">
                 <p class="lotteryname">{{GroupData[0].LstIconData[6].IconShowName}}</p>
-                <p class="gray8b"></p>
+                <p class="gray8b" style="width: auto;">{{gameTotal.oddsdanchangGg}}</p>
 				</router-link>
               </div>
             </a>
@@ -102,7 +101,7 @@
               <p class="lotterybg"><em class="lottery_dlt"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[7].IconShowName}}</p>
-                <p class="gray8b" style="">敬请期待</p>
+                <p class="gray8b" style="width: auto;">敬请期待</p>
               </div>
             </a>
 		  </div>
@@ -112,7 +111,7 @@
               <p class="lotterybg"><em class="lottery_p7"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[8].IconShowName}}</p>
-                <p class="gray8b" style="">敬请期待</p>
+                <p class="gray8b" style="width: auto;">敬请期待</p>
               </div>
             </a>
 		  </div>
@@ -122,7 +121,7 @@
               <p class="lotterybg"><em class="lottery_p3"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[9].IconShowName}}</p>
-                <p class="gray8b" style="">敬请期待</p>
+                <p class="gray8b" style="width: auto;">敬请期待</p>
               </div>
             </a>
 		  </div>
@@ -132,7 +131,7 @@
               <p class="lotterybg"><em class="lottery_p5"></em></p>
               <div>
                 <p class="lotteryname">{{GroupData[0].LstIconData[10].IconShowName}}</p>
-                <p class="gray8b" style="">敬请期待</p>
+                <p class="gray8b" style="width: auto;">敬请期待</p>
               </div>
             </a>
 		  </div>
@@ -229,34 +228,30 @@ export default {
 						}
 					]
 				}	
-
 			],  //彩票分类列表
+			gameTotal:{},
 			bigIndex:'',
 			start:{},//触点
 			isTap:true,
 		}
 	},
 	created: function() { //初始化
-		//this.fetchData();
+		this.fetchData();
 	},
 	mounted: function() {
 	
 	},
 	methods: {
 		fetchData(){
-			// let me= this;
-			// this.base.getData(this,this.host+'/api/GetExportPageDetailForIdxMain',{'SystemCode':'DQExport',},function(data){	
-			// 	me.PageBanner = data.ActionCode.PageBanner     //banner轮播
-			// 	me.PageBanner.forEach(function(item,i){
-			// 		me.$set(me.bannerlist,i,{
-			// 			img:item.BannerSource.UrlLink,
-			// 			imgBig:item.BannerTarget.UrlLink
-			// 		})				
-			// 	})
-			// 	me.LstBulletinData = data.ActionCode.PageBullet.LstBulletinData     //公告入口轮播
-				
-			// 	me.GroupData = data.ActionCode.GroupData     //彩票分类列表
-			// })	
+			let me = this;
+			this.axios.post('/api/ball/GetBall/getGameTotal').then(res => {  
+                let data=res.data.result;
+                if(data.code==0){
+                    this.gameTotal = data.data;
+                }
+            }).catch(function(err){
+                window.console.log(err);
+            });
 		},
 		swiperStart(e){
 			this.isTap = true;
