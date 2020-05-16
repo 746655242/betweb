@@ -2,7 +2,7 @@
 <div>
 <link href="./static/css/user.css" rel="stylesheet">
 <header class="head">
-    <div class="back"><a class="backlink" @click="close"></a></div>
+    <div class="back"><a class="backlink" @click="home"></a></div>
     <div class="headertit topcenter column">
       <h2>我的店内账本</h2>
       <h3>福盈中央山订单站</h3>
@@ -15,7 +15,7 @@
       <div class="topcenter mt10 font16">
         <p class="topcenter boxflex gray6">店内账本数额&nbsp;&nbsp;<a href="javascript:;"><span class="iconbg iconbg_helpgray"></span></a>
         </p>
-        <a href="javascript:;">账本明细</a>
+        <router-link to="/account/detail">账本明细</router-link>
       </div>
       <div>
         <span class="gray3 moneynum">{{money}}</span>
@@ -161,6 +161,9 @@ export default {
 		...mapMutations({
 			setuser:'setuser'
 		}),
+		home() {
+			this.$router.push({path: '/home'});
+		},
 		fetchData(){
 			let me= this;
 			let user=this.user.info;
@@ -291,16 +294,13 @@ export default {
 			}
 			this.orderlst = setTimeout(function() { me.monitorOrder() },3000); //每3000毫秒执行一次
 		},
-		close() {
-			this.$router.push({path: 'home'});
-		},
 		withdraw() {
 			let me=this;
 			let params = {};
 			this.show_loading = true;
 			this.text_loading = "请稍等";
 
-			this.axios.post('/api/ball/withdraw/do',qs.stringify(params)).then(res => {  
+			this.axios.post('/api/account/withdraw/do',qs.stringify(params)).then(res => {  
 				let data=res.data;
 				if(data.errorCode==0){
 					this.money = 0.00;

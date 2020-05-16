@@ -313,6 +313,15 @@ let routes = [{
   }
 },
 
+/* 账单明细  */
+{
+  path: '/account/detail',
+  name: 'detail',
+  component: function (resolve) {
+    require(['@/pages/lottery/detail'], resolve)
+  }
+},
+
 /* 社区-->数字达人 */
 {
   path: '/bbsDigitalTalent',
