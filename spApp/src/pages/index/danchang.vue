@@ -71,7 +71,7 @@
                                 <div class="matchitem_tit">
                                     <p class="gray8b font12">第{{ite.id}}场</p>
                                     <p class="saishi" v-bind:style="{'background':ite.color}"><span class="font12">{{ite.liansai}}</span></p>
-                                    <p class="font12">{{ite.timetxt}}</p>
+                                    <p class="font12">{{ite.timetxtend}}</p>
                                     <!-- <div class="fontblue font12">分析</div> -->
                                 </div>
                                 <div class="boxflex matchitem_cont">

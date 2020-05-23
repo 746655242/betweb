@@ -6,11 +6,11 @@
       <div class="back w60"><router-link :to="homeUrl"><p class="backlink"></p></router-link></div>
       <div class="headertit">
         <nav class="flexbox headermenu">
-          <p class="boxflex border_r" @click="onItemClick(0)"><a v-bind:class="{'sed':index==0}">全部订单</a></p>
-          <p class="boxflex border_r" @click="onItemClick(1)"><a v-bind:class="{'sed':index==1}">最近中奖</a></p>
+          <p class="boxflex border_r" @click="onItemClick(0)"><a v-bind:class="{'sed':status==0}">全部订单</a></p>
+          <p class="boxflex border_r" @click="onItemClick(1)"><a v-bind:class="{'sed':status==1}">最近中奖</a></p>
         </nav>
       </div>
-      <div class="headBtnbox topcenter w60"><a><em class="headicon icon_screen"></em></a></div>
+      <div class="headBtnbox topcenter w60"><a><em class="headicon icon_screen" style="display: none;"></em></a></div>
     </header>
     <div class="pt48" id="dropload_body">
       <div class="betlisttit gray8d textc bgf5">
@@ -69,7 +69,7 @@
     data() {
       return {
         listdata: [],
-        index: 0,
+        status: 0,
         page: 0,
         totalpage: 1,
 
@@ -110,6 +110,9 @@
         let data = {
           page: this.page
         };
+        if (this.index == 1) {
+          data.status = 1;
+        }
         if (user && user.token) {
           this.axios.post('/api/ball/GetBall/betlist', qs.stringify(data)).then(res => {
             let data = res.data;
@@ -127,8 +130,15 @@
           this.$router.push('/login')
         }
       },
-      onItemClick(index) {
-        this.index = index;
+      onItemClick(status) {
+        let get_list = false;
+        if (status != this.status){
+          get_list = true;
+        }
+        this.status = status;
+        if (get_list) {
+          this.fetchData();
+        }
       },
       tabindex() {
         if (this.page + 1 <= this.totalpage) {

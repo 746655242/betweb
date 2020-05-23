@@ -7,22 +7,30 @@
         <h2>账本明细</h2>
         <h3>福盈中央山订单站</h3>
       </div>
-      <div class="headBtnbox topcenter"><a><em class="headicon icon_tel"></em></a><a><em
-            class="headicon icon_time"></em></a></div>
+      <div class="headBtnbox topcenter">
+        <!-- <a><em class="headicon icon_tel"></em></a> -->
+        <!-- <a><em class="headicon icon_time"></em></a> -->
+      </div>
       <div class="layerbox screendatelayer" style="display: none;">
         <div class=" screendate">
           <div class="flexbox dateselect">
-            <p class="boxflex"><input class="form-control mbsc-comp mbsc-comp" id="sdate" type="text" readonly=""
-                value="2019-05-12"><span class="line34 gray8d">开始</span></p>
-            <p style="width:2rem;margin-top:10px;"><em class="icon_linearrowleft"></em></p>
-            <p class="boxflex"><input class="form-control mbsc-comp mbsc-comp" id="edate" type="text" readonly=""><span
-                class="line34 gray8d">结束</span></p>
+            <p class="boxflex">
+              <input class="form-control mbsc-comp mbsc-comp" id="sdate" type="date" readonly="readonly">
+              <span class="line34 gray8d">开始</span>
+            </p>
+            <p style="width:2rem;margin-top:10px;">
+              <em class="icon_linearrowleft"></em>
+            </p>
+            <p class="boxflex">
+              <input class="form-control mbsc-comp mbsc-comp" id="edate" type="date" readonly="readonly">
+              <span class="line34 gray8d">结束</span>
+            </p>
           </div>
           <div class="btn_blockbox mt10"><a class="btn btn_red btn_block">确认</a></div>
         </div>
       </div>
     </header>
-    <section class="screenbox headmenu" id="">
+    <section class="screenbox headmenu" style="display:none;">
       <div class="flex4">
         <div class="flex4link"><span>全部类型</span><em class="icon_arrowgraydown"></em></div>
         <div class="flex4link"><span>全部订单</span><em class="icon_arrowgraydown"></em></div>
@@ -135,7 +143,7 @@
     }),
     home() {
 			this.$router.push({path: '/home'});
-		},
+    },
 	  fetchData() {
         let me = this;
         let user = this.user.info;
@@ -168,7 +176,6 @@
       },
     },
     activated: function () {
-      //		console.log('Lottery激活事件')
     },
 
     beforeRouteEnter(to, from, next) { //渲染页面前执行
