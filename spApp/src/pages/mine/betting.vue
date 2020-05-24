@@ -106,25 +106,26 @@
     methods: {
       fetchData() {
         let me = this;
-        let user = this.user.info
+        let user = this.user.info;
         let data = {
           page: this.page
         };
-        if (this.index == 1) {
+        if (this.status == 1) {
           data.status = 1;
         }
         if (user && user.token) {
           this.axios.post('/api/ball/GetBall/betlist', qs.stringify(data)).then(res => {
             let data = res.data;
             if (data.code == 0) {
-              this.listdata = this.listdata.concat(data.list);
+              // this.listdata = this.listdata.concat(data.list);
+              this.listdata = data.list;
               for(let i in this.listdata){
                   this.listdata[i]['href'] = '/mine/betting_detail/'+this.listdata[i]['id'];
               }
               this.totalpage = Math.floor(data.total / 20);
             }
           }).catch(function (err) {
-            console.log(err)
+            window.console.log(err);
           })
         } else {
           this.$router.push('/login')
